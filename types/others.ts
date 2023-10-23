@@ -23,3 +23,8 @@ export type NavItemNormal = {
 } & NavLink;
 
 export type NavItem = (NavItemGroup | NavLink)[];
+
+export type SelectOption = {
+  value: string;
+  label: string;
+};
