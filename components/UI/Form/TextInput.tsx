@@ -14,11 +14,20 @@ const TextInput = (props: TextInputProps) => {
     formState: { errors },
   } = useFormContext();
 
-  const { name, label = name, type = "text", placeholder = label, ...rest } = props;
+  const {
+    name,
+    label = name,
+    type = "text",
+    placeholder = label,
+    required = true,
+    ...rest
+  } = props;
 
   return (
     <div className="w-full">
-      <label className="mb-2.5 block text-black dark:text-white capitalize">{label}</label>
+      <label className="mb-2.5 block text-black dark:text-white capitalize">
+        {label} {required && "*"}
+      </label>
       <Controller
         control={control}
         name={name ?? label}

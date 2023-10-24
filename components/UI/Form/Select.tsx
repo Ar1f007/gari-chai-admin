@@ -11,7 +11,7 @@ type SelectProps = {
 } & DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
 
 const Select = (props: SelectProps) => {
-  const { name, label = name, options, placeholder } = props;
+  const { name, label = name, options, placeholder, required = false, ...rest } = props;
 
   const {
     control,
@@ -20,7 +20,9 @@ const Select = (props: SelectProps) => {
 
   return (
     <div className="w-full">
-      <label className="mb-2.5 block text-black dark:text-white capitalize">{label}</label>
+      <label className="mb-2.5 block text-black dark:text-white capitalize">
+        {label} {required && "*"}
+      </label>
 
       <Controller
         control={control}
@@ -29,8 +31,9 @@ const Select = (props: SelectProps) => {
         render={({ field }) => (
           <div className="relative z-20 bg-transparent dark:bg-form-input">
             <select
-              {...field}
               className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              {...field}
+              {...rest}
             >
               <option
                 value=""

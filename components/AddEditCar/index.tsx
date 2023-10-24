@@ -1,9 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
-import Select from "../UI/Form/Select";
+import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
+import Textarea from "../UI/Form/Textarea";
 
 type Props = {
   formTitle: string;
@@ -12,15 +15,20 @@ type Props = {
 export const AddEditCarForm = (props: Props) => {
   const { formTitle } = props;
 
-  const methods = useForm();
+  const methods = useForm<NewCarInputs>({
+    mode: "onTouched",
+    criteriaMode: "all",
+    resolver: zodResolver(createNewCarSchema),
+  });
+
   const { handleSubmit } = methods;
 
-  function onSubmit(data: any) {
+  function onSubmit(data: NewCarInputs) {
     console.log(data);
   }
 
   return (
-    <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-9">
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
@@ -32,15 +40,181 @@ export const AddEditCarForm = (props: Props) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-5 px-5 py-5">
-              <TextInput name="name" />
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="name"
+                  placeholder="Name of the car"
+                  required
+                />
 
-              <Select
-                name="option"
-                placeholder="Select input"
-                options={[
-                  { value: "a", label: "a" },
-                  { value: "b", label: "b" },
-                ]}
+                <TextInput
+                  name="brandName"
+                  label="Brand Name"
+                  placeholder="eg. Tata"
+                />
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  type="number"
+                  name="registrationYear"
+                  label="Registration Year"
+                  placeholder="Car Registration Year. eg: 2022"
+                />
+
+                <TextInput
+                  name="modelNumber"
+                  label="Model Number"
+                  type="number"
+                  placeholder="eg: 1234"
+                />
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="transmission"
+                  placeholder="eg: manual / automatic"
+                />
+
+                <TextInput
+                  name="bodyStyle"
+                  label="Body Style"
+                  placeholder="eg: SUV"
+                />
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="color"
+                  placeholder="eg: black"
+                />
+
+                <TextInput
+                  name="mileage"
+                  type="number"
+                  placeholder="eg: 80 kmpl"
+                />
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="baseInteriorColor"
+                  label="Base Interior Color"
+                  placeholder="eg: cream"
+                />
+
+                <TextInput
+                  name="numberOfDoors"
+                  label="Number of Doors"
+                  type="number"
+                  placeholder="eg: 4"
+                />
+              </div>
+
+              <div>
+                <h6 className="font-semibold text-bodydark1 mb-3">Acceleration</h6>
+
+                <div className="xl:flex xl:gap-5">
+                  <TextInput
+                    name="acceleration0To60"
+                    label="0 to 60 kmpl (Time takes to reach)"
+                    type="number"
+                    placeholder="eg: 7 seconds"
+                    required={false}
+                  />
+
+                  <TextInput
+                    name="accelerationTopSpeed"
+                    label="Top Speed"
+                    type="number"
+                    placeholder="eg: 120"
+                    required={false}
+                  />
+                </div>
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="infotainmentSystem"
+                  label="Infotainment System"
+                  placeholder="eg: Touchscreen display"
+                  required={false}
+                />
+
+                <TextInput
+                  name="safetyFeatures"
+                  label="Safety Features"
+                  placeholder="eg: Airbags, ABS etc."
+                  required={false}
+                />
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="fuelType"
+                  label="Fuel Type"
+                  placeholder="eg. diesel"
+                />
+
+                <TextInput
+                  name="engineType"
+                  label="Engine Type"
+                  placeholder="eg. Inline-4 Engines / Diesel Engine"
+                  required={false}
+                />
+              </div>
+
+              <div>
+                <h6 className="font-semibold text-bodydark1 mb-3">Fuel Economy</h6>
+                <div className="xl:flex xl:gap-5">
+                  <TextInput
+                    name="fuelCityEconomy"
+                    label="In City"
+                    placeholder="eg. 40 kmpl in city"
+                    required={false}
+                    type="number"
+                  />
+
+                  <TextInput
+                    name="fuelHighwayEconomy"
+                    label="In Highway"
+                    placeholder="eg. 80 kmpl in city"
+                    required={false}
+                    type="number"
+                  />
+                </div>
+              </div>
+
+              <div className="xl:flex xl:gap-5">
+                <TextInput
+                  name="engineDisplacement"
+                  label="Engine displacement"
+                  placeholder="eg. 2.0"
+                  type="number"
+                  required={false}
+                />
+
+                <TextInput
+                  name="engineHorsePower"
+                  label="Horse Power"
+                  type="number"
+                  placeholder="eg. 200"
+                  required={false}
+                />
+
+                <TextInput
+                  name="engineTorque"
+                  label="Torque"
+                  type="number"
+                  placeholder="eg. 250"
+                  required={false}
+                />
+              </div>
+
+              <Textarea
+                name="description"
+                label="Car Description"
+                placeholder="small description about the car..."
               />
 
               <button

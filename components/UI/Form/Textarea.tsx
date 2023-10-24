@@ -14,11 +14,13 @@ const Textarea = (props: TextAreaProps) => {
     formState: { errors },
   } = useFormContext();
 
-  const { name, label = name, placeholder = label, ...rest } = props;
+  const { name, label = name, placeholder = label, required = false, ...rest } = props;
 
   return (
     <div className="w-full">
-      <label className="mb-2.5 block text-black dark:text-white capitalize">{label}</label>
+      <label className="mb-2.5 block text-black dark:text-white capitalize">
+        {label} {required && "*"}
+      </label>
       <Controller
         control={control}
         name={name ?? label}
@@ -29,6 +31,7 @@ const Textarea = (props: TextAreaProps) => {
             placeholder={placeholder}
             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             {...field}
+            {...rest}
           ></textarea>
         )}
       />

@@ -1,0 +1,8 @@
+export function getCurrentYear() {
+  const date = new Date();
+  return date.getFullYear().toString();
+}
+
+export function xCharacterLong(length: number) {
+  return `should be at least ${length} character long`;
+}
