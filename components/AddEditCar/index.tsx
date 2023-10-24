@@ -1,5 +1,5 @@
 "use client";
-
+import { omit } from "lodash";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -7,6 +7,7 @@ import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
+import { MultiFileDropzoneUsage } from "../UI/Form/MultiImages";
 
 type Props = {
   formTitle: string;
@@ -23,8 +24,56 @@ export const AddEditCarForm = (props: Props) => {
 
   const { handleSubmit } = methods;
 
+  function getFormattedPayload(data: NewCarInputs) {
+    const extractedPayload = omit(data, [
+      "engineType",
+      "engineDisplacement",
+      "engineHorsePower",
+      "engineTorque",
+      "fuelType",
+      "fuelCityEconomy",
+      "fuelCityEconomy",
+      "fuelHighwayEconomy",
+      "acceleration0To60",
+      "accelerationTopSpeed",
+    ]);
+
+    const payload = {
+      ...extractedPayload,
+      engine: {
+        type: data.engineType,
+        displacement: data.engineDisplacement,
+        horsePower: data.engineHorsePower,
+        torque: data.engineTorque,
+      },
+
+      fuel: {
+        type: data.fuelType,
+        economy: {
+          city: data.fuelCityEconomy,
+          highway: data.fuelHighwayEconomy,
+        },
+      },
+
+      acceleration: {
+        zeroTo60: data.acceleration0To60,
+        topSpeed: data.accelerationTopSpeed,
+      },
+    };
+
+    return payload;
+  }
+
   function onSubmit(data: NewCarInputs) {
-    console.log(data);
+    const payload = getFormattedPayload(data);
+    console.log(JSON.stringify(payload));
+    fetch("http://localhost:8000/api/v1/cars", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
   }
 
   return (
@@ -53,7 +102,6 @@ export const AddEditCarForm = (props: Props) => {
                   placeholder="eg. Tata"
                 />
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   type="number"
@@ -69,7 +117,6 @@ export const AddEditCarForm = (props: Props) => {
                   placeholder="eg: 1234"
                 />
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   name="transmission"
@@ -82,7 +129,6 @@ export const AddEditCarForm = (props: Props) => {
                   placeholder="eg: SUV"
                 />
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   name="color"
@@ -95,7 +141,6 @@ export const AddEditCarForm = (props: Props) => {
                   placeholder="eg: 80 kmpl"
                 />
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   name="baseInteriorColor"
@@ -110,7 +155,6 @@ export const AddEditCarForm = (props: Props) => {
                   placeholder="eg: 4"
                 />
               </div>
-
               <div>
                 <h6 className="font-semibold text-bodydark1 mb-3">Acceleration</h6>
 
@@ -132,7 +176,6 @@ export const AddEditCarForm = (props: Props) => {
                   />
                 </div>
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   name="infotainmentSystem"
@@ -148,7 +191,6 @@ export const AddEditCarForm = (props: Props) => {
                   required={false}
                 />
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   name="fuelType"
@@ -163,7 +205,6 @@ export const AddEditCarForm = (props: Props) => {
                   required={false}
                 />
               </div>
-
               <div>
                 <h6 className="font-semibold text-bodydark1 mb-3">Fuel Economy</h6>
                 <div className="xl:flex xl:gap-5">
@@ -184,7 +225,6 @@ export const AddEditCarForm = (props: Props) => {
                   />
                 </div>
               </div>
-
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   name="engineDisplacement"
@@ -210,7 +250,6 @@ export const AddEditCarForm = (props: Props) => {
                   required={false}
                 />
               </div>
-
               <Textarea
                 name="description"
                 label="Car Description"

@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@edgestore/react": "^0.1.4",
+    "@edgestore/server": "^0.1.4",
     "@hookform/resolvers": "^3.3.2",
     "@react-jvectormap/core": "^1.0.4",
     "@react-jvectormap/unitedstates": "^1.0.1",
@@ -21,6 +23,7 @@
     "eslint": "8.46.0",
     "eslint-config-next": "13.5.6",
     "jsvectormap": "^1.5.3",
+    "lodash": "^4.17.21",
     "lucide": "^0.288.0",
     "lucide-react": "^0.288.0",
     "next": "13.5.6",
@@ -28,10 +31,15 @@
     "react": "18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
     "react-jvectormap": "^0.0.16",
+    "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.200"
   }
 }
