@@ -19,7 +19,7 @@ export const createNewCarSchema = z.object({
   registrationYear: z
     .string()
     .min(1, "required")
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
 
   description: z.string().optional(),
 
@@ -28,21 +28,21 @@ export const createNewCarSchema = z.object({
   modelNumber: z
     .string()
     .min(1, "required")
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
 
   engineType: z.string().min(1, "required"),
   engineDisplacement: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
   engineHorsePower: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
   engineTorque: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
 
   transmission: z.string().min(1, "required"),
 
@@ -52,20 +52,20 @@ export const createNewCarSchema = z.object({
   fuelCityEconomy: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
   fuelHighwayEconomy: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
 
   acceleration0To60: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
   accelerationTopSpeed: z
     .string()
     .optional()
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
 
   safetyFeatures: z.string().optional(),
 
@@ -74,7 +74,8 @@ export const createNewCarSchema = z.object({
   mileage: z
     .string()
     .min(1, "required")
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
+  // .transform((v) => v ? Number(v) :),
 
   imageUrls: z.array(z.string()).optional(),
 
@@ -85,7 +86,7 @@ export const createNewCarSchema = z.object({
   numberOfDoors: z
     .string()
     .min(1, "required")
-    .transform((v) => v && Number(v)),
+    .transform((v) => Number(v)),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;

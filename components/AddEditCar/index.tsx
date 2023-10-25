@@ -8,6 +8,9 @@ import TextInput from "../UI/Form/TextInput";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
 import { MultiFileDropzoneUsage } from "../UI/Form/MultiImages";
+import { TCarServerPayload } from "@/types/car";
+import { createNewCar } from "@/services/car";
+import { toast } from "sonner";
 
 type Props = {
   formTitle: string;
@@ -38,7 +41,7 @@ export const AddEditCarForm = (props: Props) => {
       "accelerationTopSpeed",
     ]);
 
-    const payload = {
+    const payload: TCarServerPayload = {
       ...extractedPayload,
       engine: {
         type: data.engineType,
@@ -64,16 +67,28 @@ export const AddEditCarForm = (props: Props) => {
     return payload;
   }
 
-  function onSubmit(data: NewCarInputs) {
+  async function onSubmit(data: NewCarInputs) {
     const payload = getFormattedPayload(data);
-    console.log(JSON.stringify(payload));
-    fetch("http://localhost:8000/api/v1/cars", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    const res = await createNewCar(payload);
+
+    if (!res) {
+      toast.error("something went wrong");
+      return;
+    }
+
+    if (res.status === "success") {
+      toast("Added successfully");
+      methods.reset();
+      return;
+    }
+
+    if (res.status === "validationError") {
+      toast.error(res.message ?? "something went wrong");
+      return;
+    }
+
+    // error | fail
+    toast.error(res.message);
   }
 
   return (
@@ -260,7 +275,7 @@ export const AddEditCarForm = (props: Props) => {
                 className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray"
                 type="submit"
               >
-                Send Message
+                Submit
               </button>
             </div>
           </FormProvider>

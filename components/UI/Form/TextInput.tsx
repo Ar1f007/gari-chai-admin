@@ -2,6 +2,7 @@
 
 import { DetailedHTMLProps, HTMLAttributes, InputHTMLAttributes } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import InputLabel from "./Label";
 
 type TextInputProps = {
   label?: string;
@@ -25,9 +26,8 @@ const TextInput = (props: TextInputProps) => {
 
   return (
     <div className="w-full">
-      <label className="mb-2.5 block text-black dark:text-white capitalize">
-        {label} {required && "*"}
-      </label>
+      <InputLabel label={label} />
+
       <Controller
         control={control}
         name={name ?? label}

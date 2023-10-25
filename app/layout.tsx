@@ -8,6 +8,7 @@ import Loader from "@/components/common/Loader";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { EdgeStoreProvider } from "@/lib/edgestore";
+import { Toaster } from "sonner";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             )}
           </div>
         </EdgeStoreProvider>
+        <Toaster />
       </body>
     </html>
   );
