@@ -1,5 +1,6 @@
 import { TApiData, TApiError } from "@/types/others";
 import { API_V1_URL } from "@/util/constants";
+import { toast } from "sonner";
 
 type FetchExtendedOptions = {
   isFormData?: boolean;
@@ -31,8 +32,9 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     const jsonRes: TApiData<Data> | ErrData = await res.json();
 
     return jsonRes;
-  } catch (e) {
-    return Promise.reject(e);
+  } catch (e: any) {
+    toast.error(e.message ?? "Something went wrong");
+    throw e;
   }
 }
 

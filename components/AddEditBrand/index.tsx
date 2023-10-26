@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
-import { BrandInputs } from "@/schema/client/brand";
+import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
 import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
 import { useEffect, useState } from "react";
 import { useUploadImage } from "@/hooks/useUploadImage";
@@ -12,6 +12,8 @@ import { addBrandName } from "@/services/brand";
 import { mapValidationErrors } from "@/util/mapValidationError";
 import { TBrandPayload } from "@/types/brand";
 import { isEmpty } from "lodash";
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 
 type Props = {
   formTitle: string;
@@ -27,6 +29,7 @@ const AddEditBrand = (props: Props) => {
   const methods = useForm<BrandInputs>({
     mode: "onTouched",
     criteriaMode: "all",
+    resolver: zodResolver(createBrandSchema),
   });
 
   const {
@@ -76,7 +79,7 @@ const AddEditBrand = (props: Props) => {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="flex flex-col gap-9">
+    <div className="flex flex-col gap-9 max-w-md">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
           <h3 className="font-medium text-black dark:text-white">{formTitle}</h3>
@@ -93,28 +96,29 @@ const AddEditBrand = (props: Props) => {
               placeholder="eg. Tata"
             />
 
-            <div>
-              <SingleImageDropzone
-                value={file}
-                onChange={(file) => {
-                  setFile(file);
-                }}
-                width={200}
-                height={200}
-                dropzoneOptions={{
-                  maxSize: 1024 * 100,
-                }}
-              />
-            </div>
-          </div>
+            <SingleImageDropzone
+              value={file}
+              onChange={(file) => {
+                setFile(file);
+              }}
+              width={200}
+              height={200}
+              dropzoneOptions={{
+                maxSize: 1024 * 100,
+              }}
+            />
 
-          <button
-            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            Submit
-          </button>
+            <button
+              className={clsx(
+                "flex w-full justify-center items-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 cursor-pointer transition-all duration-200",
+                { "bg-opacity-30": isSubmitting }
+              )}
+              disabled={isSubmitting}
+              type="submit"
+            >
+              <span>Submit</span>
+            </button>
+          </div>
         </FormProvider>
       </div>
     </div>
