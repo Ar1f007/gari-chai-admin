@@ -1,19 +1,21 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { FormProvider } from "../UI/Form/FormProvider";
-import TextInput from "../UI/Form/TextInput";
-import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
-import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
 import { useEffect, useState } from "react";
-import { useUploadImage } from "@/hooks/useUploadImage";
-import { toast } from "sonner";
-import { addBrandName } from "@/services/brand";
-import { mapValidationErrors } from "@/util/mapValidationError";
-import { TBrandPayload } from "@/types/brand";
+import { useForm } from "react-hook-form";
 import { isEmpty } from "lodash";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { toast } from "sonner";
+
+import { FormProvider } from "../UI/Form/FormProvider";
+import TextInput from "../UI/Form/TextInput";
+import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
+import { addBrandName } from "@/services";
+import { useUploadImage } from "@/hooks/useUploadImage";
+import { mapValidationErrors } from "@/util/mapValidationError";
+
+import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
+import { TBrandPayload } from "@/types/brand";
 
 type Props = {
   formTitle: string;
@@ -60,8 +62,11 @@ const AddEditBrand = (props: Props) => {
 
     const res = await addBrandName(payload);
 
+    if (!res) return;
+
     if (res.status === "success") {
-      toast.success("Brand name added successfully");
+      toast.success("Brand added successfully");
+
       return;
     }
 
@@ -69,8 +74,6 @@ const AddEditBrand = (props: Props) => {
       mapValidationErrors(res.errors, methods);
       return;
     }
-
-    toast.error(res.message);
   }
 
   useEffect(() => {

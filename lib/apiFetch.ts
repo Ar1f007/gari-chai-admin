@@ -33,7 +33,6 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
 
     return jsonRes;
   } catch (e: any) {
-    toast.error(e.message ?? "Something went wrong");
     throw e;
   }
 }

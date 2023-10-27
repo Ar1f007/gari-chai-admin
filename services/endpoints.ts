@@ -6,6 +6,11 @@ export const endpoints = {
     v1URL: API_V1_URL,
     brand: {
       createBrand: "/brands",
+      getBrands: "/brands",
+    },
+    cars: {
+      createNewCar: "/cars",
+      getCars: "/cars",
     },
   },
   admin: {},

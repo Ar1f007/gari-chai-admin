@@ -2,15 +2,16 @@
 import { omit } from "lodash";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
-import { MultiFileDropzoneUsage } from "../UI/Form/MultiImages";
 import { TCarServerPayload } from "@/types/car";
-import { createNewCar } from "@/services/car";
-import { toast } from "sonner";
+import { TAGS, createNewCar, invalidateTag } from "@/services";
+import { useEffect } from "react";
+import clsx from "clsx";
 
 type Props = {
   formTitle: string;
@@ -25,7 +26,11 @@ export const AddEditCarForm = (props: Props) => {
     resolver: zodResolver(createNewCarSchema),
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting, isSubmitSuccessful },
+    reset,
+  } = methods;
 
   function getFormattedPayload(data: NewCarInputs) {
     const extractedPayload = omit(data, [
@@ -77,8 +82,9 @@ export const AddEditCarForm = (props: Props) => {
     }
 
     if (res.status === "success") {
-      toast("Added successfully");
-      methods.reset();
+      toast.success("Added successfully");
+      invalidateTag(TAGS.cars);
+
       return;
     }
 
@@ -90,6 +96,10 @@ export const AddEditCarForm = (props: Props) => {
     // error | fail
     toast.error(res.message);
   }
+
+  useEffect(() => {
+    reset();
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <div className="grid grid-cols-1 gap-9">
@@ -272,8 +282,14 @@ export const AddEditCarForm = (props: Props) => {
               />
 
               <button
-                className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray"
+                className={clsx(
+                  "flex w-full justify-center rounded bg-primary p-3 font-medium text-gray transition-all duration-200",
+                  {
+                    "bg-opacity-70": isSubmitting,
+                  }
+                )}
                 type="submit"
+                disabled={isSubmitting}
               >
                 Submit
               </button>

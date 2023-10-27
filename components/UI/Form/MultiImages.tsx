@@ -35,7 +35,6 @@ export function MultiFileDropzoneUsage() {
               try {
                 const res = await edgestore.publicImages.upload({
                   file: addedFileState.file,
-                  input: { type: "car" },
                   options: {
                     temporary: true,
                   },
