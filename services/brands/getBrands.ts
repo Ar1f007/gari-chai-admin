@@ -20,6 +20,8 @@ export const brandSchema = z.object({
 
 export const brandsSchema = z.array(brandSchema);
 
+export type TBrandSchema = z.infer<typeof brandSchema>;
+
 /**=====================
  * API Call
  =======================*/

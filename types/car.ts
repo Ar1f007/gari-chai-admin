@@ -1,6 +1,9 @@
 export type TCarServerPayload = {
   name: string;
-  brandName: string;
+  brand: {
+    name: string;
+    slug: string;
+  };
   registrationYear: number;
   modelNumber: number;
   transmission: string;

@@ -12,6 +12,7 @@ import { TCarServerPayload } from "@/types/car";
 import { TAGS, createNewCar, invalidateTag } from "@/services";
 import { useEffect } from "react";
 import clsx from "clsx";
+import SelectBrand from "./SelectBrand";
 
 type Props = {
   formTitle: string;
@@ -44,6 +45,7 @@ export const AddEditCarForm = (props: Props) => {
       "fuelHighwayEconomy",
       "acceleration0To60",
       "accelerationTopSpeed",
+      "brand",
     ]);
 
     const payload: TCarServerPayload = {
@@ -67,6 +69,10 @@ export const AddEditCarForm = (props: Props) => {
         zeroTo60: data.acceleration0To60,
         topSpeed: data.accelerationTopSpeed,
       },
+      brand: {
+        slug: data.brand.split(",")[0],
+        name: data.brand.split(",")[1],
+      },
     };
 
     return payload;
@@ -74,6 +80,7 @@ export const AddEditCarForm = (props: Props) => {
 
   async function onSubmit(data: NewCarInputs) {
     const payload = getFormattedPayload(data);
+
     const res = await createNewCar(payload);
 
     if (!res) {
@@ -121,11 +128,7 @@ export const AddEditCarForm = (props: Props) => {
                   required
                 />
 
-                <TextInput
-                  name="brandName"
-                  label="Brand Name"
-                  placeholder="eg. Tata"
-                />
+                <SelectBrand />
               </div>
               <div className="xl:flex xl:gap-5">
                 <TextInput

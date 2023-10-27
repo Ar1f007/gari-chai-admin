@@ -23,7 +23,7 @@ export const createNewCarSchema = z.object({
 
   description: z.string().optional(),
 
-  brandName: z.string().min(1, "required").min(3, xCharacterLong(3)),
+  brand: z.string(),
 
   modelNumber: z
     .string()

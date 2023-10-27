@@ -41,10 +41,10 @@ const Select = (props: SelectProps) => {
               >
                 {placeholder}
               </option>
-              {options.map((option) => (
+              {options.map((option, idx) => (
                 <option
+                  key={idx}
                   value={option.value}
-                  key={option.value}
                 >
                   {option.label}
                 </option>

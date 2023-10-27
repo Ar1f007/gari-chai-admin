@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import Image from "next/image";
 import clsx from "clsx";
 import { navigation } from "@/util/routes";
 import { NavItemGroup, NavLink } from "@/types/others";
@@ -173,7 +172,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
             <ul className="mb-6 flex flex-col gap-1.5">
               {navigation.adminNavigation.map((item) =>
-                item.isGroup ? renderGroup(item as NavItemGroup) : renderItem(item as NavLink)
+                item.isGroup
+                  ? renderGroup(item as NavItemGroup)
+                  : renderItem(item as unknown as NavLink)
               )}
             </ul>
           </div>
