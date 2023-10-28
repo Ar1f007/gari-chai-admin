@@ -11,7 +11,7 @@ type SelectProps = {
 } & DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
 
 const Select = (props: SelectProps) => {
-  const { name, label = name, options, placeholder, required = false, ...rest } = props;
+  const { name, label = name, options, placeholder = label, required = false, ...rest } = props;
 
   const {
     control,

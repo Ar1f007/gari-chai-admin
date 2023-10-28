@@ -11,6 +11,7 @@
   "dependencies": {
     "@edgestore/react": "^0.1.4",
     "@edgestore/server": "^0.1.4",
+    "@headlessui/react": "^1.7.17",
     "@hookform/resolvers": "^3.3.2",
     "@react-jvectormap/core": "^1.0.4",
     "@react-jvectormap/unitedstates": "^1.0.1",
@@ -34,6 +35,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
     "react-jvectormap": "^0.0.16",
+    "react-select": "^5.7.7",
     "sonner": "^1.0.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",

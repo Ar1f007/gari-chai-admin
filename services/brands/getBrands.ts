@@ -25,10 +25,14 @@ export type TBrandSchema = z.infer<typeof brandSchema>;
 /**=====================
  * API Call
  =======================*/
-export async function getBrands() {
+export async function getBrands(queryParams?: string) {
   try {
-    const res = await apiFetch(endpoints.api.brand.getBrands, {
+    const baseUrl = endpoints.api.brand.getBrands;
+    const url = queryParams ? baseUrl + `?${queryParams}` : baseUrl;
+
+    const res = await apiFetch(url, {
       method: ReqMethod.GET,
+
       next: {
         tags: [TAGS.brands],
       },

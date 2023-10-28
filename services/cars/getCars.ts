@@ -51,11 +51,14 @@ const carSchema = z.object({
 
 const carsDataSchema = z.array(carSchema);
 
-export type TCar = z.infer<typeof carSchema>;
+export type TCarSchema = z.infer<typeof carSchema>;
 
-export async function getCars() {
+export async function getCars(queryParams?: string) {
   try {
-    const res = await apiFetch(endpoints.api.cars.getCars, {
+    const baseUrl = endpoints.api.cars.getCars;
+    const url = queryParams ? `${baseUrl}?${queryParams}` : baseUrl;
+
+    const res = await apiFetch(url, {
       method: ReqMethod.GET,
       next: {
         tags: [TAGS.cars],

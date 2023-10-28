@@ -1,24 +1,20 @@
-"use client";
-
-import { TBrandSchema, getBrands } from "@/services";
-import Select from "../UI/Form/Select";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { TBrandSchema, getBrands } from "@/services";
 import { SelectOption } from "@/types/others";
-import { SearchParams } from "@/util/constants";
 
-const SelectBrand = () => {
+export const useGetBrandsOptions = (valueAsStringArray = false) => {
   const [brands, setBrands] = useState<SelectOption[]>([]);
 
   function getFormattedBrandOptions(brands: TBrandSchema[]) {
     return brands.map((brand) => ({
-      value: [brand.slug, brand.name],
+      value: valueAsStringArray ? [brand.slug, brand.name] : brand.slug,
       label: brand.name,
     }));
   }
 
   useEffect(() => {
-    getBrands(SearchParams.getAllBrands)
+    getBrands()
       .then((data) => {
         const brandOptions = data ? getFormattedBrandOptions(data) : [];
         setBrands(brandOptions);
@@ -26,13 +22,5 @@ const SelectBrand = () => {
       .catch((e) => toast.error("Could not get brands list"));
   }, []);
 
-  return (
-    <Select
-      name="brand"
-      label="Select Brand"
-      options={brands}
-      required
-    />
-  );
+  return brands;
 };
-export default SelectBrand;
