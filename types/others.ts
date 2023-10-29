@@ -47,8 +47,8 @@ export type NavItemNormal = {
 
 export type NavItem = (NavItemGroup | NavLink)[];
 
-export type SelectOption = {
-  value: string | string[] | number;
+export type SelectOption<TValue = string | string[] | number> = {
+  value: TValue;
   label: string;
 };
 

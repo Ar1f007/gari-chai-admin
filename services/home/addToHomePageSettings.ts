@@ -4,6 +4,7 @@ import { ReqMethod, TCarSchema, endpoints } from "..";
 type TAddToHomeSettings = {
   payload: TCarSchema;
   settingsType: string;
+  sortValue: number;
 };
 export async function addToHomePageSettings(payload: TAddToHomeSettings) {
   try {

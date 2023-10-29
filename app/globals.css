@@ -40,6 +40,14 @@
   .card {
     @apply rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark;
   }
+
+  .primary-btn {
+    @apply flex w-full justify-center items-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 cursor-pointer transition-all duration-200;
+  }
+
+  .button-base {
+    @apply flex w-full justify-center items-center rounded p-3 font-medium text-gray hover:bg-opacity-90 cursor-pointer transition-all duration-200;
+  }
 }
 
 /* third-party libraries CSS */
