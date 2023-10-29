@@ -39,7 +39,10 @@ const HomepageSettingsSectionPage = async (props: SettingTypeProps) => {
               className="flex flex-col gap-5"
             >
               <Car car={car.content} />
-              <DropdownButton item={car} />
+              <DropdownButton
+                item={car}
+                pageSlug={pageSlug}
+              />
             </div>
           ))
         )}

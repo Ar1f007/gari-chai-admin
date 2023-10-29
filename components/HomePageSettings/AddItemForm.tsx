@@ -6,7 +6,7 @@ import {
   PRIMARY_COLOR,
   settingsSectionToAddOptions,
 } from "@/util/constants";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import ReactSelect, {
   GroupBase,
@@ -15,6 +15,7 @@ import ReactSelect, {
 } from "react-select";
 import Image from "next/image";
 import { addToHomePageSettings } from "@/services/home/addToHomePageSettings";
+import { updateHomeSettingItem } from "@/services/home";
 
 type CarOption = {
   value: TCarSchema;
@@ -45,24 +46,40 @@ const reactSelectOptions: {
   },
 };
 
-const AddItemForm = ({
-  closeModalHandler,
-}: {
+type AddEditItemForm = {
+  brand?: SelectOption;
+  car?: CarOption;
+  sectionToAdd?: SelectOption<string>;
+  tag?: SelectOption<string>;
+  sort?: number;
   closeModalHandler: () => void;
-}) => {
+  isEditing?: boolean;
+  pageSlug?: string;
+};
+
+const AddItemForm = (props: AddEditItemForm) => {
+  const ref = useRef(0);
+  const { closeModalHandler, isEditing = false } = props;
+
   const [cars, setCars] = useState<CarOption[]>();
 
-  const [brand, setSelectedBrand] = useState<SelectOption | null>(null);
-
-  const [selectedCar, setSelectedCar] = useState<CarOption | null>(null);
-
-  const [sectionToAdd, setSectionToAdd] = useState<SelectOption<string> | null>(
-    null
+  const [brand, setSelectedBrand] = useState<SelectOption | null>(
+    props.brand ?? null
   );
 
-  const [tag, setTag] = useState<SelectOption<string> | null>(null);
+  const [selectedCar, setSelectedCar] = useState<CarOption | null>(
+    props.car ?? null
+  );
 
-  const [sort, setSort] = useState(0);
+  const [sectionToAdd, setSectionToAdd] = useState<SelectOption<string> | null>(
+    props.sectionToAdd ?? null
+  );
+
+  const [tag, setTag] = useState<SelectOption<string> | null>(
+    props.tag ?? null
+  );
+
+  const [sort, setSort] = useState(props.sort ?? 0);
 
   const [loading, setLoading] = useState(false);
 
@@ -88,6 +105,12 @@ const AddItemForm = ({
     }
   }
 
+  async function handleOnSuccessAction(sectionToAdd: SelectOption<string>) {
+    toast.success(isEditing ? "Updated Successfully" : "Added successfully");
+    await invalidateCache(sectionToAdd.value);
+    closeModalHandler();
+  }
+
   async function handleOnAddClick() {
     if (!brand || !selectedCar || !sectionToAdd) {
       toast.error("Please select required fields (brand, car, setting)", {
@@ -111,9 +134,42 @@ const AddItemForm = ({
       }
 
       if (res.status === "success") {
-        toast.success("Added successfully");
-        await invalidateCache(sectionToAdd.value);
-        closeModalHandler();
+        handleOnSuccessAction(sectionToAdd);
+      }
+    } catch (error) {
+      toast.error("something went wrong. Please try again");
+    }
+  }
+
+  async function handleOnUpdateClick() {
+    if (!sectionToAdd) {
+      toast.error("Please add where you want to show it (eg. latest cars)", {
+        position: "top-center",
+      });
+      return;
+    }
+
+    if (!props.car || !props.sectionToAdd || !props.pageSlug) return;
+
+    try {
+      const res = await updateHomeSettingItem({
+        sectionName: sectionToAdd.value,
+        contentId: props.car.value._id,
+        sort: sort,
+        tags: tag ? [tag.value] : [],
+      });
+
+      if (!res || res.status === "error" || res.status === "fail") {
+        toast.error("Failed to add to the " + sectionToAdd);
+        return;
+      }
+
+      if (res.status === "success") {
+        handleOnSuccessAction(sectionToAdd);
+
+        if (sectionToAdd.value !== props.sectionToAdd.value) {
+          await invalidateCache(props.pageSlug);
+        }
       }
     } catch (error) {
       toast.error("something went wrong. Please try again");
@@ -122,42 +178,53 @@ const AddItemForm = ({
 
   useEffect(() => {
     if (!brand) return;
-    setSelectedCar(null);
-    setCars([]);
+
+    // Don't update the value if we are editing (when component mount for the first time)
+    if (!isEditing && ref.current == 0) {
+      setSelectedCar(null);
+      setCars([]);
+    }
+
     const query = `brand=${brand.value}`;
 
     fetchCars(query);
-  }, [brand]);
+
+    if (isEditing) {
+      ref.current++;
+    }
+  }, [brand, isEditing]);
 
   return (
     <div className="my-5 flex flex-col gap-5">
-      <ReactSelect
-        value={brand}
-        onChange={(v) => setSelectedBrand(v)}
-        placeholder="Select brand"
-        classNamePrefix="react-select"
-        isClearable
-        isSearchable
-        name="brand"
-        options={brandOptions}
-        theme={(theme) => ({
-          ...theme,
-          colors: {
-            ...theme.colors,
-            primary: PRIMARY_COLOR,
-            primary25: "#1d2a39",
-          },
-        })}
-        styles={{
-          control: (baseStyles) => ({
-            ...baseStyles,
-            paddingBlock: "8px",
-          }),
-          menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-          menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
-        }}
-        menuPortalTarget={document.body}
-      />
+      {!isEditing && (
+        <ReactSelect
+          value={brand}
+          onChange={(v) => setSelectedBrand(v)}
+          placeholder="Select brand"
+          classNamePrefix="react-select"
+          isClearable
+          isSearchable
+          name="brand"
+          options={brandOptions}
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary: PRIMARY_COLOR,
+              primary25: "#1d2a39",
+            },
+          })}
+          styles={{
+            control: (baseStyles) => ({
+              ...baseStyles,
+              paddingBlock: "8px",
+            }),
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
+          }}
+          menuPortalTarget={document.body}
+        />
+      )}
 
       <ReactSelect
         isSearchable
@@ -197,6 +264,7 @@ const AddItemForm = ({
           menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
         }}
         menuPortalTarget={document.body}
+        isDisabled={isEditing}
       />
 
       <ReactSelect
@@ -253,9 +321,9 @@ const AddItemForm = ({
       <div className="flex gap-3">
         <button
           className="primary-btn"
-          onClick={handleOnAddClick}
+          onClick={isEditing ? handleOnUpdateClick : handleOnAddClick}
         >
-          Add
+          {isEditing ? "Update" : "Add"}
         </button>
 
         <button
