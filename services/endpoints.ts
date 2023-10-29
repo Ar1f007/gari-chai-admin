@@ -5,6 +5,7 @@ export const endpoints = {
     baseUrl: API_BASE_URL,
     v1URL: API_V1_URL,
     homeSettings: {
+      baseUrl: "/home-settings",
       add: "/home-settings",
       get: "/home-settings",
     },

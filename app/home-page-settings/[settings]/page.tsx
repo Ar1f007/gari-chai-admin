@@ -2,6 +2,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Car } from "@/components/Cards/Car";
 
 import AddNewButton from "@/components/HomePageSettings/AddNewButton";
+import DropdownButton from "@/components/HomePageSettings/DropdownButton";
 import { getSettingContentByPageSlug } from "@/services/home/getSettingContentByPageSlug";
 
 type SettingTypeProps = {
@@ -33,8 +34,12 @@ const HomepageSettingsSectionPage = async (props: SettingTypeProps) => {
           </h3>
         ) : (
           contents.map((car) => (
-            <div key={car._id}>
+            <div
+              key={car._id}
+              className="flex flex-col gap-5"
+            >
               <Car car={car.content} />
+              <DropdownButton item={car} />
             </div>
           ))
         )}
