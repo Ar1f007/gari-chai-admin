@@ -2,7 +2,7 @@ import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints } from "..";
 
-const carSchema = z.object({
+export const carSchema = z.object({
   _id: z.string(),
   slug: z.string(),
   name: z.string(),

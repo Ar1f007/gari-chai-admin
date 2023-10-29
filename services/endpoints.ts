@@ -6,6 +6,7 @@ export const endpoints = {
     v1URL: API_V1_URL,
     homeSettings: {
       add: "/home-settings",
+      get: "/home-settings",
     },
     brand: {
       createBrand: "/brands",

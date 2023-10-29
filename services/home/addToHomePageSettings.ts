@@ -2,9 +2,11 @@ import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TCarSchema, endpoints } from "..";
 
 type TAddToHomeSettings = {
-  payload: TCarSchema;
-  settingsType: string;
-  sortValue: number;
+  contentId: string;
+  sectionName: string;
+  content: TCarSchema;
+  tags: Array<string>;
+  sort: number;
 };
 export async function addToHomePageSettings(payload: TAddToHomeSettings) {
   try {
@@ -12,6 +14,8 @@ export async function addToHomePageSettings(payload: TAddToHomeSettings) {
       method: ReqMethod.POST,
       body: payload,
     });
+
+    console.log(res);
 
     return res;
   } catch (e) {

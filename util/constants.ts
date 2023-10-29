@@ -1,3 +1,5 @@
+import { THomeSettingSectionNames } from "@/types/others";
+
 export const MAX_FILE_SIZE_LIMIT = 300000; // 300 kb
 
 export const API_BASE_URL = "http://localhost:8000";
@@ -10,13 +12,17 @@ export const SearchParams = {
   getAllBrands: "get=all",
 };
 
+// Home settings
+
 export const HOME_SETTINGS_OPTIONS = {
   latestCars: "latest-cars",
   popularCars: "popular-cars",
   electricCars: "electric-cars",
+  services: "services",
+  mostSearched: "most-searched",
 };
 
-export const settingsOptions = [
+export const settingsSectionToAddOptions = [
   {
     value: HOME_SETTINGS_OPTIONS.latestCars,
     label: "Latest Car",

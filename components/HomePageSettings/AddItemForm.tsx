@@ -1,10 +1,10 @@
 import { useGetBrandsOptions } from "@/hooks/useGetBrandsOptions";
-import { TCarSchema, getCars } from "@/services";
+import { TCarSchema, getCars, invalidateCache } from "@/services";
 import { SelectOption } from "@/types/others";
 import {
   HOME_SETTINGS_OPTIONS,
   PRIMARY_COLOR,
-  settingsOptions,
+  settingsSectionToAddOptions,
 } from "@/util/constants";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -56,8 +56,11 @@ const AddItemForm = ({
 
   const [selectedCar, setSelectedCar] = useState<CarOption | null>(null);
 
-  const [selectedSetting, setSelectedSetting] =
-    useState<SelectOption<string> | null>(null);
+  const [sectionToAdd, setSectionToAdd] = useState<SelectOption<string> | null>(
+    null
+  );
+
+  const [tag, setTag] = useState<SelectOption<string> | null>(null);
 
   const [sort, setSort] = useState(0);
 
@@ -86,7 +89,7 @@ const AddItemForm = ({
   }
 
   async function handleOnAddClick() {
-    if (!brand || !selectedCar || !selectedSetting) {
+    if (!brand || !selectedCar || !sectionToAdd) {
       toast.error("Please select required fields (brand, car, setting)", {
         position: "top-center",
       });
@@ -95,18 +98,21 @@ const AddItemForm = ({
 
     try {
       const res = await addToHomePageSettings({
-        payload: selectedCar.value,
-        settingsType: selectedSetting.value,
-        sortValue: sort,
+        contentId: selectedCar.value._id,
+        content: selectedCar.value,
+        sectionName: sectionToAdd.value,
+        sort: sort,
+        tags: tag ? [tag.value] : [],
       });
 
       if (!res || res.status === "error" || res.status === "fail") {
-        toast.error("Failed to add to the " + selectedSetting);
+        toast.error("Failed to add to the " + sectionToAdd);
         return;
       }
 
       if (res.status === "success") {
         toast.success("Added successfully");
+        await invalidateCache(sectionToAdd.value);
         closeModalHandler();
       }
     } catch (error) {
@@ -129,7 +135,7 @@ const AddItemForm = ({
         value={brand}
         onChange={(v) => setSelectedBrand(v)}
         placeholder="Select brand"
-        classNamePrefix="selectBrand"
+        classNamePrefix="react-select"
         isClearable
         isSearchable
         name="brand"
@@ -160,7 +166,7 @@ const AddItemForm = ({
         onChange={(v) => setSelectedCar(v)}
         placeholder="Select Car"
         options={cars}
-        classNamePrefix="selectCar"
+        classNamePrefix="react-select"
         name="selectedCar"
         formatOptionLabel={(car) => (
           <div className="flex gap-3 items-center">
@@ -194,12 +200,12 @@ const AddItemForm = ({
       />
 
       <ReactSelect
-        value={selectedSetting}
-        onChange={(v) => setSelectedSetting(v)}
-        options={settingsOptions}
+        value={sectionToAdd}
+        onChange={(v) => setSectionToAdd(v)}
+        options={settingsSectionToAddOptions}
         placeholder="Select where you want to show it"
-        name="selectedSetting"
-        classNamePrefix="selectSetting"
+        name="sectionToAdd"
+        classNamePrefix="react-select"
         theme={reactSelectOptions.theme}
         styles={{
           control: (baseStyles) => ({
@@ -211,6 +217,27 @@ const AddItemForm = ({
         }}
         menuPortalTarget={document.body}
       />
+
+      {sectionToAdd?.value === HOME_SETTINGS_OPTIONS.electricCars && (
+        <ReactSelect
+          value={tag}
+          onChange={(v) => setTag(v)}
+          options={settingsSectionToAddOptions}
+          placeholder="Add to category"
+          name="tag"
+          classNamePrefix="react-select"
+          theme={reactSelectOptions.theme}
+          styles={{
+            control: (baseStyles) => ({
+              ...baseStyles,
+              paddingBlock: "8px",
+            }),
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
+          }}
+          menuPortalTarget={document.body}
+        />
+      )}
 
       <div>
         <p className="text-xl mb-2 text-black dark:text-gray">Sort</p>

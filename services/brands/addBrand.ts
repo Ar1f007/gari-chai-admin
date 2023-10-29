@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/apiFetch";
 import { TBrandPayload, TBrand } from "@/types/brand";
-import { endpoints, invalidateTag, ReqMethod, TAGS } from "..";
+import { endpoints, invalidateCache, ReqMethod, TAGS } from "..";
 
 export async function addBrandName(payload: TBrandPayload) {
   const res = await apiFetch<TBrand>(endpoints.api.brand.createBrand, {
@@ -10,7 +10,7 @@ export async function addBrandName(payload: TBrandPayload) {
   });
 
   if (res.status === "success") {
-    invalidateTag(TAGS.brands);
+    invalidateCache(TAGS.brands);
     return res;
   }
 

@@ -9,7 +9,7 @@ import TextInput from "../UI/Form/TextInput";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
 import { TCarServerPayload } from "@/types/car";
-import { TAGS, createNewCar, invalidateTag } from "@/services";
+import { TAGS, createNewCar, invalidateCache } from "@/services";
 import { useEffect } from "react";
 import clsx from "clsx";
 import SelectBrand from "./SelectBrand";
@@ -90,7 +90,7 @@ export const AddEditCarForm = (props: Props) => {
 
     if (res.status === "success") {
       toast.success("Added successfully");
-      invalidateTag(TAGS.cars);
+      invalidateCache(TAGS.cars);
 
       return;
     }
@@ -113,7 +113,9 @@ export const AddEditCarForm = (props: Props) => {
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-            <h3 className="font-medium text-black dark:text-white">{formTitle}</h3>
+            <h3 className="font-medium text-black dark:text-white">
+              {formTitle}
+            </h3>
           </div>
 
           <FormProvider
@@ -184,7 +186,9 @@ export const AddEditCarForm = (props: Props) => {
                 />
               </div>
               <div>
-                <h6 className="font-semibold text-bodydark1 mb-3">Acceleration</h6>
+                <h6 className="font-semibold text-bodydark1 mb-3">
+                  Acceleration
+                </h6>
 
                 <div className="xl:flex xl:gap-5">
                   <TextInput
@@ -234,7 +238,9 @@ export const AddEditCarForm = (props: Props) => {
                 />
               </div>
               <div>
-                <h6 className="font-semibold text-bodydark1 mb-3">Fuel Economy</h6>
+                <h6 className="font-semibold text-bodydark1 mb-3">
+                  Fuel Economy
+                </h6>
                 <div className="xl:flex xl:gap-5">
                   <TextInput
                     name="fuelCityEconomy"
