@@ -20,6 +20,7 @@ export const HOME_SETTINGS_OPTIONS = {
   electricCars: "electric-cars",
   services: "services",
   mostSearched: "most-searched",
+  popularBrands: "popular-brands",
 };
 
 export const settingsSectionToAddOptions = [

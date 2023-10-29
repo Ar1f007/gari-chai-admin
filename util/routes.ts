@@ -1,17 +1,26 @@
 import { Car, Plus, LayoutList, Dice1 } from "lucide-react";
+import { HOME_SETTINGS_OPTIONS } from "./constants";
 
 const homepageSettingsLinks = [
   {
     title: "Latest Cars",
-    href: "/home-page-settings/latest-cars",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.latestCars,
   },
   {
     title: "Popular Cars",
-    href: "/home-page-settings/popular-cars",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.popularCars,
   },
   {
-    title: "Brands",
-    href: "/home-page-settings/brands",
+    title: "Electric Cars",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.electricCars,
+  },
+  {
+    title: "Most Searched Cars",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.mostSearched,
+  },
+  {
+    title: "Services",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.services,
   },
 ];
 
