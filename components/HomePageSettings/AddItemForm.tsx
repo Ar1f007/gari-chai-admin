@@ -93,7 +93,7 @@ const AddItemForm = (props: AddEditItemForm) => {
       const carOptions = (cars ?? []).map((car) => ({
         value: car,
         label: car.name,
-        image: car.imageUrls?.[0],
+        image: car.posterImage.thumbnailUrl,
       }));
 
       setCars(carOptions);
@@ -240,9 +240,9 @@ const AddItemForm = (props: AddEditItemForm) => {
             <Image
               src={car.image ?? "/images/logo/logo.svg"}
               alt="car"
-              width={100}
-              height={100}
-              className="bg-black p-2 rounded object-cover overflow-hidden"
+              width={60}
+              height={60}
+              className="bg-black p-2 rounded object-contain overflow-hidden"
             />
             <span>{car.label}</span>
           </div>

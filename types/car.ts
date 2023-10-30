@@ -36,6 +36,10 @@ export type TCarServerPayload = {
   safetyFeatures?: string;
   infotainmentSystem?: string;
   imageUrls?: string[];
+  posterImage: {
+    originalUrl: string;
+    thumbnailUrl: string;
+  };
 };
 
 export type TCarApiServerData = TCarServerPayload & {

@@ -18,6 +18,10 @@ export const carSchema = z.object({
 
   mileage: z.number(),
   imageUrls: z.array(z.string().url()).optional(),
+  posterImage: z.object({
+    originalUrl: z.string().url(),
+    thumbnailUrl: z.string().url(),
+  }),
   color: z.string(),
   baseInteriorColor: z.string(),
   numberOfDoors: z.number(),

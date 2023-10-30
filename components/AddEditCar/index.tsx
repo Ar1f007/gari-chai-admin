@@ -1,6 +1,6 @@
 "use client";
 import { omit } from "lodash";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
@@ -10,9 +10,13 @@ import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
 import { TCarServerPayload } from "@/types/car";
 import { TAGS, createNewCar, invalidateCache } from "@/services";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import SelectBrand from "./SelectBrand";
+import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
+import RHFSingleImage from "../UI/Form/RHFSingleImage";
+import InputLabel from "../UI/Form/Label";
+import { useUploadImage } from "@/hooks/useUploadImage";
 
 type Props = {
   formTitle: string;
@@ -20,6 +24,8 @@ type Props = {
 
 export const AddEditCarForm = (props: Props) => {
   const { formTitle } = props;
+
+  const { uploadImage } = useUploadImage();
 
   const methods = useForm<NewCarInputs>({
     mode: "onTouched",
@@ -33,7 +39,9 @@ export const AddEditCarForm = (props: Props) => {
     reset,
   } = methods;
 
-  function getFormattedPayload(data: NewCarInputs) {
+  async function getFormattedPayload(data: NewCarInputs) {
+    const res = await uploadImage(data.posterImage);
+
     const extractedPayload = omit(data, [
       "engineType",
       "engineDisplacement",
@@ -46,6 +54,7 @@ export const AddEditCarForm = (props: Props) => {
       "acceleration0To60",
       "accelerationTopSpeed",
       "brand",
+      "posterImage",
     ]);
 
     const payload: TCarServerPayload = {
@@ -73,13 +82,17 @@ export const AddEditCarForm = (props: Props) => {
         slug: data.brand.split(",")[0],
         name: data.brand.split(",")[1],
       },
+      posterImage: {
+        originalUrl: res?.url ?? "",
+        thumbnailUrl: res?.thumbnailUrl ?? "",
+      },
     };
 
     return payload;
   }
 
   async function onSubmit(data: NewCarInputs) {
-    const payload = getFormattedPayload(data);
+    const payload = await getFormattedPayload(data);
 
     const res = await createNewCar(payload);
 
@@ -289,6 +302,11 @@ export const AddEditCarForm = (props: Props) => {
                 label="Car Description"
                 placeholder="small description about the car..."
               />
+
+              <div>
+                <InputLabel label="Upload a Thumbnail" />
+                <RHFSingleImage name="posterImage" />
+              </div>
 
               <button
                 className={clsx(

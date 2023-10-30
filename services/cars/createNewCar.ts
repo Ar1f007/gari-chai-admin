@@ -1,6 +1,6 @@
 import { apiFetch } from "@/lib/apiFetch";
 import { TCarServerPayload } from "@/types/car";
-import { ReqMethod, endpoints } from "..";
+import { ReqMethod, TAGS, endpoints, invalidateCache } from "..";
 
 export async function createNewCar(payload: TCarServerPayload) {
   try {
@@ -8,6 +8,9 @@ export async function createNewCar(payload: TCarServerPayload) {
       method: ReqMethod.POST,
       body: payload,
     });
+
+    // update the brands list so that it has the latest updated values
+    invalidateCache(TAGS.brands);
 
     return res;
   } catch (e) {

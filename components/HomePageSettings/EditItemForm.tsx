@@ -36,7 +36,7 @@ const EditItemForm = ({
   const car = {
     value: item.content,
     label: item.content.name,
-    image: item.content.imageUrls?.[0],
+    image: item.content.posterImage.thumbnailUrl,
   };
 
   const sectionToAdd = {

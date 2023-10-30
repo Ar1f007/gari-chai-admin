@@ -17,7 +17,7 @@ export const Car = ({ car, children }: CarProps) => {
       <Image
         width={300}
         height={200}
-        src={car.imageUrls?.[0] ?? "/images/product/product-01.png"}
+        src={car.posterImage.thumbnailUrl ?? "/images/product/product-01.png"}
         alt={car.name}
         className="object-cover"
       />
