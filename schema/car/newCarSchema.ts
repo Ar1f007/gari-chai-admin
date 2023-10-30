@@ -87,7 +87,7 @@ export const createNewCarSchema = z.object({
     .min(1, "required")
     .transform((v) => Number(v)),
 
-  posterImage: z.instanceof(File),
+  posterImage: z.instanceof(File, { message: "Image is required" }),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;

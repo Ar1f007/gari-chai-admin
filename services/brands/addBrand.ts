@@ -1,7 +1,14 @@
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/apiFetch";
-import { TBrandPayload, TBrand } from "@/types/brand";
+import { TBrand } from "@/types/brand";
 import { endpoints, invalidateCache, ReqMethod, TAGS } from "..";
+import { ImagePayload } from "@/types/others";
+import { BrandInputs } from "@/schema/client/brand";
+
+export type TBrandPayload = {
+  name: string;
+  image: ImagePayload;
+};
 
 export async function addBrandName(payload: TBrandPayload) {
   const res = await apiFetch<TBrand>(endpoints.api.brand.createBrand, {

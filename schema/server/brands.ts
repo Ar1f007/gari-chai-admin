@@ -6,7 +6,7 @@ export const brandSchema = z.object({
   name: z.string(),
   createdAt: z.string(),
   slug: z.string(),
-  image: imageSchema.optional(),
+  image: imageSchema,
 });
 
 export const brandsSchema = z.array(brandSchema);

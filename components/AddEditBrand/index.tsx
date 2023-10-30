@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { isEmpty } from "lodash";
 import { zodResolver } from "@hookform/resolvers/zod";
-import clsx from "clsx";
 import { toast } from "sonner";
 
 import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
-import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
-import { addBrandName } from "@/services";
+import { TBrandPayload, addBrandName } from "@/services";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { mapValidationErrors } from "@/util/mapValidationError";
 
 import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
-import { TBrandPayload } from "@/types/brand";
+import RHFSingleImage from "../UI/Form/RHFSingleImage";
+import LoaderWithText from "../loaders/WithText";
 
 type Props = {
   formTitle: string;
@@ -23,8 +21,6 @@ type Props = {
 
 const AddEditBrand = (props: Props) => {
   const { formTitle } = props;
-
-  const [file, setFile] = useState<File | undefined>();
 
   const { uploadImage } = useUploadImage();
 
@@ -41,23 +37,21 @@ const AddEditBrand = (props: Props) => {
   } = methods;
 
   async function onSubmit(data: BrandInputs) {
-    let imgUrls = Object.assign({});
+    const imgUrls = await uploadImage(data.image);
 
-    if (file) {
-      try {
-        const res = await uploadImage(file);
-
-        imgUrls.originalUrl = res?.url;
-        imgUrls.thumbnailUrl = res?.thumbnailUrl;
-      } catch (e) {
-        toast.error("Something went wrong while uploading image");
-        return;
-      }
+    if (!imgUrls) {
+      toast.error(
+        "Something went wrong while uploading image please try again"
+      );
+      return;
     }
 
     const payload: TBrandPayload = {
       name: data.name,
-      image: !isEmpty(imgUrls) ? { ...imgUrls } : undefined,
+      image: {
+        originalUrl: imgUrls.url,
+        thumbnailUrl: imgUrls.thumbnailUrl,
+      },
     };
 
     const res = await addBrandName(payload);
@@ -78,7 +72,6 @@ const AddEditBrand = (props: Props) => {
 
   useEffect(() => {
     reset();
-    setFile(undefined);
   }, [isSubmitSuccessful, reset]);
 
   return (
@@ -101,27 +94,17 @@ const AddEditBrand = (props: Props) => {
               placeholder="eg. Tata"
             />
 
-            <SingleImageDropzone
-              value={file}
-              onChange={(file) => {
-                setFile(file);
-              }}
-              width={200}
-              height={200}
-              dropzoneOptions={{
-                maxSize: 1024 * 100,
-              }}
+            <RHFSingleImage
+              name="image"
+              maxSize={1024 * 100} // 100kb
             />
 
             <button
-              className={clsx(
-                "flex w-full justify-center items-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 cursor-pointer transition-all duration-200",
-                { "bg-opacity-30": isSubmitting }
-              )}
+              className="bg-primary hover:bg-primary/75 p-3 disabled:opacity-50 transition inline-flex items-center justify-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:z-10 shrink-0 focus:ring-blue-600 text-white font-medium rounded-md"
               disabled={isSubmitting}
               type="submit"
             >
-              <span>Submit</span>
+              {isSubmitting ? <LoaderWithText /> : "Submit"}
             </button>
           </div>
         </FormProvider>

@@ -16,7 +16,3 @@ export type TBrand = {
   slug: string;
   image?: ImagePayload;
 };
-
-export type TBrandPayload = {
-  image?: Partial<ImagePayload>;
-} & BrandInputs;
