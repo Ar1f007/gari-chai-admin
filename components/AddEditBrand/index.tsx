@@ -14,6 +14,7 @@ import { mapValidationErrors } from "@/util/mapValidationError";
 import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
 import RHFSingleImage from "../UI/Form/RHFSingleImage";
 import LoaderWithText from "../loaders/WithText";
+import SubmitButton from "../UI/Form/Button";
 
 type Props = {
   formTitle: string;
@@ -99,13 +100,11 @@ const AddEditBrand = (props: Props) => {
               maxSize={1024 * 100} // 100kb
             />
 
-            <button
-              className="bg-primary hover:bg-primary/75 p-3 disabled:opacity-50 transition inline-flex items-center justify-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:z-10 shrink-0 focus:ring-blue-600 text-white font-medium rounded-md"
-              disabled={isSubmitting}
+            <SubmitButton
               type="submit"
-            >
-              {isSubmitting ? <LoaderWithText /> : "Submit"}
-            </button>
+              loading={isSubmitting}
+              title="Submit"
+            />
           </div>
         </FormProvider>
       </div>

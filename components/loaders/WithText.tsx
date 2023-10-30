@@ -1,7 +1,7 @@
 type Props = {
   text?: string;
 };
-const WithText = ({ text = "Loading..." }: Props) => {
+const LoaderWithText = ({ text = "Loading..." }: Props) => {
   return (
     <>
       <div
@@ -90,4 +90,4 @@ const WithText = ({ text = "Loading..." }: Props) => {
     </>
   );
 };
-export default WithText;
+export default LoaderWithText;

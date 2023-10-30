@@ -17,6 +17,7 @@ import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
 import RHFSingleImage from "../UI/Form/RHFSingleImage";
 import InputLabel from "../UI/Form/Label";
 import { useUploadImage } from "@/hooks/useUploadImage";
+import SubmitButton from "../UI/Form/Button";
 
 type Props = {
   formTitle: string;
@@ -308,18 +309,11 @@ export const AddEditCarForm = (props: Props) => {
                 <RHFSingleImage name="posterImage" />
               </div>
 
-              <button
-                className={clsx(
-                  "flex w-full justify-center rounded bg-primary p-3 font-medium text-gray transition-all duration-200",
-                  {
-                    "bg-opacity-70": isSubmitting,
-                  }
-                )}
+              <SubmitButton
+                title="Submit"
                 type="submit"
-                disabled={isSubmitting}
-              >
-                Submit
-              </button>
+                loading={isSubmitting}
+              />
             </div>
           </FormProvider>
         </div>

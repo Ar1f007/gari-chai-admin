@@ -16,6 +16,7 @@ import ReactSelect, {
 import Image from "next/image";
 import { addToHomePageSettings } from "@/services/home/addToHomePageSettings";
 import { updateHomeSettingItem } from "@/services/home";
+import Button from "../UI/Form/Button";
 
 type CarOption = {
   value: TCarSchema;
@@ -319,15 +320,16 @@ const AddItemForm = (props: AddEditItemForm) => {
       </div>
 
       <div className="flex gap-3">
-        <button
-          className="primary-btn"
+        <Button
+          title={isEditing ? "Update" : "Add"}
+          loading={loading}
+          loadingText={isEditing ? "Updating..." : "Adding..."}
           onClick={isEditing ? handleOnUpdateClick : handleOnAddClick}
-        >
-          {isEditing ? "Update" : "Add"}
-        </button>
+          classes="basis-2/4"
+        />
 
         <button
-          className="button-base bg-transparent outline outline-1 outline-boxdark"
+          className="button-base outline outline-1 outline-boxdark hover:bg-black"
           onClick={closeModalHandler}
         >
           Cancel

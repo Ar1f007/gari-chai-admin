@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Modal from "../Dialog/Dialog";
 import AddItemForm from "./AddItemForm";
+import Button from "../UI/Form/Button";
 
 const AddNewButton = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -16,12 +17,13 @@ const AddNewButton = () => {
 
   return (
     <>
-      <button
-        className="inline-flex items-center justify-center gap-2.5 bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10 rounded-sm self-end"
-        onClick={openModal}
-      >
-        Add New
-      </button>
+      <div className="self-end">
+        <Button
+          title="Add New"
+          onClick={openModal}
+          classes="py-4 px-10 lg:px-8 xl:px-10"
+        />
+      </div>
       <Modal
         isOpen={isOpen}
         title="Add to Settings"
