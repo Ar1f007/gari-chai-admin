@@ -1,6 +1,5 @@
 import { TApiData, TApiError } from "@/types/others";
 import { API_V1_URL } from "@/util/constants";
-import { toast } from "sonner";
 
 type FetchExtendedOptions = {
   isFormData?: boolean;
@@ -12,7 +11,13 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
   endpoint: string,
   options: FetchExtendedOptions
 ) {
-  const { isFormData = false, baseApiUrl = API_V1_URL, body, headers, ...rest } = options;
+  const {
+    isFormData = false,
+    baseApiUrl = API_V1_URL,
+    body,
+    headers,
+    ...rest
+  } = options;
 
   const fetchOptions: FetchExtendedOptions = {
     headers: {
