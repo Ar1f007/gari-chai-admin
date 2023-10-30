@@ -1,6 +1,6 @@
 "use client";
 import { omit } from "lodash";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
@@ -11,9 +11,7 @@ import Textarea from "../UI/Form/Textarea";
 import { TCarServerPayload } from "@/types/car";
 import { TAGS, createNewCar, invalidateCache } from "@/services";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import SelectBrand from "./SelectBrand";
-import { SingleImageDropzone } from "../UI/Form/SingleImageDropzone";
 import RHFSingleImage from "../UI/Form/RHFSingleImage";
 import InputLabel from "../UI/Form/Label";
 import { useUploadImage } from "@/hooks/useUploadImage";
@@ -56,6 +54,7 @@ export const AddEditCarForm = (props: Props) => {
       "accelerationTopSpeed",
       "brand",
       "posterImage",
+      "tags",
     ]);
 
     const payload: TCarServerPayload = {
@@ -87,6 +86,7 @@ export const AddEditCarForm = (props: Props) => {
         originalUrl: res?.url ?? "",
         thumbnailUrl: res?.thumbnailUrl ?? "",
       },
+      tags: data.tags ? data.tags : [],
     };
 
     return payload;
@@ -106,6 +106,8 @@ export const AddEditCarForm = (props: Props) => {
       toast.success("Added successfully");
       invalidateCache(TAGS.cars);
 
+      reset();
+
       return;
     }
 
@@ -117,10 +119,6 @@ export const AddEditCarForm = (props: Props) => {
     // error | fail
     toast.error(res.message);
   }
-
-  useEffect(() => {
-    reset();
-  }, [isSubmitSuccessful, reset]);
 
   return (
     <div className="grid grid-cols-1 gap-9">
@@ -146,6 +144,7 @@ export const AddEditCarForm = (props: Props) => {
 
                 <SelectBrand />
               </div>
+
               <div className="xl:flex xl:gap-5">
                 <TextInput
                   type="number"
@@ -162,6 +161,12 @@ export const AddEditCarForm = (props: Props) => {
                 />
               </div>
               <div className="xl:flex xl:gap-5">
+                <TextInput
+                  type="number"
+                  name="price"
+                  placeholder="Estimated price"
+                  required
+                />
                 <TextInput
                   name="transmission"
                   placeholder="eg: manual / automatic"
@@ -298,6 +303,7 @@ export const AddEditCarForm = (props: Props) => {
                   required={false}
                 />
               </div>
+
               <Textarea
                 name="description"
                 label="Car Description"

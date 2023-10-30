@@ -40,6 +40,8 @@ export type TCarServerPayload = {
     originalUrl: string;
     thumbnailUrl: string;
   };
+  price: number;
+  tags: string[];
 };
 
 export type TCarApiServerData = TCarServerPayload & {

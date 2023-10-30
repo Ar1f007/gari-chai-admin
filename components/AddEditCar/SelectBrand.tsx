@@ -23,7 +23,9 @@ const SelectBrand = () => {
         const brandOptions = data ? getFormattedBrandOptions(data) : [];
         setBrands(brandOptions);
       })
-      .catch((e) => toast.error("Could not get brands list"));
+      .catch((e) => {
+        toast.error("Could not get brands list");
+      });
   }, []);
 
   return (

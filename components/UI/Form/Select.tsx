@@ -8,10 +8,20 @@ type SelectProps = {
   name: string;
   label?: string;
   options: SelectOption[];
-} & DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
+} & DetailedHTMLProps<
+  SelectHTMLAttributes<HTMLSelectElement>,
+  HTMLSelectElement
+>;
 
 const Select = (props: SelectProps) => {
-  const { name, label = name, options, placeholder = label, required = false, ...rest } = props;
+  const {
+    name,
+    label = name,
+    options,
+    placeholder = label,
+    required = false,
+    ...rest
+  } = props;
 
   const {
     control,
@@ -74,7 +84,9 @@ const Select = (props: SelectProps) => {
       />
 
       {errors[name] && (
-        <p className="text-danger text-sm ml-4 mt-2">{errors[name]?.message?.toString()}</p>
+        <p className="text-danger text-sm ml-4 mt-2">
+          {errors[name]?.message?.toString()}
+        </p>
       )}
     </div>
   );

@@ -19,7 +19,7 @@ const HomepageSettingsSectionPage = async (props: SettingTypeProps) => {
     <div>
       <Breadcrumb pageName="Home Page Settings" />
 
-      <section className="flex flex-col gap-5">
+      <section className="flex flex-col gap-5 mb-5">
         <AddNewButton />
       </section>
 

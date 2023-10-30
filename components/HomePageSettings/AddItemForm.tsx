@@ -126,7 +126,12 @@ const AddItemForm = (props: AddEditItemForm) => {
         content: selectedCar.value,
         sectionName: sectionToAdd.value,
         sort: sort,
-        tags: tag ? [tag.value] : [],
+        tags:
+          sectionToAdd.value === HOME_SETTINGS_OPTIONS.electricCars
+            ? tag
+              ? [tag.value]
+              : []
+            : [],
       });
 
       if (!res || res.status === "error" || res.status === "fail") {
