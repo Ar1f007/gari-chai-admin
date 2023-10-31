@@ -26,6 +26,7 @@ export const HOME_SETTINGS_OPTIONS = {
   latestCars: "latest-cars",
   popularCars: "popular-cars",
   electricCars: "electric-cars",
+  upcomingCars: "upcoming-cars",
   services: "services",
   mostSearched: "most-searched",
   popularBrands: "popular-brands",

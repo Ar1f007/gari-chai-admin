@@ -15,8 +15,16 @@ const homepageSettingsLinks = [
     href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.electricCars,
   },
   {
+    title: "Upcoming Cars",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.upcomingCars,
+  },
+  {
     title: "Most Searched Cars",
     href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.mostSearched,
+  },
+  {
+    title: "Popular Brands",
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.popularBrands,
   },
   {
     title: "Services",
