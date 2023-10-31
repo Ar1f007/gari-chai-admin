@@ -48,11 +48,6 @@ export async function getBrands(queryParams?: string) {
       throw new Error("Error getting data");
     }
 
-    // if (res.status === "error" || res.status === "fail") {
-    //   toast.error(res.message);
-    //   return undefined;
-    // }
-
     if (res.status === "error" || res.status === "fail") {
       throw new Error(res.message);
     }

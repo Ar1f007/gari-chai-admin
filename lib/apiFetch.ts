@@ -34,6 +34,10 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
 
     const res = await fetch(url, fetchOptions);
 
+    if (!res.ok) {
+      throw Error(res.statusText);
+    }
+
     const jsonRes: TApiData<Data> | ErrData = await res.json();
 
     return jsonRes;

@@ -3,6 +3,7 @@ import { Car } from "@/components/Cards/Car";
 
 import AddNewButton from "@/components/HomePageSettings/AddNewButton";
 import DropdownButton from "@/components/HomePageSettings/DropdownButton";
+import UpdateCacheBtn from "@/components/UpdateCache/UpdateCacheBtn";
 import { getSettingContentByPageSlug } from "@/services/home/getSettingContentByPageSlug";
 
 type SettingTypeProps = {
@@ -19,7 +20,16 @@ const HomepageSettingsSectionPage = async (props: SettingTypeProps) => {
     <div>
       <Breadcrumb pageName="Home Page Settings" />
 
-      <section className="flex flex-col gap-5 mb-5">
+      <section className="flex gap-5 mb-5 justify-end">
+        <UpdateCacheBtn
+          tag="all"
+          title="Update All Cache Settings"
+        />
+        <UpdateCacheBtn
+          tag={pageSlug}
+          title={`Update ${pageSlug} cache (Main UI)`}
+        />
+
         <AddNewButton />
       </section>
 

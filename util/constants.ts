@@ -6,6 +6,8 @@ export const API_BASE_URL = "http://localhost:8000";
 
 export const API_V1_URL = API_BASE_URL + "/api/v1";
 
+export const UI_BASE_URL = "http://localhost:3000";
+
 export const PRIMARY_COLOR = "#3C50E0";
 
 export const SearchParams = {

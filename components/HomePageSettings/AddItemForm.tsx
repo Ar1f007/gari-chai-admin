@@ -1,5 +1,10 @@
 import { useGetBrandsOptions } from "@/hooks/useGetBrandsOptions";
-import { TCarSchema, getCars, invalidateCache } from "@/services";
+import {
+  TCarSchema,
+  getCars,
+  invalidateCache,
+  updateUIHomeSetting,
+} from "@/services";
 import { SelectOption } from "@/types/others";
 import {
   HOME_SETTINGS_OPTIONS,
@@ -15,8 +20,8 @@ import ReactSelect, {
 } from "react-select";
 import Image from "next/image";
 import { addToHomePageSettings } from "@/services/home/addToHomePageSettings";
-import { updateHomeSettingItem } from "@/services/home";
 import Button from "../UI/Form/Button";
+import { updateHomeSettingItem } from "@/services/home";
 
 type CarOption = {
   value: TCarSchema;
@@ -108,8 +113,18 @@ const AddItemForm = (props: AddEditItemForm) => {
 
   async function handleOnSuccessAction(sectionToAdd: SelectOption<string>) {
     toast.success(isEditing ? "Updated Successfully" : "Added successfully");
+
     await invalidateCache(sectionToAdd.value);
+
     closeModalHandler();
+
+    const revalidated = await updateUIHomeSetting(sectionToAdd.value);
+
+    if (!revalidated) {
+      toast.error(
+        `Could not update the UI of main website for the tag: ${sectionToAdd.value}`
+      );
+    }
   }
 
   async function handleOnAddClick() {
