@@ -35,6 +35,7 @@ export async function getBrands(queryParams?: string) {
 
       next: {
         tags: [TAGS.brands],
+        revalidate: 0,
       },
     });
 
@@ -44,13 +45,9 @@ export async function getBrands(queryParams?: string) {
       if (parsedData.success) {
         return parsedData.data;
       }
-
-      throw new Error("Error getting data");
     }
 
-    if (res.status === "error" || res.status === "fail") {
-      throw new Error(res.message);
-    }
+    return undefined;
   } catch (e) {
     return undefined;
   }

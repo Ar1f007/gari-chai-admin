@@ -6,13 +6,11 @@ import { InfoIcon } from "lucide-react";
 const BrandsPage = async () => {
   const brands = await getBrands();
 
-  if (!brands) return null;
-
   return (
     <>
       <Breadcrumb pageName="Brands" />
 
-      {!brands.length ? (
+      {!brands || brands.length ? (
         <div className="card w-fit flex gap-3 items-center">
           <InfoIcon />
           <Text

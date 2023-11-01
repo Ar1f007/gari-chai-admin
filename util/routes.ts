@@ -1,4 +1,4 @@
-import { Car, Plus, LayoutList, Dice1 } from "lucide-react";
+import { Car, LayoutList, Dice1, DatabaseZap } from "lucide-react";
 import { HOME_SETTINGS_OPTIONS } from "./constants";
 
 const homepageSettingsLinks = [
@@ -36,12 +36,10 @@ const brandLinks = [
   {
     title: "Brands",
     href: "/brands",
-    icon: LayoutList,
   },
   {
     title: "Add Brand",
     href: "/brands/add",
-    icon: Plus,
   },
 ];
 
@@ -49,12 +47,21 @@ const carLinks = [
   {
     title: "Cars",
     href: "/cars",
-    icon: LayoutList,
   },
   {
     title: "Add Car",
     href: "/cars/add",
-    icon: Plus,
+  },
+];
+
+const cacheLinks = [
+  {
+    title: "Admin Cache",
+    href: "/cache/admin",
+  },
+  {
+    title: "UI Cache",
+    href: "/cache/ui",
   },
 ];
 
@@ -76,6 +83,12 @@ const adminNavigation = [
     groupName: "Home Page Settings",
     icon: LayoutList,
     links: homepageSettingsLinks,
+  },
+  {
+    isGroup: true,
+    groupName: "Cache Control",
+    icon: DatabaseZap,
+    links: cacheLinks,
   },
 ];
 
