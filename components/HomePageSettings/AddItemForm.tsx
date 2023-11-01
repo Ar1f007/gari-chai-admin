@@ -240,9 +240,11 @@ const AddItemForm = (props: AddEditItemForm) => {
             control: (baseStyles) => ({
               ...baseStyles,
               paddingBlock: "8px",
+              backgroundColor: "bg-primary",
             }),
             menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
+            singleValue: (base) => ({ ...base, color: "text-white" }),
           }}
           menuPortalTarget={document.body}
         />
@@ -281,9 +283,11 @@ const AddItemForm = (props: AddEditItemForm) => {
           control: (baseStyles) => ({
             ...baseStyles,
             paddingBlock: "8px",
+            backgroundColor: "bg-primary",
           }),
           menuPortal: (base) => ({ ...base, zIndex: 9999 }),
           menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
+          singleValue: (base) => ({ ...base, color: "text-white" }),
         }}
         menuPortalTarget={document.body}
         isDisabled={isEditing}
@@ -301,9 +305,11 @@ const AddItemForm = (props: AddEditItemForm) => {
           control: (baseStyles) => ({
             ...baseStyles,
             paddingBlock: "8px",
+            backgroundColor: "bg-primary",
           }),
           menuPortal: (base) => ({ ...base, zIndex: 9999 }),
           menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
+          singleValue: (base) => ({ ...base, color: "text-white" }),
         }}
         menuPortalTarget={document.body}
       />
@@ -321,9 +327,11 @@ const AddItemForm = (props: AddEditItemForm) => {
             control: (baseStyles) => ({
               ...baseStyles,
               paddingBlock: "8px",
+              backgroundColor: "bg-primary",
             }),
             menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             menuList: (base) => ({ ...base, backgroundColor: "#24303F" }),
+            singleValue: (base) => ({ ...base, color: "text-white" }),
           }}
           menuPortalTarget={document.body}
         />
