@@ -24,7 +24,7 @@ export type TApiError = TApiErrorData | TApiValidationError;
 import { SVGProps } from "react";
 import { LucideIcon } from "lucide-react";
 import { z } from "zod";
-import { HOME_SETTINGS_OPTIONS } from "@/util/constants";
+import { HOME_SETTINGS_OPTIONS, homeSettingSections } from "@/util/constants";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -59,12 +59,4 @@ export type ImagePayload = {
   originalUrl: string;
 };
 
-export const sectionNameEnum = z.enum([
-  HOME_SETTINGS_OPTIONS.mostSearched,
-  HOME_SETTINGS_OPTIONS.latestCars,
-  HOME_SETTINGS_OPTIONS.popularCars,
-  HOME_SETTINGS_OPTIONS.electricCars,
-  HOME_SETTINGS_OPTIONS.services,
-]);
-
-export type THomeSettingSectionNames = z.infer<typeof sectionNameEnum>;
+export type THomeSettingSectionNames = z.infer<typeof homeSettingSections>;

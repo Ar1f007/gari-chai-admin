@@ -20,7 +20,7 @@ const homepageSettingsLinks = [
   },
   {
     title: "Most Searched Cars",
-    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.mostSearched,
+    href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.mostSearchedCars,
   },
   {
     title: "Popular Brands",

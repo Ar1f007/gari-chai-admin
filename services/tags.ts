@@ -1,5 +1,5 @@
 import { HOME_SETTINGS_OPTIONS, UI_BASE_URL } from "@/util/constants";
-import { endpoints } from ".";
+import { ReqMethod, endpoints } from ".";
 
 export const TAGS = {
   brands: "brands",
@@ -8,7 +8,7 @@ export const TAGS = {
   ...HOME_SETTINGS_OPTIONS,
 };
 
-export async function updateUIHomeSetting(sectionName: string) {
+export async function updateUIHomeSetting(tags: string[]) {
   try {
     const endpoint = endpoints.ui.revalidate;
 
@@ -18,13 +18,16 @@ export async function updateUIHomeSetting(sectionName: string) {
       "revalidateSecret",
       process.env.NEXT_PUBLIC_REVALIDATE_SECRET!
     );
-    searchParams.append("tag", sectionName);
 
     const path = endpoint + "?" + searchParams.toString();
 
     const url = UI_BASE_URL + "/api" + path;
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      method: ReqMethod.POST,
+      body: JSON.stringify({ tags }),
+    });
+
     const jsonRes = await res.json();
 
     return jsonRes;

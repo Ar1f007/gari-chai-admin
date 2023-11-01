@@ -12,7 +12,7 @@ const HOME_SETTINGS_OPTIONS = {
   electricCars: "electric-cars",
   upcomingCars: "upcoming-cars",
   services: "services",
-  mostSearched: "most-searched",
+  mostSearchedCars: "most-searched-cars",
   popularBrands: "popular-brands",
 };
 
@@ -34,7 +34,7 @@ const mapPathToTagValue = {
   [HOME_SETTINGS_OPTIONS.latestCars]: "home-latest-cars",
   [HOME_SETTINGS_OPTIONS.popularCars]: "home-popular-brands",
   [HOME_SETTINGS_OPTIONS.electricCars]: "home-electric-cars",
-  [HOME_SETTINGS_OPTIONS.mostSearched]: "home-most-searched-cars",
+  [HOME_SETTINGS_OPTIONS.mostSearchedCars]: "home-most-searched-cars",
   [HOME_SETTINGS_OPTIONS.upcomingCars]: "home-upcoming-cars",
   [HOME_SETTINGS_OPTIONS.services]: "home-services",
   [HOME_SETTINGS_OPTIONS.popularBrands]: "home-popular-brands",

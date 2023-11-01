@@ -1,6 +1,5 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { ReqMethod, TCarSchema, endpoints } from "..";
-import { TAddToHomeSettings } from ".";
+import { ReqMethod, endpoints } from "..";
 
 type TUpdateHomeSettingItem = {
   contentId: string;

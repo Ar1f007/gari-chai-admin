@@ -1,4 +1,4 @@
-import { THomeSettingSectionNames } from "@/types/others";
+import { z } from "zod";
 
 export const MAX_FILE_SIZE_LIMIT = 300000; // 300 kb
 
@@ -28,11 +28,21 @@ export const HOME_SETTINGS_OPTIONS = {
   electricCars: "electric-cars",
   upcomingCars: "upcoming-cars",
   services: "services",
-  mostSearched: "most-searched",
+  mostSearchedCars: "most-searched-cars",
   popularBrands: "popular-brands",
 };
 
-export const settingsSectionToAddOptions = [
+export const homeSettingSections = z.enum([
+  HOME_SETTINGS_OPTIONS.latestCars,
+  HOME_SETTINGS_OPTIONS.popularCars,
+  HOME_SETTINGS_OPTIONS.electricCars,
+  HOME_SETTINGS_OPTIONS.upcomingCars,
+  HOME_SETTINGS_OPTIONS.services,
+  HOME_SETTINGS_OPTIONS.mostSearchedCars,
+  HOME_SETTINGS_OPTIONS.popularBrands,
+]);
+
+export const carCategoryOptions = [
   {
     value: HOME_SETTINGS_OPTIONS.latestCars,
     label: "Latest Car",
@@ -44,5 +54,20 @@ export const settingsSectionToAddOptions = [
   {
     value: HOME_SETTINGS_OPTIONS.electricCars,
     label: "Electric Car",
+  },
+];
+
+export const carSubCategoryOptions = [
+  {
+    value: HOME_SETTINGS_OPTIONS.latestCars,
+    label: "Latest Car",
+  },
+  {
+    value: HOME_SETTINGS_OPTIONS.popularCars,
+    label: "Popular Car",
+  },
+  {
+    value: HOME_SETTINGS_OPTIONS.upcomingCars,
+    label: "Upcoming Car",
   },
 ];

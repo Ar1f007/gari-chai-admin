@@ -19,7 +19,7 @@ const UpdateCacheBtn = ({
     try {
       setLoading(true);
 
-      const revalidated = await updateUIHomeSetting(tag);
+      const revalidated = await updateUIHomeSetting([tag]);
 
       if (revalidated) {
         toast.success(revalidated.message);

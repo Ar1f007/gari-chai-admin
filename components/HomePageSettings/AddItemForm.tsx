@@ -9,7 +9,8 @@ import { SelectOption } from "@/types/others";
 import {
   HOME_SETTINGS_OPTIONS,
   PRIMARY_COLOR,
-  settingsSectionToAddOptions,
+  carCategoryOptions,
+  carSubCategoryOptions,
 } from "@/util/constants";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -118,7 +119,7 @@ const AddItemForm = (props: AddEditItemForm) => {
 
     closeModalHandler();
 
-    const revalidated = await updateUIHomeSetting(sectionToAdd.value);
+    const revalidated = await updateUIHomeSetting([sectionToAdd.value]);
 
     if (!revalidated) {
       toast.error(
@@ -291,7 +292,7 @@ const AddItemForm = (props: AddEditItemForm) => {
       <ReactSelect
         value={sectionToAdd}
         onChange={(v) => setSectionToAdd(v)}
-        options={settingsSectionToAddOptions}
+        options={carCategoryOptions}
         placeholder="Select where you want to show it"
         name="sectionToAdd"
         classNamePrefix="react-select"
@@ -311,7 +312,7 @@ const AddItemForm = (props: AddEditItemForm) => {
         <ReactSelect
           value={tag}
           onChange={(v) => setTag(v)}
-          options={settingsSectionToAddOptions}
+          options={carSubCategoryOptions}
           placeholder="Add to category"
           name="tag"
           classNamePrefix="react-select"

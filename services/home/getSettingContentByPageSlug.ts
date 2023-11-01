@@ -1,11 +1,11 @@
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, carSchema, endpoints } from "..";
 import { z } from "zod";
-import { sectionNameEnum } from "@/types/others";
+import { homeSettingSections } from "@/util/constants";
 
 export const homeSettingApiSchemaSingleInstance = z.object({
   _id: z.string(),
-  sectionName: sectionNameEnum,
+  sectionName: homeSettingSections,
   content: carSchema,
   tags: z.array(z.string()),
   sort: z.number(),
@@ -21,7 +21,7 @@ export type THomeSettingApiSchema = z.infer<
 >;
 
 export async function getSettingContentByPageSlug(slug: string) {
-  const parsedSlug = sectionNameEnum.safeParse(slug);
+  const parsedSlug = homeSettingSections.safeParse(slug);
 
   if (!parsedSlug.success) {
     const errMessages = parsedSlug.error.errors.map((e) => e.message);
@@ -44,7 +44,11 @@ export async function getSettingContentByPageSlug(slug: string) {
       if (parsedData.success) {
         return parsedData.data;
       }
-      throw new Error("Settings data missing");
+      throw new Error(slug + " Settings data missing");
+    }
+
+    if (res.status) {
+      return res.message;
     }
 
     return undefined;

@@ -34,7 +34,7 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
 
     const res = await fetch(url, fetchOptions);
 
-    if (!res.ok) {
+    if (res.status === 429) {
       throw Error(res.statusText);
     }
 

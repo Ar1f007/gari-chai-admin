@@ -4,7 +4,7 @@ import { THomeSettingApiSchema } from "@/services/home";
 
 import Modal from "../Dialog/Dialog";
 import AddItemForm from "./AddItemForm";
-import { settingsSectionToAddOptions } from "@/util/constants";
+import { carCategoryOptions } from "@/util/constants";
 
 type EditItemProps = {
   isOpen: boolean;
@@ -19,7 +19,7 @@ const EditItemForm = ({
   pageSlug,
 }: EditItemProps) => {
   function findLabel() {
-    const option = settingsSectionToAddOptions.find(
+    const option = carCategoryOptions.find(
       (option) => option.value === item.tags[0]
     );
 
