@@ -1,6 +1,6 @@
 "use client";
 
-import { invalidateCache } from "@/services";
+import { invalidateAdminCache, invalidateUICache } from "@/services";
 import { THomeSettingApiSchema, deleteHomeSettingItem } from "@/services/home";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 import { MoreVerticalIcon } from "lucide-react";
@@ -35,8 +35,12 @@ const DropdownButton = ({ item, pageSlug }: Props) => {
     }
 
     if (res.status === "success") {
-      invalidateCache(item.sectionName);
+      invalidateAdminCache(item.sectionName);
+
+      invalidateUICache([item.sectionName]);
+
       toast.success("Deleted Successfully");
+
       return;
     }
 

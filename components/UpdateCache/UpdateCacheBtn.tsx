@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "../UI/Form/Button";
 
 import { toast } from "sonner";
-import { updateUIHomeSetting } from "@/services";
+import { invalidateUICache } from "@/services";
 
 const UpdateCacheBtn = ({
   tag,
@@ -19,7 +19,7 @@ const UpdateCacheBtn = ({
     try {
       setLoading(true);
 
-      const revalidated = await updateUIHomeSetting([tag]);
+      const revalidated = await invalidateUICache([tag]);
 
       if (revalidated) {
         toast.success(revalidated.message);

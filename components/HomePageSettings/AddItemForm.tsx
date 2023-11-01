@@ -2,8 +2,8 @@ import { useGetBrandsOptions } from "@/hooks/useGetBrandsOptions";
 import {
   TCarSchema,
   getCars,
-  invalidateCache,
-  updateUIHomeSetting,
+  invalidateAdminCache,
+  invalidateUICache,
 } from "@/services";
 import { SelectOption } from "@/types/others";
 import {
@@ -115,11 +115,11 @@ const AddItemForm = (props: AddEditItemForm) => {
   async function handleOnSuccessAction(sectionToAdd: SelectOption<string>) {
     toast.success(isEditing ? "Updated Successfully" : "Added successfully");
 
-    await invalidateCache(sectionToAdd.value);
+    await invalidateAdminCache(sectionToAdd.value);
 
     closeModalHandler();
 
-    const revalidated = await updateUIHomeSetting([sectionToAdd.value]);
+    const revalidated = await invalidateUICache([sectionToAdd.value]);
 
     if (!revalidated) {
       toast.error(
@@ -190,7 +190,7 @@ const AddItemForm = (props: AddEditItemForm) => {
         handleOnSuccessAction(sectionToAdd);
 
         if (sectionToAdd.value !== props.sectionToAdd.value) {
-          await invalidateCache(props.pageSlug);
+          await invalidateAdminCache(props.pageSlug);
         }
       }
     } catch (error) {

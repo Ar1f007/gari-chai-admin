@@ -1,6 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { getCars } from "@/services";
-import { notFound } from "next/navigation";
 
 const CarsPage = async () => {
   const cars = await getCars();

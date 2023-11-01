@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/apiFetch";
 import { TBrand } from "@/types/brand";
-import { endpoints, invalidateCache, ReqMethod, TAGS } from "..";
+import { endpoints, invalidateAdminCache, ReqMethod, TAGS } from "..";
 import { ImagePayload } from "@/types/others";
 import { BrandInputs } from "@/schema/client/brand";
 
@@ -17,7 +17,7 @@ export async function addBrandName(payload: TBrandPayload) {
   });
 
   if (res.status === "success") {
-    invalidateCache(TAGS.brands);
+    invalidateAdminCache(TAGS.brands);
     return res;
   }
 

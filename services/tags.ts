@@ -8,7 +8,7 @@ export const TAGS = {
   ...HOME_SETTINGS_OPTIONS,
 };
 
-export async function updateUIHomeSetting(tags: string[]) {
+export async function invalidateUICache(tags: string[]) {
   try {
     const endpoint = endpoints.ui.revalidate;
 
