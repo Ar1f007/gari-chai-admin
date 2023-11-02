@@ -1,3 +1,5 @@
+import { SelectOption } from "./others";
+
 export type TCarServerPayload = {
   name: string;
   brand: {
@@ -41,7 +43,7 @@ export type TCarServerPayload = {
     thumbnailUrl: string;
   };
   price: number;
-  tags: string[];
+  tags: SelectOption<string>[];
 };
 
 export type TCarApiServerData = TCarServerPayload & {

@@ -1,28 +1,26 @@
+"use client";
+import ReactSelect from "react-select";
+
 import { Controller, useFormContext } from "react-hook-form";
-import CreatableSelect from "react-select/creatable";
-
+import { PRIMARY_COLOR } from "@/util/constants";
 import { SelectOption } from "@/types/others";
-
-const PRIMARY_COLOR = "#3C50E0";
+import { useSnapshot } from "valtio";
+import { settingsStore } from "@/store";
 
 type Props = {
-  label: string;
   name: string;
   options: ReadonlyArray<SelectOption>;
-  isMulti?: boolean;
-  maxSelectableOption?: number;
-};
+} & React.ComponentProps<typeof ReactSelect>;
 
-export const Select = ({
-  name,
-  label,
-  options,
-  isMulti = false,
-  maxSelectableOption = 3,
-}: Props) => {
+function RHFSelect(props: Props) {
+  const { name, ...rest } = props;
+
+  const settingsSnap = useSnapshot(settingsStore);
+
+  const colorMode = settingsSnap.theme;
+  console.log(colorMode);
   const {
     control,
-    register,
     formState: { errors },
   } = useFormContext();
 
@@ -33,38 +31,45 @@ export const Select = ({
       name={name}
       control={control}
       render={({ field }) => (
-        <div className="flex flex-col gap-5">
-          <CreatableSelect
-            {...field}
-            isClearable
-            options={options}
-            isMulti={isMulti}
-            isOptionDisabled={() => field?.value?.length >= maxSelectableOption}
-            placeholder={label}
-            ref={register(name).ref}
+        <>
+          <ReactSelect
             theme={(theme) => ({
               ...theme,
               colors: {
                 ...theme.colors,
                 primary: PRIMARY_COLOR,
+                primary25: colorMode === "dark" ? "#1d2a39" : "rgb(60 80 224)",
               },
             })}
             styles={{
-              control: (baseStyles) => ({
+              control: (baseStyles, state) => ({
                 ...baseStyles,
-                paddingBlock: "8px",
+                paddingBlock: "6px",
+                backgroundColor:
+                  colorMode === "dark" ? "rgb(29 42 57)" : "bg-form-input",
+                borderColor:
+                  colorMode === "dark" ? "rgb(61 77 96)" : "rgb(226 232 240)",
               }),
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+              menuList: (base) => ({
+                ...base,
+                backgroundColor: "#24303F",
+                color: "#f7f7f7",
+              }),
+              singleValue: (base) => ({ ...base, color: "text-white" }),
             }}
+            menuPortalTarget={document.body}
+            {...field}
+            {...rest}
           />
           {hasError && (
             <p className="text-danger text-sm ml-4 mt-2">
-              {isMulti
-                ? errors[name]?.message?.toString()
-                : `Add/create a ${name}`}
+              {errors[name]?.message?.toString()}
             </p>
           )}
-        </div>
+        </>
       )}
     />
   );
-};
+}
+export default RHFSelect;

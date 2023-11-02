@@ -344,7 +344,7 @@ const AddItemForm = (props: AddEditItemForm) => {
           type="number"
           value={sort}
           onChange={(e) => setSort(+e.target.value)}
-          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-[hsl(0, 0%, 80%)] dark:focus:border-primary"
         />
       </div>
 
@@ -358,7 +358,7 @@ const AddItemForm = (props: AddEditItemForm) => {
         />
 
         <button
-          className="button-base outline outline-1 outline-boxdark hover:bg-black"
+          className="rounded w-full dark:button-base outline outline-1 outline-boxdark hover:bg-black hover:text-white font-medium"
           onClick={closeModalHandler}
         >
           Cancel

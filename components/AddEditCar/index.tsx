@@ -16,6 +16,8 @@ import RHFSingleImage from "../UI/Form/RHFSingleImage";
 import InputLabel from "../UI/Form/Label";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import SubmitButton from "../UI/Form/Button";
+import RHFSelect from "../UI/Form/RHFSelect";
+import { carTagOptions } from "@/util/constants";
 
 type Props = {
   formTitle: string;
@@ -86,7 +88,7 @@ export const AddEditCarForm = (props: Props) => {
         originalUrl: res?.url ?? "",
         thumbnailUrl: res?.thumbnailUrl ?? "",
       },
-      tags: data.tags ? data.tags : [],
+      tags: data.tags ?? [],
     };
 
     return payload;
@@ -143,6 +145,19 @@ export const AddEditCarForm = (props: Props) => {
                 />
 
                 <SelectBrand />
+
+                <div className="w-full">
+                  <InputLabel
+                    required={false}
+                    label="Select Car Type"
+                  />
+                  <RHFSelect
+                    name="tags"
+                    options={carTagOptions}
+                    isMulti
+                    isClearable
+                  />
+                </div>
               </div>
 
               <div className="xl:flex xl:gap-5">

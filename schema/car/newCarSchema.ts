@@ -94,7 +94,14 @@ export const createNewCarSchema = z.object({
     .min(1, "required")
     .transform((v) => Number(v)),
 
-  tags: z.array(z.string()).optional(),
+  tags: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .optional(),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;
