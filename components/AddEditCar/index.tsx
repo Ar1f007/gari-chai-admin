@@ -36,7 +36,7 @@ export const AddEditCarForm = (props: Props) => {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting },
     reset,
   } = methods;
 
@@ -81,8 +81,8 @@ export const AddEditCarForm = (props: Props) => {
         topSpeed: data.accelerationTopSpeed,
       },
       brand: {
-        slug: data.brand.split(",")[0],
-        name: data.brand.split(",")[1],
+        slug: data.brand.value,
+        name: data.brand.label,
       },
       posterImage: {
         originalUrl: res?.url ?? "",

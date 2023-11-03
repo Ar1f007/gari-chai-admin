@@ -26,7 +26,10 @@ const TextInput = (props: TextInputProps) => {
 
   return (
     <div className="w-full">
-      <InputLabel label={label} />
+      <InputLabel
+        label={label}
+        required={required}
+      />
 
       <Controller
         control={control}
@@ -43,7 +46,9 @@ const TextInput = (props: TextInputProps) => {
         )}
       />
       {errors[name] && (
-        <p className="text-danger text-sm ml-4 mt-2">{errors[name]?.message?.toString()}</p>
+        <p className="text-danger text-sm ml-4 mt-2">
+          {errors[name]?.message?.toString()}
+        </p>
       )}
     </div>
   );

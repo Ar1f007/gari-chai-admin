@@ -1,4 +1,8 @@
 import { z } from "zod";
+import dayjs from "dayjs";
+
+import type { Dayjs } from "dayjs";
+
 import { getCurrentYear, xCharacterLong } from "@/util/other";
 
 export const engineSchemaBasic = z.object({
@@ -23,7 +27,13 @@ export const createNewCarSchema = z.object({
 
   description: z.string().optional(),
 
-  brand: z.string(),
+  brand: z.object(
+    {
+      value: z.string(),
+      label: z.string(),
+    },
+    { required_error: "required", invalid_type_error: "select a brand" }
+  ),
 
   modelNumber: z
     .string()
@@ -102,6 +112,12 @@ export const createNewCarSchema = z.object({
       })
     )
     .optional(),
+
+  publishedAt: z
+    .instanceof(dayjs as unknown as typeof Dayjs, {
+      message: "Not a valid date",
+    })
+    .default(dayjs()),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;

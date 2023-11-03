@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { TBrandSchema, getBrands } from "@/services";
 import { SelectOption } from "@/types/others";
-import { error } from "console";
 
 export const useGetBrandsOptions = (valueAsStringArray = false) => {
   const [brands, setBrands] = useState<SelectOption[]>([]);

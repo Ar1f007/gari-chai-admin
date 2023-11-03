@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { getBrands } from "@/services";
-import { Box, Text } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import { InfoIcon } from "lucide-react";
 
 const BrandsPage = async () => {
@@ -10,7 +10,7 @@ const BrandsPage = async () => {
     <>
       <Breadcrumb pageName="Brands" />
 
-      {!brands || brands.length ? (
+      {!brands || !brands.length ? (
         <div className="card w-fit flex gap-3 items-center">
           <InfoIcon />
           <Text

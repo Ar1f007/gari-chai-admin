@@ -1,4 +1,5 @@
 import { SelectOption } from "./others";
+import dayjs from "dayjs";
 
 export type TCarServerPayload = {
   name: string;
@@ -44,6 +45,7 @@ export type TCarServerPayload = {
   };
   price: number;
   tags: SelectOption<string>[];
+  publishedAt: dayjs.Dayjs;
 };
 
 export type TCarApiServerData = TCarServerPayload & {

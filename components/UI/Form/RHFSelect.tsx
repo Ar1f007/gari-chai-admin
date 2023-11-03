@@ -18,7 +18,7 @@ function RHFSelect(props: Props) {
   const settingsSnap = useSnapshot(settingsStore);
 
   const colorMode = settingsSnap.theme;
-  console.log(colorMode);
+
   const {
     control,
     formState: { errors },
@@ -57,6 +57,12 @@ function RHFSelect(props: Props) {
                 color: "#f7f7f7",
               }),
               singleValue: (base) => ({ ...base, color: "text-white" }),
+              input(base, props) {
+                return {
+                  ...base,
+                  color: colorMode === "dark" ? "#f7f7f7" : "rgb(28, 32, 36)",
+                };
+              },
             }}
             menuPortalTarget={document.body}
             {...field}
