@@ -26,9 +26,9 @@ const UpdateCacheBtn = ({
         return;
       }
 
-      toast.error(revalidated.message ?? "Something went wrong");
+      toast.error(revalidated?.message ?? "Something went wrong");
     } catch (error: any) {
-      toast.error(error.message ?? "Something went wrong");
+      toast.error(error?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
