@@ -4,6 +4,8 @@ import { getCars } from "@/services";
 const CarsPage = async () => {
   const cars = await getCars();
 
+  console.log("Cars value", cars);
+
   if (!cars) {
     throw new Error("Cars data missing");
   }

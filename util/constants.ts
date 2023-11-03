@@ -10,9 +10,9 @@ export const API_BASE_URL =
 export const API_V1_URL = API_BASE_URL + "/api/v1";
 
 export const UI_BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://gari-chai.vercel.app";
+  process.env.NODE_ENV === "production"
+    ? "https://gari-chai.vercel.app"
+    : "http://localhost:3000";
 
 export const PRIMARY_COLOR = "#3C50E0";
 

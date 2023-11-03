@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints } from "..";
+import { error } from "console";
 
 export const carSchema = z.object({
   _id: z.string(),
@@ -75,6 +76,9 @@ export async function getCars(queryParams?: string) {
         console.log(" get cars function success");
         return parsedData.data;
       }
+
+      const err = parsedData.error.errors.map((error) => error.message);
+      console.log(err);
 
       throw new Error("Cars data missing");
     }
