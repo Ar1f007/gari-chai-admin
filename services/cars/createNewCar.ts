@@ -9,8 +9,7 @@ export async function createNewCar(payload: TCarServerPayload) {
       body: payload,
     });
 
-    // update the brands list so that it has the latest updated values
-    invalidateAdminCache(TAGS.brands);
+    invalidateAdminCache([TAGS.brands, TAGS.cars]);
 
     return res;
   } catch (e) {

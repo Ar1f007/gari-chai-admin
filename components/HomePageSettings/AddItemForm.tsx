@@ -115,7 +115,7 @@ const AddItemForm = (props: AddEditItemForm) => {
   async function handleOnSuccessAction(sectionToAdd: SelectOption<string>) {
     toast.success(isEditing ? "Updated Successfully" : "Added successfully");
 
-    await invalidateAdminCache(sectionToAdd.value);
+    await invalidateAdminCache([sectionToAdd.value]);
 
     closeModalHandler();
 
@@ -190,7 +190,7 @@ const AddItemForm = (props: AddEditItemForm) => {
         handleOnSuccessAction(sectionToAdd);
 
         if (sectionToAdd.value !== props.sectionToAdd.value) {
-          await invalidateAdminCache(props.pageSlug);
+          await invalidateAdminCache([props.pageSlug]);
         }
       }
     } catch (error) {

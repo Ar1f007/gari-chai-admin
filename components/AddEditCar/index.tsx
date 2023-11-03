@@ -9,8 +9,7 @@ import TextInput from "../UI/Form/TextInput";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
 import { TCarServerPayload } from "@/types/car";
-import { TAGS, createNewCar, invalidateAdminCache } from "@/services";
-import { useEffect, useState } from "react";
+import { createNewCar } from "@/services";
 import SelectBrand from "./SelectBrand";
 import RHFSingleImage from "../UI/Form/RHFSingleImage";
 import InputLabel from "../UI/Form/Label";
@@ -106,7 +105,6 @@ export const AddEditCarForm = (props: Props) => {
 
     if (res.status === "success") {
       toast.success("Added successfully");
-      invalidateAdminCache(TAGS.cars);
 
       reset();
 

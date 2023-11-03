@@ -17,7 +17,7 @@ export async function addBrandName(payload: TBrandPayload) {
   });
 
   if (res.status === "success") {
-    invalidateAdminCache(TAGS.brands);
+    invalidateAdminCache([TAGS.brands]);
     return res;
   }
 

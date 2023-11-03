@@ -35,7 +35,7 @@ const DropdownButton = ({ item, pageSlug }: Props) => {
     }
 
     if (res.status === "success") {
-      invalidateAdminCache(item.sectionName);
+      invalidateAdminCache([item.sectionName]);
 
       invalidateUICache([item.sectionName]);
 

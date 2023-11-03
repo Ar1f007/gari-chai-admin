@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { ReqMethod, endpoints, invalidateAdminCache } from "..";
+import { ReqMethod, endpoints } from "..";
 
 type DeletePayload = {
   itemId: string;
