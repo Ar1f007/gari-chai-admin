@@ -24,6 +24,7 @@ export const useGetBrandsOptions = (valueAsStringArray = false) => {
       .catch(
         (e) => toast.error((e as any).message) ?? "Could not get brands list"
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return brands;
