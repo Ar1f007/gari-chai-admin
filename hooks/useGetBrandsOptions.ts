@@ -1,31 +1,26 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { TBrandSchema, getBrands } from "@/services";
-import { SelectOption } from "@/types/others";
 
-export const useGetBrandsOptions = (valueAsStringArray = false) => {
-  const [brands, setBrands] = useState<SelectOption[]>([]);
-
-  function getFormattedBrandOptions(brands: TBrandSchema[]) {
-    return brands.map((brand) => ({
-      value: valueAsStringArray ? [brand.slug, brand.name] : brand.slug,
-      label: brand.name,
-    }));
-  }
+export const useGetBrandsOptions = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [brands, setBrands] = useState<TBrandSchema[]>([]);
 
   useEffect(() => {
-    getBrands()
-      .then((data) => {
-        const brandOptions = data ? getFormattedBrandOptions(data) : [];
-        setBrands(brandOptions);
-      })
-      .catch(
-        (e) => toast.error((e as any).message) ?? "Could not get brands list"
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getBrands();
+        setBrands(data ? data : []);
+      } catch (e) {
+        toast.error((e as any).message) ?? "Could not get brands list";
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  return brands;
+  return { brands, isLoading };
 };

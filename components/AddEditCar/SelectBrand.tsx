@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { SelectOption } from "@/types/others";
 import InputLabel from "../UI/Form/Label";
-import RHFSelect from "../UI/Form/RHFSelect";
+import { RHFSelect } from "../UI/Form/RHFSelect";
 import { SearchParams } from "@/util/constants";
 
 const SelectBrand = () => {

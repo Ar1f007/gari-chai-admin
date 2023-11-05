@@ -15,7 +15,7 @@ import RHFSingleImage from "../UI/Form/RHFSingleImage";
 import InputLabel from "../UI/Form/Label";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import SubmitButton from "../UI/Form/Button";
-import RHFSelect from "../UI/Form/RHFSelect";
+import { RHFSelect } from "../UI/Form/RHFSelect";
 import { carTagOptions } from "@/util/constants";
 
 type Props = {
@@ -140,6 +140,7 @@ export const AddEditCarForm = (props: Props) => {
                   name="name"
                   placeholder="Name of the car"
                   required
+                  autoComplete="off"
                 />
 
                 <SelectBrand />

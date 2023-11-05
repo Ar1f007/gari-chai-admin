@@ -1,18 +1,24 @@
 "use client";
-import ReactSelect from "react-select";
+import ReactSelect, { GroupBase, Props } from "react-select";
 
 import { Controller, useFormContext } from "react-hook-form";
 import { PRIMARY_COLOR } from "@/util/constants";
-import { SelectOption } from "@/types/others";
 import { useSnapshot } from "valtio";
 import { settingsStore } from "@/store";
 
-type Props = {
+type SelectProps<
+  Option,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = Props<Option, IsMulti, Group> & {
   name: string;
-  options: ReadonlyArray<SelectOption>;
-} & React.ComponentProps<typeof ReactSelect>;
+};
 
-function RHFSelect(props: Props) {
+export function RHFSelect<
+  Option,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+>(props: SelectProps<Option, IsMulti, Group>) {
   const { name, ...rest } = props;
 
   const settingsSnap = useSnapshot(settingsStore);
@@ -63,13 +69,19 @@ function RHFSelect(props: Props) {
                   color: colorMode === "dark" ? "#f7f7f7" : "rgb(28, 32, 36)",
                 };
               },
+              multiValueRemove(base, props) {
+                return {
+                  ...base,
+                  color: colorMode === "dark" ? "rgba(29 42 57)" : "",
+                };
+              },
             }}
             menuPortalTarget={document.body}
             {...field}
             {...rest}
           />
           {hasError && (
-            <p className="text-danger text-sm ml-4 mt-2">
+            <p className="text-danger text-sm ml-4">
               {errors[name]?.message?.toString()}
             </p>
           )}
@@ -78,4 +90,3 @@ function RHFSelect(props: Props) {
     />
   );
 }
-export default RHFSelect;

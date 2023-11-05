@@ -8,6 +8,7 @@ import {
 import { SelectOption } from "@/types/others";
 import {
   HOME_SETTINGS_OPTIONS,
+  PLACEHOLDER_IMAGE,
   PRIMARY_COLOR,
   carCategoryOptions,
   carSubCategoryOptions,
@@ -23,6 +24,7 @@ import Image from "next/image";
 import { addToHomePageSettings } from "@/services/home/addToHomePageSettings";
 import Button from "../UI/Form/Button";
 import { updateHomeSettingItem } from "@/services/home";
+import { getFormattedBrandOptions } from "@/util";
 
 type CarOption = {
   value: TCarSchema;
@@ -90,7 +92,7 @@ const AddItemForm = (props: AddEditItemForm) => {
 
   const [loading, setLoading] = useState(false);
 
-  const brandOptions = useGetBrandsOptions();
+  const { brands: brandOptions, isLoading } = useGetBrandsOptions();
 
   async function fetchCars(query: string) {
     try {
@@ -227,7 +229,8 @@ const AddItemForm = (props: AddEditItemForm) => {
           isClearable
           isSearchable
           name="brand"
-          options={brandOptions}
+          options={getFormattedBrandOptions(brandOptions)}
+          isLoading={isLoading}
           theme={(theme) => ({
             ...theme,
             colors: {
@@ -262,7 +265,7 @@ const AddItemForm = (props: AddEditItemForm) => {
         formatOptionLabel={(car) => (
           <div className="flex gap-3 items-center">
             <Image
-              src={car.image ?? "/images/logo/logo.svg"}
+              src={car.image ?? PLACEHOLDER_IMAGE}
               alt="car"
               width={60}
               height={60}
