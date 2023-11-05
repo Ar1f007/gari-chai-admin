@@ -52,3 +52,54 @@ export async function getBrands(queryParams?: string) {
     return undefined;
   }
 }
+
+/**=====================================================================
+ * Get popular brands
+ */
+
+/**
+ * Single Brand response from `Home Setting table`
+ */
+export const homeSettingApiBrandSchemaSingleInstance = z.object({
+  _id: z.string(),
+  sectionName: z.string(),
+  sort: z.number(),
+  content: brandSchema,
+  tags: z.array(z.string()),
+  contentId: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type THomeSettingApiBrandSchemaSingleInstance = z.infer<
+  typeof homeSettingApiBrandSchemaSingleInstance
+>;
+/**
+ * End Brands schema - Home page
+ */
+
+export async function getPopularBrands() {
+  try {
+    const url = endpoints.api.homeSettings.getPopularBrands;
+
+    const res = await apiFetch(url, {
+      method: ReqMethod.GET,
+      cache: "no-store",
+    });
+
+    if (res.status === "success") {
+      const parsedData = z
+        .array(homeSettingApiBrandSchemaSingleInstance)
+        .safeParse(res.data);
+
+      if (parsedData.success) {
+        return parsedData.data;
+      }
+      throw new Error(`Error: Popular brands data missing`);
+    }
+
+    return undefined;
+  } catch (e) {
+    return undefined;
+  }
+}

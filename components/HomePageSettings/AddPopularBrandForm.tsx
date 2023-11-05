@@ -61,8 +61,6 @@ const AddPopularBrandForm = (props: Props) => {
       sort: 0,
     }));
 
-    await addPopularBrandsToHomePageSettings(brands);
-
     try {
       const res = await addPopularBrandsToHomePageSettings(brands);
 
@@ -122,10 +120,7 @@ const AddPopularBrandForm = (props: Props) => {
 
           <div className="flex gap-3">
             <Button
-              // title={isEditing ? "Update" : "Add"}
               loading={isLoading}
-              // loadingText={isEditing ? "Updating..." : "Adding..."}
-              // onClick={isEditing ? handleOnUpdateClick : handleOnAddClick}
               type="submit"
               title="Add To Popular"
               classes="basis-2/4"
@@ -134,6 +129,7 @@ const AddPopularBrandForm = (props: Props) => {
             <button
               className="rounded w-full dark:button-base outline outline-1 outline-boxdark hover:bg-black hover:text-white font-medium"
               onClick={closeModalHandler}
+              type="button"
             >
               Cancel
             </button>

@@ -9,6 +9,7 @@ export const endpoints = {
       add: "/home-settings",
       get: "/home-settings",
       addPopularBrands: "/home-settings/popular-brands",
+      getPopularBrands: "/home-settings/popular-brands",
     },
     brand: {
       createBrand: "/brands",
