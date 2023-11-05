@@ -4,12 +4,12 @@ import { TBrand } from "@/types/brand";
 import { endpoints, invalidateAdminCache, ReqMethod, TAGS } from "..";
 import { ImagePayload } from "@/types/others";
 
-export type TBrandPayload = {
+export type TAddNewBrandPayload = {
   name: string;
   image: ImagePayload;
 };
 
-export async function addBrandName(payload: TBrandPayload) {
+export async function addBrandName(payload: TAddNewBrandPayload) {
   const res = await apiFetch<TBrand>(endpoints.api.brand.createBrand, {
     method: ReqMethod.POST,
     body: payload,

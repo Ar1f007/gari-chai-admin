@@ -1,11 +1,10 @@
-import { HOME_SETTINGS_OPTIONS, UI_BASE_URL } from "@/util/constants";
+import { UI_BASE_URL } from "@/util/constants";
 import { ReqMethod, endpoints } from ".";
 
 export const TAGS = {
   brands: "brands",
   cars: "cars",
   allHomeSettings: "home-settings",
-  ...HOME_SETTINGS_OPTIONS,
 };
 
 export async function invalidateUICache(tags: string[]) {

@@ -4,6 +4,7 @@ import { Car } from "@/components/Cards/Car";
 import AddNewButton from "@/components/HomePageSettings/AddNewButton";
 import DropdownButton from "@/components/HomePageSettings/DropdownButton";
 import UpdateCacheBtn from "@/components/UpdateCache/UpdateCacheBtn";
+import { TCarSchema } from "@/services";
 import {
   THomeSettingApiSchema,
   getSettingContentByPageSlug,
@@ -66,7 +67,7 @@ const HomepageSettingsSectionPage = async (props: SettingTypeProps) => {
               key={car._id}
               className="flex flex-col gap-5"
             >
-              <Car car={car.content} />
+              <Car car={car.content as TCarSchema} />
               <DropdownButton
                 item={car}
                 pageSlug={pageSlug}

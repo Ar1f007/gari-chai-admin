@@ -1,7 +1,8 @@
 import { SelectOption } from "./others";
 import dayjs from "dayjs";
 
-export type TCarServerPayload = {
+// TODO: FIND OUT WHY IT IS USED, IF POSSIBLE REMOVE IT
+export type TCarCreatePayload = {
   name: string;
   brand: {
     name: string;
@@ -46,10 +47,4 @@ export type TCarServerPayload = {
   price: number;
   tags: SelectOption<string>[];
   publishedAt: dayjs.Dayjs;
-};
-
-export type TCarApiServerData = TCarServerPayload & {
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
 };

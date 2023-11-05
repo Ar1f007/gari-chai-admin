@@ -8,7 +8,7 @@ import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/newCarSchema";
 import Textarea from "../UI/Form/Textarea";
-import { TCarServerPayload } from "@/types/car";
+import { TCarCreatePayload } from "@/types/car";
 import { createNewCar } from "@/services";
 import SelectBrand from "./SelectBrand";
 import RHFSingleImage from "../UI/Form/RHFSingleImage";
@@ -58,7 +58,7 @@ export const AddEditCarForm = (props: Props) => {
       "tags",
     ]);
 
-    const payload: TCarServerPayload = {
+    const payload: TCarCreatePayload = {
       ...extractedPayload,
       engine: {
         type: data.engineType,

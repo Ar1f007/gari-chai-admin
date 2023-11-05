@@ -8,6 +8,7 @@ export const endpoints = {
       baseUrl: "/home-settings",
       add: "/home-settings",
       get: "/home-settings",
+      addPopularBrands: "/home-settings/popular-brands",
     },
     brand: {
       createBrand: "/brands",

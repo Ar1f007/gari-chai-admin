@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
-import { TBrandPayload, addBrandName } from "@/services";
+import { TAddNewBrandPayload, addBrandName } from "@/services";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { mapValidationErrors } from "@/util/mapValidationError";
 
@@ -47,7 +47,7 @@ const AddEditBrand = (props: Props) => {
       return;
     }
 
-    const payload: TBrandPayload = {
+    const payload: TAddNewBrandPayload = {
       name: data.name,
       image: {
         originalUrl: imgUrls.url,

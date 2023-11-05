@@ -9,15 +9,37 @@ export type TBrand = {
   image?: ImagePayload;
 };
 
+// POPULAR BRANDS
 /**
  * Schema and type that is used to add popular brands
  */
-// POPULAR BRANDS
-export const PopularBrandFormSchema = z.object({
+export const popularBrandFormSchema = z.object({
   popularBrands: z.array(z.object({ value: brandSchema, label: z.string() }), {
     required_error: "Please choose brand",
   }),
 });
 
-export type TPopularBrandFormSchema = z.infer<typeof PopularBrandFormSchema>;
+export type TPopularBrandFormPayload = z.infer<typeof popularBrandFormSchema>;
+
+/**
+ * Schema and type that is used to edit popular brands
+ */
+
+export const popularBrandEditFormSchema = z.object({
+  brand: z.object(
+    {
+      value: brandSchema,
+      label: z.string(),
+    },
+    {
+      required_error: "Please choose brand",
+    }
+  ),
+  sort: z.coerce.number(),
+});
+
+export type TPopularBrandEditFormPayload = z.infer<
+  typeof popularBrandEditFormSchema
+>;
+
 // POPULAR BRANDS

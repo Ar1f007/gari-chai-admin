@@ -1,8 +1,8 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { TCarServerPayload } from "@/types/car";
+import { TCarCreatePayload } from "@/types/car";
 import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
 
-export async function createNewCar(payload: TCarServerPayload) {
+export async function createNewCar(payload: TCarCreatePayload) {
   try {
     const res = await apiFetch(endpoints.api.cars.createNewCar, {
       method: ReqMethod.POST,

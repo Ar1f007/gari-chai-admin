@@ -5,6 +5,7 @@ import { THomeSettingApiSchema } from "@/services/home";
 import Modal from "../Dialog/Dialog";
 import AddItemForm from "./AddItemForm";
 import { carCategoryOptions } from "@/util/constants";
+import { TCarSchema } from "@/services";
 
 type EditItemProps = {
   isOpen: boolean;
@@ -18,25 +19,25 @@ const EditItemForm = ({
   handleClose,
   pageSlug,
 }: EditItemProps) => {
+  const carContent = item.content as TCarSchema;
+
   function findLabel() {
     const option = carCategoryOptions.find(
       (option) => option.value === item.tags[0]
     );
 
-    console.log("000", option);
-
     return option ? option.value : "";
   }
 
   const brand = {
-    label: item.content.brand.name,
-    value: item.content.brand.slug,
+    label: carContent.brand.name,
+    value: carContent.brand.slug,
   };
 
   const car = {
-    value: item.content,
-    label: item.content.name,
-    image: item.content.posterImage.thumbnailUrl,
+    value: carContent,
+    label: carContent.name,
+    image: carContent.posterImage.thumbnailUrl,
   };
 
   const sectionToAdd = {

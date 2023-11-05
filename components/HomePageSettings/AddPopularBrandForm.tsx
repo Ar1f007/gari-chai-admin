@@ -4,13 +4,22 @@ import { useEffect, useState } from "react";
 import { FormProvider } from "../UI/Form/FormProvider";
 import { RHFSelect } from "../UI/Form/RHFSelect";
 import { useForm } from "react-hook-form";
-import { TBrandSchema } from "@/services";
+import {
+  TBrandSchema,
+  invalidateAdminCache,
+  invalidateUICache,
+} from "@/services";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PopularBrandFormSchema, TPopularBrandFormSchema } from "@/types/brand";
+import {
+  popularBrandFormSchema,
+  TPopularBrandFormPayload,
+} from "@/types/brand";
 import { SelectOption } from "@/types/others";
 import Image from "next/image";
-import { PLACEHOLDER_IMAGE } from "@/util/constants";
+import { HOME_SETTINGS_OPTIONS, PLACEHOLDER_IMAGE } from "@/util/constants";
 import { getFormattedBrandOptions } from "@/util";
+import { addPopularBrandsToHomePageSettings } from "@/services/home";
+import { toast } from "sonner";
 
 type Props = {
   closeModalHandler: () => void;
@@ -24,12 +33,50 @@ const AddPopularBrandForm = (props: Props) => {
 
   const { brands, isLoading } = useGetBrandsOptions();
 
-  const formHandler = useForm<TPopularBrandFormSchema>({
-    resolver: zodResolver(PopularBrandFormSchema),
+  const formHandler = useForm<TPopularBrandFormPayload>({
+    resolver: zodResolver(popularBrandFormSchema),
   });
 
-  async function onSubmit(data: TPopularBrandFormSchema) {
-    //
+  async function handleOnSuccessAction(sectionToAdd: string) {
+    let isEditing = false;
+    toast.success(isEditing ? "Updated Successfully" : "Added successfully");
+
+    await invalidateAdminCache([sectionToAdd]);
+
+    closeModalHandler();
+
+    const revalidated = await invalidateUICache([sectionToAdd]);
+
+    if (!revalidated) {
+      toast.error(`Could not update the UI of main website: ${sectionToAdd}`);
+    }
+  }
+
+  async function onSubmit(data: TPopularBrandFormPayload) {
+    const brands = data.popularBrands.map(({ value }) => ({
+      contentId: value._id,
+      content: value,
+      sectionName: HOME_SETTINGS_OPTIONS.popularBrands,
+      tags: [],
+      sort: 0,
+    }));
+
+    await addPopularBrandsToHomePageSettings(brands);
+
+    try {
+      const res = await addPopularBrandsToHomePageSettings(brands);
+
+      if (!res || res.status === "error" || res.status === "fail") {
+        toast.error("Failed to add to the popular brands section");
+        return;
+      }
+
+      if (res.status === "success") {
+        handleOnSuccessAction(HOME_SETTINGS_OPTIONS.popularBrands);
+      }
+    } catch (error) {
+      toast.error("something went wrong. Please try again");
+    }
   }
 
   useEffect(() => {

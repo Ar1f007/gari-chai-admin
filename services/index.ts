@@ -5,3 +5,4 @@ export * from "./tags";
 
 export * from "./brands";
 export * from "./cars";
+export * from "./home";

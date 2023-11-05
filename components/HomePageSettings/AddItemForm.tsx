@@ -184,7 +184,7 @@ const AddItemForm = (props: AddEditItemForm) => {
       });
 
       if (!res || res.status === "error" || res.status === "fail") {
-        toast.error("Failed to add to the " + sectionToAdd);
+        toast.error("Failed to update " + props.car.label);
         return;
       }
 

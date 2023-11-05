@@ -4,13 +4,14 @@ import { invalidateAdminCache, invalidateUICache } from "@/services";
 import { THomeSettingApiSchema, deleteHomeSettingItem } from "@/services/home";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 import { MoreVerticalIcon } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import EditItemForm from "./EditItemForm";
 
 type Props = {
   item: THomeSettingApiSchema;
   pageSlug: string;
+  children?: ReactNode;
 };
 const DropdownButton = ({ item, pageSlug }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
