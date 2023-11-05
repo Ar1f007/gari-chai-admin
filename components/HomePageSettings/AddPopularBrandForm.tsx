@@ -31,7 +31,9 @@ const AddPopularBrandForm = (props: Props) => {
   const [formattedBrandList, setFormattedBrandList] =
     useState<SelectOption<TBrandSchema>[]>();
 
-  const { brands, isLoading } = useGetBrandsOptions();
+  const { brands, isLoading } = useGetBrandsOptions({
+    filterOutPopularBrands: true,
+  });
 
   const formHandler = useForm<TPopularBrandFormPayload>({
     resolver: zodResolver(popularBrandFormSchema),
