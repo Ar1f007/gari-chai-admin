@@ -1,4 +1,10 @@
-import { Car, LayoutList, Dice1, DatabaseZap } from "lucide-react";
+import {
+  Car,
+  LayoutList,
+  Dice1,
+  DatabaseZap,
+  SettingsIcon,
+} from "lucide-react";
 import { HOME_SETTINGS_OPTIONS } from "./constants";
 
 const homepageSettingsLinks = [
@@ -84,11 +90,18 @@ const adminNavigation = [
     icon: LayoutList,
     links: homepageSettingsLinks,
   },
+
   {
     isGroup: true,
     groupName: "Cache Control",
     icon: DatabaseZap,
     links: cacheLinks,
+  },
+  {
+    isGroup: false,
+    title: "Settings",
+    href: "/settings",
+    icon: SettingsIcon,
   },
 ];
 

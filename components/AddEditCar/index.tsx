@@ -296,7 +296,7 @@ export const AddEditCarForm = (props: Props) => {
                 <TextInput
                   name="engineDisplacement"
                   label="Engine displacement"
-                  placeholder="eg. 2.0"
+                  placeholder="eg. 800cc"
                   type="number"
                   required={false}
                 />

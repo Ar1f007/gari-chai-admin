@@ -8,7 +8,11 @@ import InputLabel from "../UI/Form/Label";
 import { RHFSelect } from "../UI/Form/RHFSelect";
 import { SearchParams } from "@/util/constants";
 
-const SelectBrand = () => {
+type Props = {
+  label?: string;
+};
+
+const SelectBrand = ({ label = "Select Brand" }: Props) => {
   const [loading, setLoading] = useState(false);
   const [brands, setBrands] = useState<SelectOption[]>([]);
 
@@ -39,7 +43,7 @@ const SelectBrand = () => {
 
   return (
     <div className="w-full">
-      <InputLabel label="Select Brand" />
+      <InputLabel label={label} />
       <RHFSelect
         name="brand"
         options={brands}

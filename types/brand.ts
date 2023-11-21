@@ -9,6 +9,18 @@ export type TBrand = {
   image?: ImagePayload;
 };
 
+export type TBrandModel = {
+  _id: string;
+  name: string;
+  slug: string;
+  brandSlug: string;
+  brand: string; // brand id stored in db
+  createdAt: string;
+  updatedAt: string;
+  carCollectionCount: number;
+  upcoming: boolean;
+  image?: ImagePayload;
+};
 // POPULAR BRANDS
 /**
  * Schema and type that is used to add popular brands

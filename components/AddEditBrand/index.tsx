@@ -7,13 +7,17 @@ import { toast } from "sonner";
 
 import { FormProvider } from "../UI/Form/FormProvider";
 import TextInput from "../UI/Form/TextInput";
-import { TAddNewBrandPayload, addBrandName } from "@/services";
+import {
+  TAGS,
+  TAddNewBrandPayload,
+  addBrandName,
+  invalidateAdminCache,
+} from "@/services";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { mapValidationErrors } from "@/util/mapValidationError";
 
 import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
 import RHFSingleImage from "../UI/Form/RHFSingleImage";
-import LoaderWithText from "../loaders/WithText";
 import SubmitButton from "../UI/Form/Button";
 
 type Props = {
@@ -57,9 +61,14 @@ const AddEditBrand = (props: Props) => {
 
     const res = await addBrandName(payload);
 
-    if (!res) return;
+    if (!res) {
+      toast.error("Something went wrong");
+      return;
+    }
 
     if (res.status === "success") {
+      invalidateAdminCache([TAGS.brands]);
+
       toast.success("Brand added successfully");
 
       return;
@@ -69,6 +78,8 @@ const AddEditBrand = (props: Props) => {
       mapValidationErrors(res.errors, methods);
       return;
     }
+
+    toast.error(res.message ?? "Something went wrong");
   }
 
   useEffect(() => {

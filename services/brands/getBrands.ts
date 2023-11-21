@@ -1,10 +1,8 @@
 import { z } from "zod";
-import { toast } from "sonner";
 
 import { apiFetch } from "@/lib/apiFetch";
 import { endpoints, ReqMethod, TAGS } from "..";
 import { imageSchema } from "@/schema/others";
-import { TBrand } from "@/types/brand";
 
 /**=====================
  * Schema
@@ -35,7 +33,7 @@ export async function getBrands(queryParams?: string) {
 
       next: {
         tags: [TAGS.brands],
-        revalidate: 0,
+        revalidate: 3600,
       },
     });
 

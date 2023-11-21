@@ -1,7 +1,6 @@
-import { toast } from "sonner";
 import { apiFetch } from "@/lib/apiFetch";
 import { TBrand } from "@/types/brand";
-import { endpoints, invalidateAdminCache, ReqMethod, TAGS } from "..";
+import { endpoints, ReqMethod } from "..";
 import { ImagePayload } from "@/types/others";
 
 export type TAddNewBrandPayload = {
@@ -10,20 +9,14 @@ export type TAddNewBrandPayload = {
 };
 
 export async function addBrandName(payload: TAddNewBrandPayload) {
-  const res = await apiFetch<TBrand>(endpoints.api.brand.createBrand, {
-    method: ReqMethod.POST,
-    body: payload,
-  });
+  try {
+    const res = await apiFetch<TBrand>(endpoints.api.brand.createBrand, {
+      method: ReqMethod.POST,
+      body: payload,
+    });
 
-  if (res.status === "success") {
-    invalidateAdminCache([TAGS.brands]);
     return res;
+  } catch (error) {
+    return undefined;
   }
-
-  if (res.status === "validationError") {
-    return res;
-  }
-
-  toast.error(res.message);
-  return undefined;
 }

@@ -14,10 +14,14 @@ export const endpoints = {
     brand: {
       createBrand: "/brands",
       getBrands: "/brands",
+
+      createModel: "/models",
+      getBrandModels: "/models",
     },
     cars: {
       createNewCar: "/cars",
       getCars: "/cars",
+      createCarBodyType: "/body-types",
     },
   },
   admin: {},
