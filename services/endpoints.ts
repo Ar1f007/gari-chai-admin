@@ -21,7 +21,7 @@ export const endpoints = {
     cars: {
       createNewCar: "/cars",
       getCars: "/cars",
-      createCarBodyType: "/body-types",
+      createCarBodyType: "/car-info/body-types",
     },
   },
   admin: {},

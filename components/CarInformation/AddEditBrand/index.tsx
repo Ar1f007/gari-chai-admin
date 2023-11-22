@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { FormProvider } from "../UI/Form/FormProvider";
-import TextInput from "../UI/Form/TextInput";
+import { FormProvider } from "../../UI/Form/FormProvider";
+import TextInput from "../../UI/Form/TextInput";
 import {
   TAGS,
   TAddNewBrandPayload,
@@ -17,8 +17,8 @@ import { useUploadImage } from "@/hooks/useUploadImage";
 import { mapValidationErrors } from "@/util/mapValidationError";
 
 import { BrandInputs, createBrandSchema } from "@/schema/client/brand";
-import RHFSingleImage from "../UI/Form/RHFSingleImage";
-import SubmitButton from "../UI/Form/Button";
+import RHFSingleImage from "../../UI/Form/RHFSingleImage";
+import SubmitButton from "../../UI/Form/Button";
 
 type Props = {
   formTitle: string;

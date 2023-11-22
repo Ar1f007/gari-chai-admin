@@ -1,7 +1,8 @@
 "use client";
 
-import AddEditModel from "@/components/Model/AddModel";
-import AddEditVehicleType from "@/components/VehicleType/AddEditForm";
+import AddEditBrand from "@/components/CarInformation/AddEditBrand";
+import AddEditModel from "@/components/CarInformation/Model/AddModel";
+import AddEditVehicleType from "@/components/CarInformation/VehicleType/AddEditForm";
 import { Button } from "@radix-ui/themes";
 import { useState } from "react";
 
@@ -19,8 +20,8 @@ const Settings = () => {
   }
 
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-5">
+    <section className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+      <div className="flex flex-col gap-5">
         <Button
           size={"4"}
           onClick={() => handleClick("brand")}
@@ -39,19 +40,14 @@ const Settings = () => {
         >
           Add Body Type
         </Button>
-        <Button
-          size={"4"}
-          onClick={() => handleClick("fuel")}
-        >
-          Add Fuel Type
-        </Button>
       </div>
 
-      {selectedBtn == "model" && <AddEditModel onSuccessCb={hideForm} />}
-      {selectedBtn == "bodyType" && (
-        <AddEditVehicleType onSuccessCb={hideForm} />
-      )}
-    </>
+      <div className="col-span-3 lg:ml-15">
+        {selectedBtn == "brand" && <AddEditBrand formTitle="Add Brand" />}
+        {selectedBtn == "model" && <AddEditModel onClose={hideForm} />}
+        {selectedBtn == "bodyType" && <AddEditVehicleType onClose={hideForm} />}
+      </div>
+    </section>
   );
 };
 

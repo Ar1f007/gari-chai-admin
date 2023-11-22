@@ -1,4 +1,4 @@
-import AddEditBrand from "@/components/AddEditBrand";
+import AddEditBrand from "@/components/CarInformation/AddEditBrand";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 const AddBrandPage = () => {

@@ -4,18 +4,18 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import TextInput from "../UI/Form/TextInput";
-import SubmitButton from "../UI/Form/Button";
-import SelectBrand from "../AddEditCar/SelectBrand";
+import TextInput from "../../UI/Form/TextInput";
+import SelectBrand from "../../AddEditCar/SelectBrand";
 
-import { FormProvider } from "../UI/Form/FormProvider";
+import { FormProvider } from "../../UI/Form/FormProvider";
 import {
   TAddNewBrandModelPayload,
   addBrandModel,
 } from "@/services/brands/addBrandModel";
 import { toast } from "sonner";
 import { mapValidationErrors } from "@/util/mapValidationError";
-import RHFSwitch from "../UI/Form/RHFSwitch";
+import RHFSwitch from "../../UI/Form/RHFSwitch";
+import Button from "../../UI/Form/Button";
 
 const schema = z.object({
   brand: z.object(
@@ -32,10 +32,10 @@ const schema = z.object({
 type FormInputs = z.infer<typeof schema>;
 
 type AddEditModelProps = {
-  onSuccessCb?: () => void;
+  onClose: () => void;
 };
 
-const AddEditModel = ({ onSuccessCb }: AddEditModelProps) => {
+const AddEditModel = ({ onClose }: AddEditModelProps) => {
   const methods = useForm<FormInputs>({
     resolver: zodResolver(schema),
   });
@@ -62,7 +62,7 @@ const AddEditModel = ({ onSuccessCb }: AddEditModelProps) => {
     if (res.status === "success") {
       toast.success("Added successfully");
 
-      onSuccessCb?.();
+      onClose();
       return;
     }
 
@@ -70,7 +70,7 @@ const AddEditModel = ({ onSuccessCb }: AddEditModelProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-9 max-w-md mt-20">
+    <div className="flex flex-col gap-9 max-w-md">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
           <h3 className="font-medium text-black dark:text-white">Add Model</h3>
@@ -91,15 +91,26 @@ const AddEditModel = ({ onSuccessCb }: AddEditModelProps) => {
             <RHFSwitch
               variant="two"
               name="upcoming"
-              checkedText="Marked as upcoming"
-              unCheckedText="Check, if it is an upcoming model"
+              checkedText="Marked as upcoming model"
+              unCheckedText="Marked as existing model"
             />
 
-            <SubmitButton
-              type="submit"
-              loading={methods.formState.isSubmitting}
-              title="Submit"
-            />
+            <div className="flex gap-3">
+              <Button
+                loading={methods.formState.isSubmitting}
+                type="submit"
+                title="Add"
+                classes="basis-2/4"
+              />
+
+              <button
+                className="rounded w-full dark:button-base outline outline-1 outline-boxdark hover:bg-black hover:text-white font-medium"
+                onClick={onClose}
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </FormProvider>
       </div>
