@@ -75,8 +75,6 @@ export async function getCars(queryParams?: string) {
         return parsedData.data;
       }
 
-      console.log("+++++++++++++++++++++++++", parsedData.error.errors);
-
       throw new Error("Cars data missing");
     }
 

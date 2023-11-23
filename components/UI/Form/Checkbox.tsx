@@ -5,7 +5,6 @@ type Props = {
   checkboxText?: string;
 };
 const Checkbox = (props: Props) => {
-  console.log("render");
   const { checkboxText } = props;
 
   const [isChecked, setIsChecked] = useState<boolean>(false);

@@ -35,6 +35,7 @@ export async function getSettingContentByPageSlug(slug: string) {
       method: ReqMethod.GET,
       next: {
         tags: [TAGS.allHomeSettings, slug],
+        revalidate: 24 * 3600,
       },
     });
 
@@ -53,6 +54,6 @@ export async function getSettingContentByPageSlug(slug: string) {
 
     return undefined;
   } catch (error) {
-    return undefined;
+    return (error as Error)?.message ?? undefined;
   }
 }

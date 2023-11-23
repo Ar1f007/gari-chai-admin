@@ -24,9 +24,9 @@ export const Car = ({ car, children }: CarProps) => {
       <div className="flex items-center justify-between flex-wrap gap-3 my-3">
         <h3 className="font-semibold">{car.name}</h3>
 
-        <p className="py-1 px-4 rounded-full bg-meta-5 w-fit text-sm capitalize text-white">
-          {car.brand.name}
-        </p>
+        {/* <p className="py-1 px-4 rounded-full bg-meta-5 w-fit text-sm capitalize text-white">
+          {car.tags.}
+        </p> */}
       </div>
 
       {children}

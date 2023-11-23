@@ -103,7 +103,6 @@ export const AddEditCarForm = (props: Props) => {
   }
 
   async function onSubmit(data: NewCarInputs) {
-    console.log(data);
     const payload = await getFormattedPayload(data);
 
     const res = await createNewCar(payload);
