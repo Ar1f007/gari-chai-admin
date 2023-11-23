@@ -11,9 +11,11 @@ import { imageSchema } from "@/schema/others";
 export const brandSchema = z.object({
   _id: z.string(),
   name: z.string(),
-  createdAt: z.string(),
   slug: z.string(),
+  carCollectionCount: z.number(),
   image: imageSchema.optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export const brandsSchema = z.array(brandSchema);

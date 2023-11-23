@@ -9,7 +9,7 @@ import { useState } from "react";
 type Selected = "brand" | "model" | "bodyType" | "fuel";
 
 const Settings = () => {
-  const [selectedBtn, setSelectedBtn] = useState<Selected | null>(null);
+  const [selectedBtn, setSelectedBtn] = useState<Selected | null>("brand");
 
   function handleClick(val: Selected) {
     setSelectedBtn(val);

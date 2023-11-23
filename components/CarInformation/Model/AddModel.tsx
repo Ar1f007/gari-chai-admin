@@ -43,7 +43,7 @@ const AddEditModel = ({ onClose }: AddEditModelProps) => {
   async function onSubmit(data: FormInputs) {
     const payload: TAddNewBrandModelPayload = {
       name: data.model,
-      brandSlug: data.brand.value,
+      brandId: data.brand.value,
       upcoming: data.upcoming,
     };
 

@@ -17,6 +17,7 @@ import { useUploadImage } from "@/hooks/useUploadImage";
 import SubmitButton from "../UI/Form/Button";
 import { RHFSelect } from "../UI/Form/RHFSelect";
 import { carTagOptions } from "@/util/constants";
+import SelectBodyType from "./SelectBodyType";
 
 type Props = {
   formTitle: string;
@@ -56,6 +57,7 @@ export const AddEditCarForm = (props: Props) => {
       "brand",
       "posterImage",
       "tags",
+      "bodyStyle",
     ]);
 
     const payload: TCarCreatePayload = {
@@ -79,21 +81,20 @@ export const AddEditCarForm = (props: Props) => {
         zeroTo60: data.acceleration0To60,
         topSpeed: data.accelerationTopSpeed,
       },
-      brand: {
-        slug: data.brand.value,
-        name: data.brand.label,
-      },
+      brand: data.brand.value,
       posterImage: {
         originalUrl: res?.url ?? "",
         thumbnailUrl: res?.thumbnailUrl ?? "",
       },
       tags: data.tags ?? [],
+      bodyStyle: data.bodyStyle.value,
     };
 
     return payload;
   }
 
   async function onSubmit(data: NewCarInputs) {
+    console.log(data);
     const payload = await getFormattedPayload(data);
 
     const res = await createNewCar(payload);
@@ -186,11 +187,7 @@ export const AddEditCarForm = (props: Props) => {
                   placeholder="eg: manual / automatic"
                 />
 
-                <TextInput
-                  name="bodyStyle"
-                  label="Body Style"
-                  placeholder="eg: SUV"
-                />
+                <SelectBodyType />
               </div>
               <div className="xl:flex xl:gap-5">
                 <TextInput

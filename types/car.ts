@@ -4,10 +4,7 @@ import dayjs from "dayjs";
 // TODO: FIND OUT WHY IT IS USED, IF POSSIBLE REMOVE IT
 export type TCarCreatePayload = {
   name: string;
-  brand: {
-    name: string;
-    slug: string;
-  };
+  brand: string;
   registrationYear: number;
   modelNumber: number;
   transmission: string;
@@ -46,5 +43,5 @@ export type TCarCreatePayload = {
   };
   price: number;
   tags: SelectOption<string>[];
-  publishedAt: dayjs.Dayjs;
+  launchedAt: dayjs.Dayjs;
 };

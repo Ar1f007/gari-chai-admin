@@ -12,6 +12,14 @@ export const engineSchemaBasic = z.object({
   torque: z.string().optional(),
 });
 
+export const selectOptionSchema = z.object(
+  {
+    value: z.string().or(z.any()),
+    label: z.string(),
+  },
+  { required_error: "required", invalid_type_error: "select a brand" }
+);
+
 export const createNewCarSchema = z.object({
   name: z.string().min(1, "required").min(3, xCharacterLong(3)),
 
@@ -56,7 +64,7 @@ export const createNewCarSchema = z.object({
 
   transmission: z.string().min(1, "required"),
 
-  bodyStyle: z.string().min(1, "required"),
+  bodyStyle: selectOptionSchema,
 
   fuelType: z.string().min(1, "required"),
   fuelCityEconomy: z
@@ -113,7 +121,7 @@ export const createNewCarSchema = z.object({
     )
     .optional(),
 
-  publishedAt: z
+  launchedAt: z
     .instanceof(dayjs as unknown as typeof Dayjs, {
       message: "Not a valid date",
     })

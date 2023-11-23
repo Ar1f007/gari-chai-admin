@@ -18,7 +18,7 @@ const SelectBrand = ({ label = "Select Brand" }: Props) => {
 
   function getFormattedBrandOptions(brands: TBrandSchema[]) {
     return brands.map((brand) => ({
-      value: brand.slug,
+      value: brand._id,
       label: brand.name,
     }));
   }

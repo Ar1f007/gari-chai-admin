@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
-import { ReqMethod, TAGS, endpoints } from "..";
+import { ReqMethod, TAGS, brandSchema, endpoints } from "..";
 
 export const carSchema = z.object({
   _id: z.string(),
@@ -9,7 +9,7 @@ export const carSchema = z.object({
   year: z.number(),
   registrationYear: z.number(),
   description: z.string().optional(),
-  brand: z.object({ slug: z.string(), name: z.string() }),
+  brand: brandSchema,
   modelNumber: z.number(),
   engine: z.object({
     type: z.string(),
@@ -47,7 +47,7 @@ export const carSchema = z.object({
     .array(z.object({ value: z.string(), label: z.string(), _id: z.string() }))
     .optional(),
 
-  publishedAt: z.string(),
+  launchedAt: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

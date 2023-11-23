@@ -4,7 +4,7 @@ import { TBrandModel } from "@/types/brand";
 
 export type TAddNewBrandModelPayload = {
   name: string;
-  brandSlug: string;
+  brandId: string;
   upcoming: boolean;
 };
 

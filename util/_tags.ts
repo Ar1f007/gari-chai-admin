@@ -4,6 +4,7 @@ const TAGS = {
   brands: "brands",
   cars: "cars",
   allHomeSettings: "home-settings",
+  carBodyTypes: "car-body-types",
 };
 
 const HOME_SETTINGS_OPTIONS = {
