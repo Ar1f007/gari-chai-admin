@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
-import { ReqMethod, TAGS, brandSchema, endpoints } from "..";
+import { ReqMethod, TAGS, endpoints } from "..";
 
 export const carSchema = z.object({
   _id: z.string(),
@@ -9,7 +9,7 @@ export const carSchema = z.object({
   year: z.number(),
   registrationYear: z.number(),
   description: z.string().optional(),
-  brand: brandSchema,
+  brand: z.string(),
   modelNumber: z.number(),
   engine: z.object({
     type: z.string(),
@@ -74,6 +74,8 @@ export async function getCars(queryParams?: string) {
       if (parsedData.success) {
         return parsedData.data;
       }
+
+      console.log("+++++++++++++++++++++++++", parsedData.error.errors);
 
       throw new Error("Cars data missing");
     }

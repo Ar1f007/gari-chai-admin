@@ -18,6 +18,8 @@ import SubmitButton from "../UI/Form/Button";
 import { RHFSelect } from "../UI/Form/RHFSelect";
 import { carTagOptions } from "@/util/constants";
 import SelectBodyType from "./SelectBodyType";
+import SelectCarModel from "./SelectCarModel";
+import { useEffect } from "react";
 
 type Props = {
   formTitle: string;
@@ -38,7 +40,11 @@ export const AddEditCarForm = (props: Props) => {
     handleSubmit,
     formState: { isSubmitting },
     reset,
+    watch,
+    resetField,
   } = methods;
+
+  const brand = watch("brand");
 
   async function getFormattedPayload(data: NewCarInputs) {
     const res = await uploadImage(data.posterImage);
@@ -55,6 +61,7 @@ export const AddEditCarForm = (props: Props) => {
       "acceleration0To60",
       "accelerationTopSpeed",
       "brand",
+      "brandModel",
       "posterImage",
       "tags",
       "bodyStyle",
@@ -82,6 +89,8 @@ export const AddEditCarForm = (props: Props) => {
         topSpeed: data.accelerationTopSpeed,
       },
       brand: data.brand.value,
+      brandModel: data.brandModel.value,
+
       posterImage: {
         originalUrl: res?.url ?? "",
         thumbnailUrl: res?.thumbnailUrl ?? "",
@@ -121,6 +130,11 @@ export const AddEditCarForm = (props: Props) => {
     toast.error(res.message);
   }
 
+  useEffect(() => {
+    resetField("brandModel");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [brand]);
+
   return (
     <div className="grid grid-cols-1 gap-9">
       <div className="flex flex-col gap-9">
@@ -145,6 +159,8 @@ export const AddEditCarForm = (props: Props) => {
                 />
 
                 <SelectBrand />
+
+                <SelectCarModel />
 
                 <div className="w-full">
                   <InputLabel

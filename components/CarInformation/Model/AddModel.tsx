@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { mapValidationErrors } from "@/util/mapValidationError";
 import RHFSwitch from "../../UI/Form/RHFSwitch";
 import Button from "../../UI/Form/Button";
+import { TAGS, invalidateAdminCache } from "@/services";
 
 const schema = z.object({
   brand: z.object(
@@ -61,6 +62,7 @@ const AddEditModel = ({ onClose }: AddEditModelProps) => {
 
     if (res.status === "success") {
       toast.success("Added successfully");
+      invalidateAdminCache([TAGS.brandModelList]);
 
       onClose();
       return;

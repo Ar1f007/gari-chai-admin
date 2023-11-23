@@ -36,6 +36,7 @@ export function RHFSelect<
     <Controller
       name={name}
       control={control}
+      defaultValue={null}
       render={({ field }) => (
         <>
           <ReactSelect

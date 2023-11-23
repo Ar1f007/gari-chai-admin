@@ -17,7 +17,7 @@ export const selectOptionSchema = z.object(
     value: z.string().or(z.any()),
     label: z.string(),
   },
-  { required_error: "required", invalid_type_error: "select a brand" }
+  { required_error: "required", invalid_type_error: "required" }
 );
 
 export const createNewCarSchema = z.object({
@@ -42,6 +42,8 @@ export const createNewCarSchema = z.object({
     },
     { required_error: "required", invalid_type_error: "select a brand" }
   ),
+
+  brandModel: selectOptionSchema,
 
   modelNumber: z
     .string()
@@ -117,9 +119,10 @@ export const createNewCarSchema = z.object({
       z.object({
         value: z.string(),
         label: z.string(),
-      })
+      }),
+      { invalid_type_error: "required", required_error: "Select car type" }
     )
-    .optional(),
+    .refine((val) => val.length, { message: "required" }),
 
   launchedAt: z
     .instanceof(dayjs as unknown as typeof Dayjs, {

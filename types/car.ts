@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 export type TCarCreatePayload = {
   name: string;
   brand: string;
+  brandModel: string;
   registrationYear: number;
   modelNumber: number;
   transmission: string;

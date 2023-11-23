@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { mapValidationErrors } from "@/util/mapValidationError";
 import { addCarBodyType } from "@/services/cars/addVehicleType";
 import Button from "../../UI/Form/Button";
+import { TAGS, invalidateAdminCache } from "@/services";
 
 const schema = z.object({
   name: z.string().min(1, "Required"),
@@ -43,6 +44,8 @@ const AddEditVehicleType = ({ onClose: onClose }: AddEditVehicleBodyProps) => {
 
     if (res.status === "success") {
       toast.success("Added successfully");
+
+      invalidateAdminCache([TAGS.carBodyList]);
 
       onClose();
       return;
