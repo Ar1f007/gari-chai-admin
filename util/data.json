@@ -1,0 +1,88 @@
+{
+  "fuelOptions": [
+    {
+      "value": {
+        "type": "Gas",
+        "fullForm": "Gasoline (Petrol)"
+      },
+      "label": "Gasoline (Petrol)"
+    },
+    {
+      "value": {
+        "type": "Diesel",
+        "fullForm": "Diesel"
+      },
+      "label": "Diesel"
+    },
+    {
+      "value": {
+        "type": "EV",
+        "fullForm": "Electricity (Electric Vehicles)"
+      },
+      "label": "EV (Electric Vehicles)"
+    },
+    {
+      "value": {
+        "type": "Hybrid",
+        "fullForm": "Hybrid"
+      },
+      "label": "Hybrid"
+    },
+    {
+      "value": {
+        "type": "CNG",
+        "fullForm": "Compressed Natural Gas"
+      },
+      "label": "CNG (Compressed Natural Gas)"
+    },
+    {
+      "value": {
+        "type": "LPG",
+        "fullForm": "Liquefied Petroleum Gas"
+      },
+      "label": "LPG (Liquefied Petroleum Gas)"
+    },
+    {
+      "value": {
+        "type": "Hydrogen",
+        "fullForm": "Hydrogen Fuel Cell"
+      },
+      "label": "Hydrogen Fuel Cell"
+    },
+    {
+      "value": {
+        "type": "Biodiesel",
+        "fullForm": "Biodiesel"
+      },
+      "label": "Biodiesel"
+    },
+    {
+      "value": {
+        "type": "E85",
+        "fullForm": "Ethanol (E85)"
+      },
+      "label": "Ethanol (E85)"
+    },
+    {
+      "value": {
+        "type": "Flex-Fuel",
+        "fullForm": "Flex-Fuel"
+      },
+      "label": "Flex-Fuel"
+    },
+    {
+      "value": {
+        "type": "Methanol",
+        "fullForm": "Methanol"
+      },
+      "label": "Methanol"
+    },
+    {
+      "value": {
+        "type": "PHEV",
+        "fullForm": "Plug-in Hybrid Electric Vehicle"
+      },
+      "label": "PHEV (Plug-in Hybrid Electric Vehicle)"
+    }
+  ]
+}

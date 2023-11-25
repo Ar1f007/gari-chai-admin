@@ -76,9 +76,8 @@ export const carSubCategoryOptions = [
 
 export const carTagOptions = [
   ...carCategoryOptions,
-  ...carSubCategoryOptions,
   {
-    value: HOME_SETTINGS_OPTIONS.mostSearchedCars,
-    label: "Most Searched Car",
+    value: HOME_SETTINGS_OPTIONS.upcomingCars,
+    label: "Upcoming Car",
   },
 ];

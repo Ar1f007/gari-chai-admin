@@ -1,7 +1,7 @@
 "use client";
 import ReactSelect, { GroupBase, Props } from "react-select";
 
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, get, useFormContext } from "react-hook-form";
 import { PRIMARY_COLOR } from "@/util/constants";
 import { useSnapshot } from "valtio";
 import { settingsStore } from "@/store";
@@ -30,7 +30,7 @@ export function RHFSelect<
     formState: { errors },
   } = useFormContext();
 
-  const hasError = !!errors[name];
+  const err = get(errors, name);
 
   return (
     <Controller
@@ -81,9 +81,9 @@ export function RHFSelect<
             {...field}
             {...rest}
           />
-          {hasError && (
+          {err && (
             <p className="text-danger text-sm ml-4">
-              {errors[name]?.message?.toString()}
+              {err?.message?.toString()}
             </p>
           )}
         </>

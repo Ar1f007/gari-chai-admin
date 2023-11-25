@@ -15,7 +15,7 @@ type Props = {
   label?: string;
 };
 
-const SelectCarModel = ({ label = "Select Car Model" }: Props) => {
+const SelectCarModel = ({ label = "Car Model" }: Props) => {
   const [loading, setLoading] = useState(false);
   const [models, setModels] = useState<SelectOption[]>();
 

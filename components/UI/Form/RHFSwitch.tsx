@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
+import { Controller, get, useFormContext, useWatch } from "react-hook-form";
 
 type Props = {
   name: string;
@@ -22,6 +22,8 @@ const RHFSwitch = ({
   const checked = useWatch({
     name,
   });
+
+  const err = get(errors, name);
 
   const checkbox1 = (
     <>
@@ -84,9 +86,9 @@ const RHFSwitch = ({
               </p>
             </label>
 
-            {errors[name] && (
+            {err && (
               <p className="text-danger text-sm ml-4 mt-2">
-                {errors[name]?.message?.toString()}
+                {err?.message?.toString()}
               </p>
             )}
           </div>

@@ -1,8 +1,15 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { TCarCreatePayload } from "@/types/car";
 import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
+import { NewCarInputs } from "@/schema/car/addNewCarSchema";
 
-export async function createNewCar(payload: TCarCreatePayload) {
+export type TCreateNewCarParams = Omit<NewCarInputs, "posterImage"> & {
+  posterImage: {
+    originalUrl: string;
+    thumbnailUrl: string;
+  };
+};
+
+export async function createNewCar(payload: TCreateNewCarParams) {
   try {
     const res = await apiFetch(endpoints.api.cars.createNewCar, {
       method: ReqMethod.POST,

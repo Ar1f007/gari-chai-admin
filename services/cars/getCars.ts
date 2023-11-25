@@ -6,21 +6,22 @@ export const carSchema = z.object({
   _id: z.string(),
   name: z.string(),
   slug: z.string(),
-  year: z.number(),
-  registrationYear: z.number(),
   description: z.string().optional(),
   brand: z.string(),
-  modelNumber: z.number(),
+  brandModel: z.string(),
   engine: z.object({
     type: z.string(),
-    displacement: z.number().optional(),
+    numOfCylinders: z.number().optional(),
     horsePower: z.number().optional(),
     torque: z.number().optional(),
   }),
   transmission: z.string(),
   bodyStyle: z.string(),
   fuel: z.object({
-    type: z.string(),
+    typeInfo: z.object({
+      type: z.string(),
+      fullForm: z.string(),
+    }),
     economy: z
       .object({ city: z.number().optional(), highway: z.number().optional() })
       .optional(),
@@ -31,8 +32,6 @@ export const carSchema = z.object({
       topSpeed: z.number().optional(),
     })
     .optional(),
-  safetyFeatures: z.string().optional(),
-  infotainmentSystem: z.string().optional(),
   mileage: z.number(),
   posterImage: z.object({
     originalUrl: z.string().url(),
@@ -41,8 +40,12 @@ export const carSchema = z.object({
   imageUrls: z.array(z.string()).optional(),
   color: z.string(),
   baseInteriorColor: z.string(),
-  numberOfDoors: z.number(),
-  price: z.number(),
+  numOfDoors: z.number(),
+  price: z.object({
+    min: z.number(),
+    max: z.number(),
+    isNegotiable: z.boolean(),
+  }),
   tags: z
     .array(z.object({ value: z.string(), label: z.string(), _id: z.string() }))
     .optional(),

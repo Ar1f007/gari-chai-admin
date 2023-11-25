@@ -1,4 +1,4 @@
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, get, useFormContext } from "react-hook-form";
 import { SingleImageDropzone } from "./SingleImageDropzone";
 
 type Props = {
@@ -19,6 +19,8 @@ const RHFSingleImage = (props: Props) => {
     formState: { errors },
   } = useFormContext();
 
+  const err = get(errors, name);
+
   return (
     <Controller
       control={control}
@@ -34,9 +36,9 @@ const RHFSingleImage = (props: Props) => {
               maxSize,
             }}
           />
-          {errors[name] && (
+          {err && (
             <p className="text-danger text-sm ml-4 mt-2">
-              {errors[name]?.message?.toString()}
+              {err?.message?.toString()}
             </p>
           )}
         </div>

@@ -1,11 +1,11 @@
-import { AddEditCarForm } from "@/components/AddEditCar";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { AddEditNewCarForm } from "@/components/AddEditCar";
 
 const AddCarPage = () => {
   return (
     <>
       <Breadcrumb pageName="Add Car" />
-      <AddEditCarForm formTitle="Add New Car" />
+      <AddEditNewCarForm formTitle="Add New Car" />
     </>
   );
 };

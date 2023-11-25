@@ -12,7 +12,7 @@ type Props = {
   label?: string;
 };
 
-const SelectBrand = ({ label = "Select Brand" }: Props) => {
+const SelectBrand = ({ label = "Brand" }: Props) => {
   const [loading, setLoading] = useState(false);
   const [brands, setBrands] = useState<SelectOption[]>([]);
 

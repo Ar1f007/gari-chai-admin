@@ -14,7 +14,7 @@ type Props = {
   label?: string;
 };
 
-const SelectBodyType = ({ label = "Select Body Type" }: Props) => {
+const SelectBodyType = ({ label = "Body Type" }: Props) => {
   const [loading, setLoading] = useState(false);
   const [bodyTypes, setBodyTypes] = useState<SelectOption[]>([]);
 

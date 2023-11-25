@@ -45,6 +45,7 @@ export async function getSettingContentByPageSlug(slug: string) {
       if (parsedData.success) {
         return parsedData.data;
       }
+
       throw new Error(slug + " Settings data missing");
     }
 

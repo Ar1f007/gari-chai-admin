@@ -1,12 +1,15 @@
 "use client";
 
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, get, useFormContext } from "react-hook-form";
 
 type TextAreaProps = {
   label?: string;
   name: string;
-} & DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>;
+} & DetailedHTMLProps<
+  TextareaHTMLAttributes<HTMLTextAreaElement>,
+  HTMLTextAreaElement
+>;
 
 const Textarea = (props: TextAreaProps) => {
   const {
@@ -14,7 +17,15 @@ const Textarea = (props: TextAreaProps) => {
     formState: { errors },
   } = useFormContext();
 
-  const { name, label = name, placeholder = label, required = false, ...rest } = props;
+  const {
+    name,
+    label = name,
+    placeholder = label,
+    required = false,
+    ...rest
+  } = props;
+
+  const err = get(errors, name);
 
   return (
     <div className="w-full">
@@ -35,8 +46,10 @@ const Textarea = (props: TextAreaProps) => {
           ></textarea>
         )}
       />
-      {errors[name] && (
-        <p className="text-danger text-sm ml-4 mt-2">{errors[name]?.message?.toString()}</p>
+      {err && (
+        <p className="text-danger text-sm ml-4 mt-2">
+          {err?.message?.toString()}
+        </p>
       )}
     </div>
   );
