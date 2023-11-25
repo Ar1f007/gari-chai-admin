@@ -1,51 +1,65 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints } from "..";
+import { numberOrNull } from "@/schema/others";
 
 export const carSchema = z.object({
   _id: z.string(),
+
   name: z.string(),
+
   slug: z.string(),
+
   description: z.string().optional(),
+
   brand: z.string(),
+
   brandModel: z.string(),
+
   engine: z.object({
     type: z.string(),
-    numOfCylinders: z.number().optional(),
-    horsePower: z.number().optional(),
-    torque: z.number().optional(),
+    numOfCylinders: numberOrNull,
+    horsePower: numberOrNull,
+    torque: numberOrNull,
   }),
+
   transmission: z.string(),
+
   bodyStyle: z.string(),
+
   fuel: z.object({
     typeInfo: z.object({
       type: z.string(),
       fullForm: z.string(),
     }),
-    economy: z
-      .object({ city: z.number().optional(), highway: z.number().optional() })
-      .optional(),
+    economy: z.object({ city: numberOrNull, highway: numberOrNull }),
   }),
-  acceleration: z
-    .object({
-      zeroTo60: z.number().optional(),
-      topSpeed: z.number().optional(),
-    })
-    .optional(),
+
+  acceleration: z.object({
+    zeroTo60: numberOrNull,
+    topSpeed: numberOrNull,
+  }),
+
   mileage: z.number(),
+
   posterImage: z.object({
     originalUrl: z.string().url(),
     thumbnailUrl: z.string().url(),
   }),
+
   imageUrls: z.array(z.string()).optional(),
   color: z.string(),
+
   baseInteriorColor: z.string(),
+
   numOfDoors: z.number(),
+
   price: z.object({
     min: z.number(),
     max: z.number(),
     isNegotiable: z.boolean(),
   }),
+
   tags: z
     .array(z.object({ value: z.string(), label: z.string(), _id: z.string() }))
     .optional(),

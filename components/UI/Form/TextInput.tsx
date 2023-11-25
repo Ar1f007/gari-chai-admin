@@ -11,7 +11,6 @@ type TextInputProps = {
 
 const TextInput = (props: TextInputProps) => {
   const {
-    control,
     formState: { errors },
     register,
   } = useFormContext();
@@ -34,22 +33,20 @@ const TextInput = (props: TextInputProps) => {
         required={required}
       />
 
-      {
-        <input
-          type={type}
-          placeholder={placeholder}
-          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-          id={label}
-          {...register(name, {
-            ...(type === "number"
-              ? { valueAsNumber: true }
-              : type === "date"
-              ? { valueAsDate: true }
-              : null),
-          })}
-          {...rest}
-        />
-      }
+      <input
+        type={type}
+        placeholder={placeholder}
+        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+        id={label}
+        {...register(name, {
+          ...(type === "number"
+            ? { valueAsNumber: true }
+            : type === "date"
+            ? { valueAsDate: true }
+            : null),
+        })}
+        {...rest}
+      />
       {get(errors, name) && (
         <p className="text-danger text-sm ml-4 mt-2">
           {err?.message.toString()}

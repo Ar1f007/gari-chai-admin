@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 
 import { getCurrentYear, xCharacterLong } from "@/util/other";
+import { numberOrNaN } from "../others";
 
 export const engineSchemaBasic = z.object({
   type: z.string().min(1, "required"),
@@ -42,9 +43,9 @@ export const createNewCarSchema = z.object({
 
   engine: z.object({
     type: z.string().min(1, "Required"),
-    numOfCylinders: z.number().optional(),
-    horsePower: z.number().optional(),
-    torque: z.number().optional(),
+    numOfCylinders: numberOrNaN,
+    horsePower: numberOrNaN,
+    torque: numberOrNaN,
   }),
 
   mileage: z.number().min(1, "required"),
@@ -63,8 +64,8 @@ export const createNewCarSchema = z.object({
     typeInfo: selectOptionSchema.transform((fuelType) => fuelType.value),
 
     economy: z.object({
-      city: z.number().optional(),
-      highway: z.number().optional(),
+      city: z.union([z.number(), z.nan()]),
+      highway: z.union([z.number(), z.nan()]),
     }),
   }),
 
@@ -75,8 +76,8 @@ export const createNewCarSchema = z.object({
   }),
 
   acceleration: z.object({
-    zeroTo60: z.number().optional(),
-    topSpeed: z.number().optional(),
+    zeroTo60: numberOrNaN,
+    topSpeed: numberOrNaN,
   }),
 
   specifications: z
@@ -90,15 +91,18 @@ export const createNewCarSchema = z.object({
     )
     .default([]),
 
-  launchedAt: z.preprocess(
-    (arg) => {
-      if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
-    },
-    z.date({
-      required_error: "Please select a date and time",
-      invalid_type_error: "That's not a date!",
-    })
-  ),
+  launchedAt: z
+    .preprocess(
+      (arg) => {
+        if (typeof arg === "string" || arg instanceof Date)
+          return new Date(arg);
+      },
+      z.date({
+        required_error: "Please select a date and time",
+        invalid_type_error: "That's not a date!",
+      })
+    )
+    .default(new Date()),
 
   posterImage: z.instanceof(File, { message: "Image is required" }),
 

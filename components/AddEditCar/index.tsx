@@ -18,7 +18,7 @@ import { Price } from "./Price";
 import { LaunchedDate } from "./LaunchDate";
 import { TCreateNewCarParams, createNewCar } from "@/services";
 import { toast } from "sonner";
-import { omit } from "lodash";
+
 import { mapValidationErrors } from "@/util/mapValidationError";
 
 type Props = {
@@ -95,6 +95,8 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
         toast.error("Something went wrong");
     }
   }
+
+  console.log(methods.formState.errors);
 
   return (
     <div className="grid grid-cols-1 gap-9">
