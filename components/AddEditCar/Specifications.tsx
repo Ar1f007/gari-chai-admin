@@ -5,11 +5,8 @@ import Button from "../UI/Form/Button";
 import TextInput from "../UI/Form/TextInput";
 
 const Specifications = () => {
-  const { control } = useFormContext();
-
   const { fields, append, remove } = useFieldArray({
     name: "specifications",
-    control,
   });
 
   return (
