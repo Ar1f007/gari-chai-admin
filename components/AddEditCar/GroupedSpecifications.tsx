@@ -26,7 +26,7 @@ export const GroupedSpecifications = () => {
         {fields.map((field, idx) => (
           <li
             key={field.id}
-            className="flex flex-col gap-5 outline outline-1 outline-strokedark p-5"
+            className="flex flex-col gap-5 outline outline-2 outline-body dark:outline-bodydark2 p-5 rounded"
           >
             <div className="xl:flex xl:items-end xl:justify-between xl:gap-5 max-w-125">
               <TextInput

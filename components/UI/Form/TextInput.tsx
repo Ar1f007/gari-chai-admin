@@ -11,6 +11,7 @@ type TextInputProps = {
   label?: string;
   name: string;
   classes?: string;
+  rootClass?: string;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 const TextInput = (props: TextInputProps) => {
@@ -26,13 +27,14 @@ const TextInput = (props: TextInputProps) => {
     placeholder = label,
     required = true,
     classes,
+    rootClass,
     ...rest
   } = props;
 
   const err = get(errors, name);
 
   return (
-    <div className="w-full">
+    <div className={twMerge("w-full", rootClass)}>
       <InputLabel
         label={label}
         required={required}
@@ -42,7 +44,7 @@ const TextInput = (props: TextInputProps) => {
         type={type}
         placeholder={placeholder}
         className={twMerge(
-          "w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary",
+          "w-full rounded border-[1.5px] border-form-strokedark bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary",
           classes
         )}
         id={label}

@@ -3,7 +3,7 @@ import TextInput from "../UI/Form/TextInput";
 export const EngineInfo = () => {
   return (
     <div>
-      <h6 className="font-semibold text-bodydark1 mb-3 uppercase">
+      <h6 className="font-semibold dark:text-bodydark1 mb-3 uppercase">
         Engine Specific Info{" "}
         <small className="text-xs lowercase">(optional)</small>
       </h6>

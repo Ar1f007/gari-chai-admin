@@ -16,20 +16,6 @@
     },
     {
       "value": {
-        "type": "EV",
-        "fullForm": "Electricity (Electric Vehicles)"
-      },
-      "label": "EV (Electric Vehicles)"
-    },
-    {
-      "value": {
-        "type": "Hybrid",
-        "fullForm": "Hybrid"
-      },
-      "label": "Hybrid"
-    },
-    {
-      "value": {
         "type": "CNG",
         "fullForm": "Compressed Natural Gas"
       },
@@ -42,6 +28,21 @@
       },
       "label": "LPG (Liquefied Petroleum Gas)"
     },
+    {
+      "value": {
+        "type": "EV",
+        "fullForm": "Electricity (Electric Vehicles)"
+      },
+      "label": "EV (Electric Vehicles)"
+    },
+    {
+      "value": {
+        "type": "Hybrid",
+        "fullForm": "Hybrid"
+      },
+      "label": "Hybrid"
+    },
+
     {
       "value": {
         "type": "Hydrogen",

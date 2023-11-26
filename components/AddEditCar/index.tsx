@@ -37,6 +37,8 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
       price: {
         isNegotiable: true,
       },
+      specificationsByGroup: [],
+      additionalSpecifications: [],
     },
   });
 

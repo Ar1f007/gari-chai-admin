@@ -1,9 +1,18 @@
-import { get, useFieldArray, useFormState } from "react-hook-form";
+import {
+  get,
+  useFieldArray,
+  useFormContext,
+  useFormState,
+  useWatch,
+} from "react-hook-form";
 import clsx from "clsx";
 
 import Button from "../UI/Form/Button";
 import TextInput from "../UI/Form/TextInput";
 import { Trash2Icon } from "lucide-react";
+import { RHFSelect } from "../UI/Form/RHFSelect";
+import InputLabel from "../UI/Form/Label";
+import { RHFCheckbox } from "../UI/Form/RHFCheckbox";
 
 type SpecificationsProps = {
   specificationName: string;
@@ -14,7 +23,10 @@ const Specifications = ({
   specificationName,
   isCalledSeparately = false,
 }: SpecificationsProps) => {
-  const { errors } = useFormState();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: specificationName,
   });
@@ -32,13 +44,16 @@ const Specifications = ({
     return `${prefix} ${suffix}`;
   }
 
+  const selectedValueType = useWatch({ name: specificationName });
+  console.log(selectedValueType);
+
   return (
     <section>
       {/* {isCalledSeparately && (
         <div className="h-0.5 w-full bg-strokedark my-3" />
       )} */}
       {isCalledSeparately ? (
-        <h6 className="font-semibold text-bodydark1 mb-3 uppercase">
+        <h6 className="font-semibold dark:text-bodydark1 mb-3 uppercase">
           Additional Specifications
         </h6>
       ) : null}
@@ -47,41 +62,69 @@ const Specifications = ({
         {fields.map((field, idx) => (
           <li
             key={field.id}
-            className={clsx(
-              "xl:flex xl:items-start xl:justify-between xl:gap-5"
-            )}
+            className="flex flex-col gap-5 outline rounded outline-2 outline-body dark:outline-strokedark p-5"
           >
-            <TextInput
-              name={`${specificationName}.${idx}.name`}
-              label={`${
-                isCalledSeparately ? "Specification" : "Attribute"
-              } Name`}
-              placeholder="attribute name"
-              required={false}
-            />
+            <div className="max-w-xs">
+              <RHFSelect
+                name={`${specificationName}.${idx}.valueType`}
+                options={[
+                  { value: "text", label: "Text" },
+                  { value: "boolean", label: "Boolean" },
+                ]}
+                placeholder="Select Type"
+              />
+            </div>
 
-            <TextInput
-              name={`${specificationName}.${idx}.value`}
-              label="Value"
-              placeholder="value or value 1, value 2..."
-              required={false}
-              classes="mt-4 xl:mt-0"
-            />
-
-            <button
-              onClick={() => remove(idx)}
+            <div
               className={clsx(
-                "inline-flex items-center justify-center gap-2.5 rounded-md border xl:border-transparent py-2 px-2 text-center font-medium text-danger hover:bg-opacity-90 lg:px-8 xl:px-10 self-end mt-4 xl:mt-0",
-                {
-                  "self-center": isErr?.[idx],
-                }
+                "xl:flex xl:items-start xl:justify-between xl:gap-5"
               )}
-              type="button"
             >
-              <Trash2Icon />
+              <TextInput
+                name={`${specificationName}.${idx}.name`}
+                label={`${
+                  isCalledSeparately ? "Specification" : "Attribute"
+                } Name`}
+                placeholder="attribute name"
+              />
 
-              <span className="xl:hidden">Remove</span>
-            </button>
+              {selectedValueType?.[idx]?.valueType &&
+                (selectedValueType?.[idx]?.valueType.value === "text" ? (
+                  <TextInput
+                    name={`${specificationName}.${idx}.value`}
+                    label="Value"
+                    placeholder="value or value 1, value 2..."
+                    rootClass="mt-4 xl:mt-0"
+                  />
+                ) : (
+                  <div className="w-full self-center">
+                    <InputLabel
+                      label="Value"
+                      classes="mt-4 xl:mt-0"
+                    />
+                    <RHFCheckbox
+                      name={`${specificationName}.${idx}.value`}
+                      checkedText="Yes"
+                      unCheckedText="No"
+                    />
+                  </div>
+                ))}
+
+              <button
+                onClick={() => remove(idx)}
+                className={clsx(
+                  "inline-flex items-center justify-center gap-2.5 rounded-md border xl:border-transparent py-2 px-2 text-center font-medium text-danger hover:bg-opacity-90 lg:px-8 xl:px-10 self-end mt-4 xl:mt-0",
+                  {
+                    "self-center": isErr?.[idx],
+                  }
+                )}
+                type="button"
+              >
+                <Trash2Icon />
+
+                <span className="xl:hidden">Remove</span>
+              </button>
+            </div>
           </li>
         ))}
       </ul>

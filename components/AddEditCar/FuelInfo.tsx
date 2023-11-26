@@ -4,7 +4,9 @@ import SelectFuelType from "./SelectFuelType";
 export const FuelInfo = () => {
   return (
     <div>
-      <h6 className="font-semibold text-bodydark1 mb-3 uppercase">Fuel Info</h6>
+      <h6 className="font-semibold dark:text-bodydark1 mb-3 uppercase">
+        Fuel Info
+      </h6>
 
       <div className="flex flex-col xl:flex-row gap-5">
         <SelectFuelType />

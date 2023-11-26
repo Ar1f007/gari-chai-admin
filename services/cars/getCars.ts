@@ -3,6 +3,36 @@ import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
 
+const attributeSchema = singleSpecificationSchema.extend({
+  valueType: z.enum(["boolean", "text"]),
+});
+// specificationsByGroup: z
+//   .array(
+//     z.object({
+//       groupName: z.string(),
+//       values: z
+//         .array(
+//           z.object({
+//             name: z.string(),
+//             value: z.union([z.string(), z.boolean()]),
+//             valueType: z.enum(["boolean", "text"]),
+//           })
+//         )
+//         .optional(),
+//     })
+//   )
+//   .optional(),
+
+// additionalSpecifications: z
+//   .array(
+//     z.object({
+//       name: z.string(),
+//       value: z.union([z.string(), z.boolean()]),
+//       valueType: z.enum(["boolean", "text"]),
+//     })
+//   )
+//   .optional(),
+
 export const carSchema = z.object({
   _id: z.string(),
 
@@ -68,12 +98,12 @@ export const carSchema = z.object({
     .array(
       z.object({
         groupName: z.string(),
-        values: z.array(singleSpecificationSchema).optional(),
+        values: z.array(attributeSchema).optional(),
       })
     )
     .optional(),
 
-  additionalSpecifications: z.array(singleSpecificationSchema).optional(),
+  additionalSpecifications: z.array(attributeSchema).optional(),
 
   launchedAt: z.string(),
   createdAt: z.string(),
@@ -103,6 +133,7 @@ export async function getCars(queryParams?: string) {
         return parsedData.data;
       }
 
+      console.log(parsedData.error.errors);
       throw new Error("Cars data missing");
     }
 

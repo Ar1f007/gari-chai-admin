@@ -4,7 +4,7 @@ export const SpeedAndPerformance = () => {
   return (
     <div>
       <div>
-        <h6 className="font-semibold text-bodydark1 mb-3 uppercase">
+        <h6 className="font-semibold dark:text-bodydark1 mb-3 uppercase">
           Acceleration <small className="text-xs lowercase">(optional)</small>
         </h6>
 

@@ -55,7 +55,7 @@ export function RHFSelect<
                 backgroundColor:
                   colorMode === "dark" ? "rgb(29 42 57)" : "bg-form-input",
                 borderColor:
-                  colorMode === "dark" ? "rgb(61 77 96)" : "rgb(226 232 240)",
+                  colorMode === "dark" ? "rgb(61 77 96)" : "rgb(61 77 96)",
               }),
               menuPortal: (base) => ({ ...base, zIndex: 9999 }),
               menuList: (base) => ({
