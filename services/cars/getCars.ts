@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints } from "..";
-import { numberOrNull } from "@/schema/others";
+import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
 
 export const carSchema = z.object({
   _id: z.string(),
@@ -63,6 +63,17 @@ export const carSchema = z.object({
   tags: z
     .array(z.object({ value: z.string(), label: z.string(), _id: z.string() }))
     .optional(),
+
+  specificationsByGroup: z
+    .array(
+      z.object({
+        groupName: z.string(),
+        values: z.array(singleSpecificationSchema).optional(),
+      })
+    )
+    .optional(),
+
+  additionalSpecifications: z.array(singleSpecificationSchema).optional(),
 
   launchedAt: z.string(),
   createdAt: z.string(),

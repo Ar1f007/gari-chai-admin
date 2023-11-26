@@ -3,10 +3,14 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { get, useFormContext } from "react-hook-form";
 import InputLabel from "./Label";
+import clsx from "clsx";
+
+import { twMerge } from "tailwind-merge";
 
 type TextInputProps = {
   label?: string;
   name: string;
+  classes?: string;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 const TextInput = (props: TextInputProps) => {
@@ -21,6 +25,7 @@ const TextInput = (props: TextInputProps) => {
     type = "text",
     placeholder = label,
     required = true,
+    classes,
     ...rest
   } = props;
 
@@ -36,7 +41,10 @@ const TextInput = (props: TextInputProps) => {
       <input
         type={type}
         placeholder={placeholder}
-        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+        className={twMerge(
+          "w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary",
+          classes
+        )}
         id={label}
         {...register(name, {
           ...(type === "number"

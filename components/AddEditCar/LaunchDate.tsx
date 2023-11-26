@@ -48,16 +48,16 @@ export const LaunchedDate = () => {
           </div>
         </label>
 
-        <p className="text-primary font-medium text-xl">
-          {isUpcomingCar ? "Soon to be launched" : "Launched"}{" "}
+        <p className="font-medium text-xl">
+          {isUpcomingCar ? "Soon to be launched" : "Launched (selected)"}
         </p>
       </div>
 
       {isUpcomingCar ? (
         <TextInput
           name="launchedAt"
-          label="Choose Expected Launch Date"
-          type="date"
+          label="Choose Expected Launch Date Time"
+          type="datetime-local"
         />
       ) : null}
     </div>

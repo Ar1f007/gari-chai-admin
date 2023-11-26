@@ -3,6 +3,6 @@ export function getCurrentYear() {
   return date.getFullYear().toString();
 }
 
-export function xCharacterLong(length: number) {
-  return `should be at least ${length} character long`;
+export function xCharacterLong(fieldName: string, length: number) {
+  return `${fieldName} should be at least ${length} character long`;
 }

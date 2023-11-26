@@ -20,6 +20,7 @@ import { TCreateNewCarParams, createNewCar } from "@/services";
 import { toast } from "sonner";
 
 import { mapValidationErrors } from "@/util/mapValidationError";
+import { GroupedSpecifications } from "./GroupedSpecifications";
 
 type Props = {
   formTitle: string;
@@ -96,8 +97,6 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
     }
   }
 
-  console.log(methods.formState.errors);
-
   return (
     <div className="grid grid-cols-1 gap-9">
       <div className="flex flex-col gap-9">
@@ -115,7 +114,7 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
             methods={methods}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex flex-col gap-5 px-5 py-5">
+            <div className="flex flex-col gap-10 xl:gap-15 px-5 py-5">
               <BasicInfo />
 
               <Price />
@@ -126,7 +125,12 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
 
               <EngineInfo />
 
-              <Specifications />
+              <GroupedSpecifications />
+
+              <Specifications
+                specificationName="additionalSpecifications"
+                isCalledSeparately
+              />
 
               <LaunchedDate />
 

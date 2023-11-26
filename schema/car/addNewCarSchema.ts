@@ -1,10 +1,11 @@
 import { z } from "zod";
-import dayjs from "dayjs";
 
-import type { Dayjs } from "dayjs";
-
-import { getCurrentYear, xCharacterLong } from "@/util/other";
-import { numberOrNaN } from "../others";
+import { xCharacterLong } from "@/util/other";
+import {
+  isNumberRequiredErrMsg,
+  numberOrNaN,
+  singleSpecificationSchema,
+} from "../others";
 
 export const engineSchemaBasic = z.object({
   type: z.string().min(1, "required"),
@@ -22,7 +23,7 @@ export const selectOptionSchema = z.object(
 );
 
 export const createNewCarSchema = z.object({
-  name: z.string().min(1, "required").min(3, xCharacterLong(3)),
+  name: z.string().min(1, "required").min(3, xCharacterLong("Name", 3)),
 
   brand: selectOptionSchema.transform((brand) => brand.value),
 
@@ -48,11 +49,11 @@ export const createNewCarSchema = z.object({
     torque: numberOrNaN,
   }),
 
-  mileage: z.number().min(1, "required"),
+  mileage: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
 
-  seatingCapacity: z.number().min(1, "required"),
+  seatingCapacity: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
 
-  numOfDoors: z.number().min(1, "required"),
+  numOfDoors: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
 
   color: z.string().min(1, "required"),
 
@@ -64,14 +65,14 @@ export const createNewCarSchema = z.object({
     typeInfo: selectOptionSchema.transform((fuelType) => fuelType.value),
 
     economy: z.object({
-      city: z.union([z.number(), z.nan()]),
-      highway: z.union([z.number(), z.nan()]),
+      city: z.union([z.number({ ...isNumberRequiredErrMsg }), z.nan()]),
+      highway: z.union([z.number({ ...isNumberRequiredErrMsg }), z.nan()]),
     }),
   }),
 
   price: z.object({
-    min: z.number().min(1, "required"),
-    max: z.number().min(1, "required"),
+    min: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
+    max: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
     isNegotiable: z.boolean(),
   }),
 
@@ -79,17 +80,6 @@ export const createNewCarSchema = z.object({
     zeroTo60: numberOrNaN,
     topSpeed: numberOrNaN,
   }),
-
-  specifications: z
-    .optional(
-      z.array(
-        z.object({
-          name: z.string(),
-          value: z.string(),
-        })
-      )
-    )
-    .default([]),
 
   launchedAt: z
     .preprocess(
@@ -116,6 +106,21 @@ export const createNewCarSchema = z.object({
       return true;
     }, "Description is optional, but if you want add one, then make sure it is at least 200 characters long")
   ),
+
+  specificationsByGroup: z
+    .optional(
+      z.array(
+        z.object({
+          groupName: z.string().min(3, xCharacterLong("Group name", 3)),
+          values: z.array(singleSpecificationSchema),
+        })
+      )
+    )
+    .default([]),
+
+  additionalSpecifications: z
+    .optional(z.array(singleSpecificationSchema))
+    .default([]),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;
