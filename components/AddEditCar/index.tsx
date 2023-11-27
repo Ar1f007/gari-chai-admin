@@ -3,7 +3,7 @@
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { NewCarInputs, createNewCarSchema } from "@/schema/car/addNewCarSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { FormProvider } from "../UI/Form/FormProvider";
 import { BasicInfo } from "./BasicInfo";
 import { SpeedAndPerformance } from "./SpeedAndPerformance";
@@ -21,6 +21,8 @@ import { toast } from "sonner";
 
 import { mapValidationErrors } from "@/util/mapValidationError";
 import { GroupedSpecifications } from "./GroupedSpecifications";
+import { CarColors } from "./Colors";
+import { useEdgeStore } from "@/lib/edgestore";
 
 type Props = {
   formTitle: string;
@@ -28,6 +30,7 @@ type Props = {
 
 export const AddEditNewCarForm = ({ formTitle }: Props) => {
   const { uploadImage } = useUploadImage();
+  const { edgestore } = useEdgeStore();
 
   const methods = useForm<NewCarInputs>({
     mode: "onTouched",
@@ -39,6 +42,7 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
       },
       specificationsByGroup: [],
       additionalSpecifications: [],
+      colors: [],
     },
   });
 
@@ -48,7 +52,39 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
     reset,
   } = methods;
 
+  async function confirmUpload(urls: string[]) {
+    await Promise.all(
+      urls.map(async (urlToConfirm) => {
+        try {
+          await edgestore.publicImages.confirmUpload({
+            url: urlToConfirm,
+          });
+        } catch (error) {
+          toast.error("Confirming color image upload is failed");
+          // TODO
+          // Allow user to confirm the upload again
+        }
+      })
+    );
+  }
+
   async function onSubmit(data: NewCarInputs) {
+    // first confirm the uploading of color images
+    if (data.colors.length) {
+      // extracting all the urls into one array
+      const urlList: string[] = [];
+
+      data.colors.map((color) => {
+        if (color.imageUrls?.length) {
+          color.imageUrls.map((imgUrl) => urlList.push(imgUrl));
+        }
+      });
+
+      if (urlList.length) {
+        await confirmUpload(urlList);
+      }
+    }
+
     const payload: TCreateNewCarParams = {
       ...data,
       posterImage: {
@@ -133,6 +169,8 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
                 specificationName="additionalSpecifications"
                 isCalledSeparately
               />
+
+              <CarColors />
 
               <LaunchedDate />
 

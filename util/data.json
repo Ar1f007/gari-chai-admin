@@ -2,10 +2,10 @@
   "fuelOptions": [
     {
       "value": {
-        "type": "Gas",
+        "type": "Petrol",
         "fullForm": "Gasoline (Petrol)"
       },
-      "label": "Gasoline (Petrol)"
+      "label": "Petrol"
     },
     {
       "value": {

@@ -9,7 +9,7 @@ type TApiErrorData = {
 };
 
 type FieldError = {
-  fieldName: string;
+  path: string[];
   message: string;
 };
 

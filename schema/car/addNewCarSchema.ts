@@ -25,9 +25,15 @@ export const selectOptionSchema = z.object(
 export const createNewCarSchema = z.object({
   name: z.string().min(1, "required").min(3, xCharacterLong("Name", 3)),
 
-  brand: selectOptionSchema.transform((brand) => brand.value),
+  brand: selectOptionSchema.transform((brand) => ({
+    id: brand.value,
+    name: brand.label,
+  })),
 
-  brandModel: selectOptionSchema.transform((brandModel) => brandModel.value),
+  brandModel: selectOptionSchema.transform((brandModel) => ({
+    id: brandModel.value,
+    name: brandModel.label,
+  })),
 
   tags: z
     .array(
@@ -49,15 +55,19 @@ export const createNewCarSchema = z.object({
     torque: numberOrNaN,
   }),
 
-  mileage: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
-
   seatingCapacity: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
 
   numOfDoors: z.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
 
-  color: z.string().min(1, "required"),
-
-  baseInteriorColor: z.string().min(1, "required"),
+  colors: z
+    .array(
+      z.object({
+        name: z.string().min(1, "Color name is required"),
+        imageUrls: z.array(z.string()).optional(),
+      })
+    )
+    .optional()
+    .default([]),
 
   transmission: z.string().min(1, "required"),
 

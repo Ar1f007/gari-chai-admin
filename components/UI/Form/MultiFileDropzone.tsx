@@ -51,37 +51,46 @@ const ERROR_MESSAGES = {
 };
 
 const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ dropzoneOptions, value, className, disabled, onFilesAdded, onChange }, ref) => {
+  (
+    { dropzoneOptions, value, className, disabled, onFilesAdded, onChange },
+    ref
+  ) => {
     const [customError, setCustomError] = React.useState<string>();
     if (dropzoneOptions?.maxFiles && value?.length) {
       disabled = disabled ?? value.length >= dropzoneOptions.maxFiles;
     }
     // dropzone configuration
-    const { getRootProps, getInputProps, fileRejections, isFocused, isDragAccept, isDragReject } =
-      useDropzone({
-        disabled,
-        onDrop: (acceptedFiles) => {
-          const files = acceptedFiles;
-          setCustomError(undefined);
-          if (
-            dropzoneOptions?.maxFiles &&
-            (value?.length ?? 0) + files.length > dropzoneOptions.maxFiles
-          ) {
-            setCustomError(ERROR_MESSAGES.tooManyFiles(dropzoneOptions.maxFiles));
-            return;
-          }
-          if (files) {
-            const addedFiles = files.map<FileState>((file) => ({
-              file,
-              key: Math.random().toString(36).slice(2),
-              progress: "PENDING",
-            }));
-            void onFilesAdded?.(addedFiles);
-            void onChange?.([...(value ?? []), ...addedFiles]);
-          }
-        },
-        ...dropzoneOptions,
-      });
+    const {
+      getRootProps,
+      getInputProps,
+      fileRejections,
+      isFocused,
+      isDragAccept,
+      isDragReject,
+    } = useDropzone({
+      disabled,
+      onDrop: (acceptedFiles) => {
+        const files = acceptedFiles;
+        setCustomError(undefined);
+        if (
+          dropzoneOptions?.maxFiles &&
+          (value?.length ?? 0) + files.length > dropzoneOptions.maxFiles
+        ) {
+          setCustomError(ERROR_MESSAGES.tooManyFiles(dropzoneOptions.maxFiles));
+          return;
+        }
+        if (files) {
+          const addedFiles = files.map<FileState>((file) => ({
+            file,
+            key: Math.random().toString(36).slice(2),
+            progress: "PENDING",
+          }));
+          void onFilesAdded?.(addedFiles);
+          void onChange?.([...(value ?? []), ...addedFiles]);
+        }
+      },
+      ...dropzoneOptions,
+    });
 
     // styling
     const dropZoneClassName = React.useMemo(
@@ -94,7 +103,14 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
           isDragAccept && variants.accept,
           className
         ).trim(),
-      [isFocused, fileRejections, isDragAccept, isDragReject, disabled, className]
+      [
+        isFocused,
+        fileRejections,
+        isDragAccept,
+        isDragReject,
+        disabled,
+        className,
+      ]
     );
 
     // error validation messages
@@ -130,12 +146,16 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
               />
               <div className="flex flex-col items-center justify-center text-xs text-gray-400">
                 <UploadCloudIcon className="mb-1 h-7 w-7" />
-                <div className="text-gray-400">drag & drop or click to upload</div>
+                <div className="text-gray-400">
+                  drag & drop or click to upload
+                </div>
               </div>
             </div>
 
             {/* Error Text */}
-            <div className="mt-1 text-xs text-red-500">{customError ?? errorMessage}</div>
+            <div className="mt-1 text-xs text-red-500">
+              {customError ?? errorMessage}
+            </div>
           </div>
 
           {/* Selected Files */}
@@ -163,7 +183,9 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
                     <button
                       className="rounded-md p-1 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => {
-                        void onChange?.(value.filter((_, index) => index !== i));
+                        void onChange?.(
+                          value.filter((_, index) => index !== i)
+                        );
                       }}
                     >
                       <Trash2Icon className="shrink-0" />

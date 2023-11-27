@@ -2,36 +2,12 @@ import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
+import { brandSchema } from "@/schema/server";
+import { brandModelSchema } from "./getCarModels";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.enum(["boolean", "text"]),
 });
-// specificationsByGroup: z
-//   .array(
-//     z.object({
-//       groupName: z.string(),
-//       values: z
-//         .array(
-//           z.object({
-//             name: z.string(),
-//             value: z.union([z.string(), z.boolean()]),
-//             valueType: z.enum(["boolean", "text"]),
-//           })
-//         )
-//         .optional(),
-//     })
-//   )
-//   .optional(),
-
-// additionalSpecifications: z
-//   .array(
-//     z.object({
-//       name: z.string(),
-//       value: z.union([z.string(), z.boolean()]),
-//       valueType: z.enum(["boolean", "text"]),
-//     })
-//   )
-//   .optional(),
 
 export const carSchema = z.object({
   _id: z.string(),
@@ -42,9 +18,15 @@ export const carSchema = z.object({
 
   description: z.string().optional(),
 
-  brand: z.string(),
+  brand: z.object({
+    id: z.union([z.string(), brandSchema]),
+    name: z.string(),
+  }),
 
-  brandModel: z.string(),
+  brandModel: z.object({
+    id: z.union([z.string(), brandModelSchema]),
+    name: z.string(),
+  }),
 
   engine: z.object({
     type: z.string(),
@@ -70,17 +52,21 @@ export const carSchema = z.object({
     topSpeed: numberOrNull,
   }),
 
-  mileage: z.number(),
-
   posterImage: z.object({
     originalUrl: z.string().url(),
     thumbnailUrl: z.string().url(),
   }),
 
   imageUrls: z.array(z.string()).optional(),
-  color: z.string(),
 
-  baseInteriorColor: z.string(),
+  colors: z
+    .array(
+      z.object({
+        name: z.string(),
+        imageUrls: z.array(z.string().url()).optional(),
+      })
+    )
+    .default([]),
 
   numOfDoors: z.number(),
 
@@ -133,7 +119,6 @@ export async function getCars(queryParams?: string) {
         return parsedData.data;
       }
 
-      console.log(parsedData.error.errors);
       throw new Error("Cars data missing");
     }
 

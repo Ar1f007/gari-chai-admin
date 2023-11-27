@@ -46,12 +46,6 @@ export const BasicInfo = () => {
         />
 
         <TextInput
-          name="mileage"
-          type="number"
-          placeholder="eg: 80 kmpl"
-        />
-
-        <TextInput
           name="seatingCapacity"
           label="Seating Capacity"
           type="number"
@@ -63,21 +57,6 @@ export const BasicInfo = () => {
           label="Number of Doors"
           type="number"
           placeholder="eg: 4"
-        />
-      </div>
-
-      <div className="flex flex-col xl:flex-row gap-5">
-        <TextInput
-          type="text"
-          name="color"
-          placeholder="Eg. Black"
-          required
-        />
-
-        <TextInput
-          name="baseInteriorColor"
-          label="Base Interior Color"
-          placeholder="eg: cream"
         />
 
         <TextInput

@@ -45,7 +45,6 @@ const Specifications = ({
   }
 
   const selectedValueType = useWatch({ name: specificationName });
-  console.log(selectedValueType);
 
   return (
     <section>

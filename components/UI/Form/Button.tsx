@@ -9,6 +9,7 @@ type Props = {
   loadingText?: string;
   onClick?: () => void;
   classes?: string;
+  disabled?: boolean;
 };
 
 const Button = ({
@@ -16,6 +17,7 @@ const Button = ({
   title,
   type = "button",
   loadingText = "Loading...",
+  disabled = false,
   onClick,
   classes,
 }: Props) => {
@@ -25,7 +27,7 @@ const Button = ({
         "bg-primary hover:bg-primary/75 p-3 disabled:opacity-50 transition inline-flex items-center justify-center space-x-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:z-10 shrink-0 focus:ring-blue-600 text-white font-medium rounded-md",
         classes
       )}
-      disabled={loading}
+      disabled={disabled || loading}
       type={type}
       onClick={onClick}
     >
