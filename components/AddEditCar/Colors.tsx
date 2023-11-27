@@ -29,6 +29,7 @@ export const CarColors = () => {
               classes="max-w-sm"
             />
 
+            <small>Upload Image (optional, max allowed - 5)</small>
             <RHFMultiFileDropzone name={`colors.${idx}.imageUrls`} />
 
             <button

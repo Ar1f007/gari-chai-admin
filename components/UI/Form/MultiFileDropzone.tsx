@@ -153,7 +153,7 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
             </div>
 
             {/* Error Text */}
-            <div className="mt-1 text-xs text-red-500">
+            <div className="mt-1 text-xs text-danger">
               {customError ?? errorMessage}
             </div>
           </div>

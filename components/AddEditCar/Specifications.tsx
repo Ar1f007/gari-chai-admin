@@ -84,7 +84,7 @@ const Specifications = ({
                 label={`${
                   isCalledSeparately ? "Specification" : "Attribute"
                 } Name`}
-                placeholder="attribute name"
+                placeholder="name"
               />
 
               {selectedValueType?.[idx]?.valueType &&
@@ -133,9 +133,11 @@ const Specifications = ({
         type="button"
         onClick={() => append({ name: "", value: "" })}
         classes={clsx(
-          "px-6 border border-1 border-primary bg-transparent  !text-primary hover:!text-white capitalize",
+          "px-6 border border-1 border-primary hover:!text-white capitalize",
           {
             "mt-5": !!fields.length,
+            "bg-transparent !text-primary": !isCalledSeparately,
+            "text-white": isCalledSeparately,
           }
         )}
       />
