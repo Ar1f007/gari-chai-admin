@@ -7,18 +7,24 @@ import Button from "./Button";
 import { useFormContext } from "react-hook-form";
 import { DropzoneOptions } from "react-dropzone";
 
-type RHFMultiFileDropzoneParamsType = {
+export const defaultMultiImageDropzoneOptions: Omit<
+  DropzoneOptions,
+  "disabled"
+> = {
+  maxFiles: 5,
+  maxSize: 1024 * 300, // 300 kb
+  accept: { "image/*": [] },
+};
+
+type RHFMultiImageFileDropzoneParamsType = {
   name: string;
   dropzoneOptions?: Omit<DropzoneOptions, "disabled">;
 };
 
-export function RHFMultiFileDropzone({
+export function RHFMultiImageFileDropzone({
   name,
-  dropzoneOptions = {
-    maxFiles: 5,
-    maxSize: 1024 * 300, // 300 kb
-  },
-}: RHFMultiFileDropzoneParamsType) {
+  dropzoneOptions = defaultMultiImageDropzoneOptions,
+}: RHFMultiImageFileDropzoneParamsType) {
   const [fileStates, setFileStates] = useState<FileState[]>([]);
 
   const { setValue } = useFormContext();

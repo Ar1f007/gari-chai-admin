@@ -1,8 +1,8 @@
 import { useFieldArray } from "react-hook-form";
-import { Trash2Icon } from "lucide-react";
+import { InfoIcon, Trash2Icon } from "lucide-react";
 import clsx from "clsx";
 
-import { RHFMultiFileDropzone } from "../UI/Form/RHFMultiFileDropzone";
+import { RHFMultiImageFileDropzone } from "../UI/Form/RHFMultiImageFileDropzone";
 import Button from "../UI/Form/Button";
 import TextInput from "../UI/Form/TextInput";
 
@@ -29,13 +29,22 @@ export const CarColors = () => {
               classes="max-w-sm"
             />
 
-            <small>Upload Image (optional, max allowed - 5)</small>
-            <RHFMultiFileDropzone name={`colors.${idx}.imageUrls`} />
+            <p className="flex text-sm items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-secondary">
+                <InfoIcon /> Upload Image for this specific color
+              </span>{" "}
+              <span className="text-xs text-bodydark1">
+                (optional, max allowed - 5)
+              </span>
+            </p>
+            <RHFMultiImageFileDropzone name={`colors.${idx}.imageUrls`} />
+
+            <div className="h-[1px] bg-form-strokedark w-full" />
 
             <button
               onClick={() => remove(idx)}
               className={clsx(
-                "self-start rounded-md border py-2 px-2 text-center font-medium text-danger hover:bg-opacity-90 inline-flex items-center justify-center gap-2.5"
+                "self-start rounded-md border py-1 px-2 text-center font-medium text-danger hover:bg-opacity-90 inline-flex items-center justify-center gap-2.5"
               )}
               type="button"
             >
@@ -48,7 +57,7 @@ export const CarColors = () => {
       </ul>
 
       <Button
-        title={fields.length > 0 ? "Add more" : "Add"}
+        title={fields.length > 0 ? "Add more" : "Add Color Name"}
         type="button"
         onClick={() => append({ name: "", imageUrls: [] })}
         classes={clsx("px-6 border border-1 border-primary", {

@@ -6,7 +6,11 @@ const es = initEdgeStore.create();
  */
 const edgeStoreRouter = es.router({
   publicFiles: es.fileBucket().beforeDelete(({ ctx, fileInfo }) => true),
-  publicImages: es.imageBucket().beforeDelete(({ ctx, fileInfo }) => true),
+  publicImages: es
+    .imageBucket({
+      accept: ["image/*"],
+    })
+    .beforeDelete(({ ctx, fileInfo }) => true),
 });
 
 const handler = createEdgeStoreNextHandler({

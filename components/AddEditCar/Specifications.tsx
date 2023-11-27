@@ -48,9 +48,6 @@ const Specifications = ({
 
   return (
     <section>
-      {/* {isCalledSeparately && (
-        <div className="h-0.5 w-full bg-strokedark my-3" />
-      )} */}
       {isCalledSeparately ? (
         <h6 className="font-semibold dark:text-bodydark1 mb-3 uppercase">
           Additional Specifications

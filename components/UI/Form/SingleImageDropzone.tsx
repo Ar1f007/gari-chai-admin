@@ -43,7 +43,10 @@ const ERROR_MESSAGES = {
 };
 
 const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ dropzoneOptions, width, height, value, className, disabled, onChange }, ref) => {
+  (
+    { dropzoneOptions, width, height, value, className, disabled, onChange },
+    ref
+  ) => {
     const imageUrl = React.useMemo(() => {
       if (typeof value === "string") {
         // in case a url is passed in, use it to display the image
@@ -89,7 +92,15 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
           isDragAccept && variants.accept,
           className
         ).trim(),
-      [isFocused, imageUrl, fileRejections, isDragAccept, isDragReject, disabled, className]
+      [
+        isFocused,
+        imageUrl,
+        fileRejections,
+        isDragAccept,
+        isDragReject,
+        disabled,
+        className,
+      ]
     );
 
     // error validation messages
@@ -174,26 +185,27 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
 );
 SingleImageDropzone.displayName = "SingleImageDropzone";
 
-const Button = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ className, ...props }, ref) => {
-    return (
-      <button
-        type="button"
-        className={twMerge(
-          // base
-          "focus-visible:ring-ring inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
-          // color
-          "border border-gray-400 text-gray-400 shadow hover:bg-gray-100 hover:text-gray-500 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700",
-          // size
-          "h-6 rounded-md px-2 text-xs",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <button
+      type="button"
+      className={twMerge(
+        // base
+        "focus-visible:ring-ring inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
+        // color
+        "border border-gray-400 text-gray-400 shadow hover:bg-gray-100 hover:text-gray-500 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700",
+        // size
+        "h-6 rounded-md px-2 text-xs",
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  );
+});
 Button.displayName = "Button";
 
 function formatFileSize(bytes?: number) {

@@ -102,7 +102,7 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
       };
     } catch (error) {
       toast.error(
-        "Something went wrong while uploading image. Please Try Again"
+        "Something went wrong while uploading thumbnail image. Please Try Again"
       );
       return;
     }
