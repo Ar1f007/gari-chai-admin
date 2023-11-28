@@ -44,8 +44,8 @@ const SettingsPage = () => {
 
       <div className="col-span-3 lg:ml-15">
         {/* {selectedBtn == "brand" && <AddEditBrand formTitle="Add Brand" />} */}
-        {/* {selectedBtn == "model" && <AddEditModel onClose={hideForm} />} */}
-        {/* {selectedBtn == "bodyType" && <AddEditVehicleType onClose={hideForm} />} */}
+        {selectedBtn == "model" && <AddEditModel onClose={hideForm} />}
+        {selectedBtn == "bodyType" && <AddEditVehicleType onClose={hideForm} />}
       </div>
     </section>
   );
