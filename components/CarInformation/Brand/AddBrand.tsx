@@ -1,9 +1,9 @@
 "use client";
 
-import { xCharacterLong } from "@/util/other";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { xCharacterLong } from "@/util/other";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const createBrandSchema = z.object({
   name: z
