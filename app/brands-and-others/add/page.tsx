@@ -54,6 +54,7 @@ const AddPage = () => {
           {selectedBtn === "bodyType" && (
             <AddEditVehicleType onClose={hideForm} />
           )}
+          {selectedBtn === "brand" && <AddCarBrand />}
         </div>
       </section>
     </>
