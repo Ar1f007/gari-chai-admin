@@ -26,7 +26,7 @@ const actionBtns: Array<{ title: string; type: Selected }> = [
 ];
 
 const AddPage = () => {
-  const [selectedBtn, setSelectedBtn] = useState<Selected | null>(null);
+  const [selectedBtn, setSelectedBtn] = useState<Selected | null>("brand");
 
   function handleClick(val: Selected) {
     setSelectedBtn(val);
@@ -50,11 +50,13 @@ const AddPage = () => {
           ))}
         </div>
         <div className="col-span-4">
+          {selectedBtn === "brand" && <AddCarBrand onClose={hideForm} />}
+
           {selectedBtn === "model" && <AddEditModel onClose={hideForm} />}
+
           {selectedBtn === "bodyType" && (
             <AddEditVehicleType onClose={hideForm} />
           )}
-          {selectedBtn === "brand" && <AddCarBrand />}
         </div>
       </section>
     </>
