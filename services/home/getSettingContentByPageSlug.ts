@@ -1,5 +1,13 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { ReqMethod, TAGS, brandSchema, carSchema, endpoints } from "..";
+import {
+  ReqMethod,
+  TAGS,
+  TBrandSchema,
+  TCarSchema,
+  brandSchema,
+  carSchema,
+  endpoints,
+} from "..";
 import { z } from "zod";
 import { homeSettingSections } from "@/util/constants";
 
@@ -21,6 +29,7 @@ export type THomeSettingApiSchema = z.infer<
 >;
 
 export async function getSettingContentByPageSlug(slug: string) {
+  // check if the provided slug is allowed
   const parsedSlug = homeSettingSections.safeParse(slug);
 
   if (!parsedSlug.success) {
@@ -35,7 +44,7 @@ export async function getSettingContentByPageSlug(slug: string) {
       method: ReqMethod.GET,
       next: {
         tags: [TAGS.allHomeSettings, slug],
-        revalidate: 24 * 3600,
+        revalidate: 0,
       },
     });
 

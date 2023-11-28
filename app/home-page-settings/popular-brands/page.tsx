@@ -2,7 +2,6 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AddNewBrandButton from "@/components/HomePageSettings/AddNewPopularBrand";
 import Brand from "@/components/HomePageSettings/Brand";
 import BrandDropdownButton from "@/components/HomePageSettings/BrandCardDropdown";
-import DropdownButton from "@/components/HomePageSettings/DropdownButton";
 import UpdateCacheBtn from "@/components/UpdateCache/UpdateCacheBtn";
 import {
   TBrandSchema,
@@ -65,7 +64,7 @@ const PopularBrands = async () => {
             >
               <Brand
                 key={brand._id}
-                brand={brand.content}
+                brand={brand.content as TBrandSchema}
               />
 
               <BrandDropdownButton

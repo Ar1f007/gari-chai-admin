@@ -6,6 +6,7 @@ import Modal from "../Dialog/Dialog";
 import AddItemForm from "./AddItemForm";
 import { carCategoryOptions } from "@/util/constants";
 import { TCarSchema } from "@/services";
+import { SelectOption } from "@/types/others";
 
 type EditItemProps = {
   isOpen: boolean;
@@ -29,9 +30,9 @@ const EditItemForm = ({
     return option ? option.value : "";
   }
 
-  const brand = {
+  const brand: SelectOption = {
     label: carContent.brand.name,
-    value: carContent.brand.slug,
+    value: carContent.brand.id as string,
   };
 
   const car = {

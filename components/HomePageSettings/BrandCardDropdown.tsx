@@ -1,6 +1,10 @@
 "use client";
 
-import { invalidateAdminCache, invalidateUICache } from "@/services";
+import {
+  TBrandSchema,
+  invalidateAdminCache,
+  invalidateUICache,
+} from "@/services";
 import {
   THomeSettingApiSchema,
   deleteHomeSettingItem,
@@ -41,8 +45,9 @@ const BrandDropdownButton = ({ item, pageSlug }: Props) => {
     values: {
       brand: {
         label: item.content.name,
-        value: item.content,
+        value: item.content as TBrandSchema,
       },
+
       sort: item.sort,
     },
     resolver: zodResolver(popularBrandEditFormSchema),

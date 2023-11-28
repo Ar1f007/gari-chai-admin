@@ -1,22 +1,24 @@
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { Car } from "@/components/Cards/Car";
+import { Text } from "@radix-ui/themes";
+import { InfoIcon } from "lucide-react";
 
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AddNewButton from "@/components/HomePageSettings/AddNewButton";
 import DropdownButton from "@/components/HomePageSettings/DropdownButton";
 import UpdateCacheBtn from "@/components/UpdateCache/UpdateCacheBtn";
+
+import { Car } from "@/components/Cards/Car";
 import { TCarSchema } from "@/services";
 import {
   THomeSettingApiSchema,
   getSettingContentByPageSlug,
 } from "@/services/home/getSettingContentByPageSlug";
-import { Text } from "@radix-ui/themes";
-import { InfoIcon } from "lucide-react";
 
 type SettingTypeProps = {
   params: {
     settings: string;
   };
 };
+
 const HomepageSettingsSectionPage = async (props: SettingTypeProps) => {
   const pageSlug = props.params.settings;
 
