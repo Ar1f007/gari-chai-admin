@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Button from "@/components/UI/Form/Button";
-import AddEditBrand from "@/components/CarInformation/AddEditBrand";
 import AddEditModel from "@/components/CarInformation/Model/AddModel";
 import AddEditVehicleType from "@/components/CarInformation/VehicleType/AddEditForm";
+import AddBrand from "@/components/CarInformation/Brand/AddBrand";
 
 type Selected = "brand" | "model" | "bodyType";
 
@@ -50,7 +50,7 @@ const AddPage = () => {
           ))}
         </div>
         <div className="col-span-4">
-          {/* {selectedBtn == "brand" && <AddEditBrand formTitle="Add Brand" />} */}
+          {selectedBtn == "brand" && <AddBrand />}
           {selectedBtn == "model" && <AddEditModel onClose={hideForm} />}
           {selectedBtn == "bodyType" && (
             <AddEditVehicleType onClose={hideForm} />
