@@ -10,6 +10,21 @@ import AddEditVehicleType from "@/components/CarInformation/VehicleType/AddEditF
 
 type Selected = "brand" | "model" | "bodyType";
 
+const actionBtns: Array<{ title: string; type: Selected }> = [
+  {
+    title: "Add Car Brand",
+    type: "brand",
+  },
+  {
+    title: "Add Car Model",
+    type: "model",
+  },
+  {
+    title: "Add Body Style",
+    type: "bodyType",
+  },
+];
+
 const AddPage = () => {
   const [selectedBtn, setSelectedBtn] = useState<Selected | null>("brand");
 
@@ -25,26 +40,17 @@ const AddPage = () => {
       <Breadcrumb pageName="Add Car Brands and Others" />
       <section className="w-full mt-5 grid grid-cols-1 lg:grid-cols-5 gap-20">
         <div className="flex flex-col gap-5">
-          <Button
-            title="Add Car Brand"
-            type="button"
-            onClick={() => handleClick("brand")}
-          />
-
-          <Button
-            title="Add Car Model"
-            type="button"
-            onClick={() => handleClick("model")}
-          />
-
-          <Button
-            title="Add Body Style"
-            type="button"
-            onClick={() => handleClick("bodyType")}
-          />
+          {actionBtns.map((btn, idx) => (
+            <Button
+              key={idx}
+              title={btn.title}
+              type="button"
+              onClick={() => handleClick(btn.type)}
+            />
+          ))}
         </div>
         <div className="col-span-4">
-          {selectedBtn == "brand" && <AddEditBrand formTitle="Add Brand" />}
+          {/* {selectedBtn == "brand" && <AddEditBrand formTitle="Add Brand" />} */}
           {selectedBtn == "model" && <AddEditModel onClose={hideForm} />}
           {selectedBtn == "bodyType" && (
             <AddEditVehicleType onClose={hideForm} />
