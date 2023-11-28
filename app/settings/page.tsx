@@ -6,7 +6,7 @@ import AddEditVehicleType from "@/components/CarInformation/VehicleType/AddEditF
 import { Button } from "@radix-ui/themes";
 import { useState } from "react";
 
-type Selected = "brand" | "model" | "bodyType" | "fuel";
+type Selected = "brand" | "model" | "bodyType";
 
 const Settings = () => {
   const [selectedBtn, setSelectedBtn] = useState<Selected | null>("brand");
