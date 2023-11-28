@@ -8,7 +8,7 @@ import { useState } from "react";
 
 type Selected = "brand" | "model" | "bodyType";
 
-const Settings = () => {
+const SettingsPage = () => {
   const [selectedBtn, setSelectedBtn] = useState<Selected | null>("brand");
 
   function handleClick(val: Selected) {
@@ -51,4 +51,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsPage;

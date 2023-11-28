@@ -100,7 +100,7 @@ const adminNavigation = [
   {
     isGroup: false,
     title: "Settings",
-    href: "/settings",
+    href: "/all-settings",
     icon: SettingsIcon,
   },
 ];
