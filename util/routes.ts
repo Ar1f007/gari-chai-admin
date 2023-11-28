@@ -40,12 +40,20 @@ const homepageSettingsLinks = [
 
 const brandLinks = [
   {
-    title: "Brands",
-    href: "/brands",
+    title: "Add",
+    href: "/brands-and-others/add",
   },
   {
-    title: "Add Brand",
-    href: "/brands/add",
+    title: "Brands",
+    href: "/brands-and-others/brands",
+  },
+  {
+    title: "Models",
+    href: "/brands-and-others/models",
+  },
+  {
+    title: "Body style",
+    href: "/brands-and-others/body-styles",
   },
 ];
 
@@ -80,7 +88,7 @@ const adminNavigation = [
   },
   {
     isGroup: true,
-    groupName: "Brand",
+    groupName: "Brands & Others",
     icon: Dice1,
     links: brandLinks,
   },
@@ -96,12 +104,6 @@ const adminNavigation = [
     groupName: "Cache Control",
     icon: DatabaseZap,
     links: cacheLinks,
-  },
-  {
-    isGroup: false,
-    title: "Settings",
-    href: "/all-settings",
-    icon: SettingsIcon,
   },
 ];
 
