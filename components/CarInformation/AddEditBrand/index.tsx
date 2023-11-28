@@ -108,7 +108,7 @@ const AddEditBrand = (props: Props) => {
 
             <RHFSingleImage
               name="image"
-              maxSize={1024 * 100} // 100kb
+              maxSize={1024 * 200} // 200kb
             />
 
             <SubmitButton
