@@ -50,9 +50,9 @@ const AddPage = () => {
           ))}
         </div>
         <div className="col-span-4">
-          {selectedBtn == "brand" && <AddCarBrand />}
-          {selectedBtn == "model" && <AddEditModel onClose={hideForm} />}
-          {selectedBtn == "bodyType" && (
+          {selectedBtn === "brand" && <AddCarBrand />}
+          {selectedBtn === "model" && <AddEditModel onClose={hideForm} />}
+          {selectedBtn === "bodyType" && (
             <AddEditVehicleType onClose={hideForm} />
           )}
         </div>
