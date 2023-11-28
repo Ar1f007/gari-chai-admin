@@ -95,7 +95,7 @@ const AddEditBrand = (props: Props) => {
           </h3>
         </div>
 
-        {/* <FormProvider
+        <FormProvider
           methods={methods}
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -117,7 +117,7 @@ const AddEditBrand = (props: Props) => {
               title="Submit"
             />
           </div>
-        </FormProvider> */}
+        </FormProvider>
       </div>
     </div>
   );

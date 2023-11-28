@@ -26,7 +26,7 @@ const actionBtns: Array<{ title: string; type: Selected }> = [
 ];
 
 const AddPage = () => {
-  const [selectedBtn, setSelectedBtn] = useState<Selected | null>("brand");
+  const [selectedBtn, setSelectedBtn] = useState<Selected | null>(null);
 
   function handleClick(val: Selected) {
     setSelectedBtn(val);
