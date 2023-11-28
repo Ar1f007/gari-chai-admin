@@ -21,6 +21,10 @@ type AddEditModelProps = {
 
 const AddBrand = () => {
   const methods = useForm<AddBrandFormInputs>({
+    defaultValues: {
+      name: "",
+      image: undefined,
+    },
     resolver: zodResolver(createBrandSchema),
   });
 
