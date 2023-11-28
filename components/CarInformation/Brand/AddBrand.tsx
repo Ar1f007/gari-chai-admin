@@ -21,14 +21,14 @@ type AddEditModelProps = {
   onClose: () => void;
 };
 
-const AddBrand = () => {
-  const methods = useForm<AddBrandFormInputs>({
-    defaultValues: {
-      name: "",
-      image: undefined,
-    },
-    resolver: zodResolver(createBrandSchema),
-  });
+const AddCarBrand = () => {
+  // const methods = useForm<AddBrandFormInputs>({
+  //   defaultValues: {
+  //     name: "",
+  //     image: undefined,
+  //   },
+  //   resolver: zodResolver(createBrandSchema),
+  // });
 
   return (
     <div className="flex flex-col gap-9 max-w-md">
@@ -40,4 +40,4 @@ const AddBrand = () => {
     </div>
   );
 };
-export default AddBrand;
+export default AddCarBrand;

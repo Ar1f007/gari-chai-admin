@@ -6,7 +6,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Button from "@/components/UI/Form/Button";
 import AddEditModel from "@/components/CarInformation/Model/AddModel";
 import AddEditVehicleType from "@/components/CarInformation/VehicleType/AddEditForm";
-import AddBrand from "@/components/CarInformation/Brand/AddBrand";
+import AddCarBrand from "@/components/CarInformation/Brand/AddBrand";
 
 type Selected = "brand" | "model" | "bodyType";
 
@@ -50,7 +50,7 @@ const AddPage = () => {
           ))}
         </div>
         <div className="col-span-4">
-          {selectedBtn == "brand" && <p>Hello</p>}
+          {selectedBtn == "brand" && <AddCarBrand />}
           {selectedBtn == "model" && <AddEditModel onClose={hideForm} />}
           {selectedBtn == "bodyType" && (
             <AddEditVehicleType onClose={hideForm} />
