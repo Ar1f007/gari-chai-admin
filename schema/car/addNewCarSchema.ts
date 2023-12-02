@@ -46,7 +46,10 @@ export const createNewCarSchema = z.object({
     .refine((val) => val.length, { message: "required" })
     .default([]),
 
-  bodyStyle: selectOptionSchema.transform((bodyStyle) => bodyStyle.value),
+  bodyStyle: selectOptionSchema.transform((bodyStyle) => ({
+    id: bodyStyle.value,
+    name: bodyStyle.label,
+  })),
 
   engine: z.object({
     type: z.string().min(1, "Required"),
@@ -131,6 +134,12 @@ export const createNewCarSchema = z.object({
   additionalSpecifications: z
     .optional(z.array(singleSpecificationSchema))
     .default([]),
+
+  cities: z.optional(
+    z
+      .array(z.object({ value: z.string(), label: z.string() }))
+      .transform((cities) => cities.map((city) => city.value))
+  ),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;

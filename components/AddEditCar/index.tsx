@@ -23,6 +23,7 @@ import { mapValidationErrors } from "@/util/mapValidationError";
 import { GroupedSpecifications } from "./GroupedSpecifications";
 import { CarColors } from "./Colors";
 import { useEdgeStore } from "@/lib/edgestore";
+import Cities from "./Cities";
 
 type Props = {
   formTitle: string;
@@ -171,6 +172,8 @@ export const AddEditNewCarForm = ({ formTitle }: Props) => {
               />
 
               <CarColors />
+
+              <Cities />
 
               <LaunchedDate />
 

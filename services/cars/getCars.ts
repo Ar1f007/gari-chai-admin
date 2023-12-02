@@ -37,7 +37,10 @@ export const carSchema = z.object({
 
   transmission: z.string(),
 
-  bodyStyle: z.string(),
+  bodyStyle: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
 
   fuel: z.object({
     typeInfo: z.object({
@@ -58,6 +61,15 @@ export const carSchema = z.object({
   }),
 
   imageUrls: z.array(z.string()).optional(),
+
+  videoUrls: z.optional(
+    z.array(
+      z.object({
+        thumbnailUrl: z.string().url().optional(),
+        url: z.string().url(),
+      })
+    )
+  ),
 
   colors: z
     .array(
@@ -90,6 +102,8 @@ export const carSchema = z.object({
     .optional(),
 
   additionalSpecifications: z.array(attributeSchema).optional(),
+
+  carType: z.enum(["new", "used"]),
 
   launchedAt: z.string(),
   createdAt: z.string(),
