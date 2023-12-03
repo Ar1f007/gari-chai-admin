@@ -62,14 +62,15 @@ export const carSchema = z.object({
 
   imageUrls: z.array(z.string()).optional(),
 
-  videoUrls: z.optional(
-    z.array(
+  videoUrls: z
+    .array(
       z.object({
         thumbnailUrl: z.string().url().optional(),
         url: z.string().url(),
       })
     )
-  ),
+    .optional()
+    .default([]),
 
   colors: z
     .array(
