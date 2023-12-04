@@ -1,16 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Button from "@/components/UI/Form/Button";
-import { FormProvider } from "@/components/UI/Form/FormProvider";
-import { useForm } from "react-hook-form";
-import RHFSingleImage from "@/components/UI/Form/RHFSingleImage";
 import TextInput from "@/components/UI/Form/TextInput";
-import SubmitButton from "@/components/UI/Form/Button";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SliderInputs, sliderSchema } from "@/schema/slider";
+import RHFSingleImage from "@/components/UI/Form/RHFSingleImage";
 import RHFSwitch from "@/components/UI/Form/RHFSwitch";
+import SubmitButton from "@/components/UI/Form/Button";
+
+import { SliderInputs, sliderSchema } from "@/schema/slider";
+import { FormProvider } from "@/components/UI/Form/FormProvider";
 
 const SliderPage = () => {
   const [showForm, setShowForm] = useState(false);
