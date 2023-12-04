@@ -1,13 +1,11 @@
-import {
-  Car,
-  LayoutList,
-  Dice1,
-  DatabaseZap,
-  SettingsIcon,
-} from "lucide-react";
+import { Car, LayoutList, Dice1, DatabaseZap } from "lucide-react";
 import { HOME_SETTINGS_OPTIONS } from "./constants";
 
 const homepageSettingsLinks = [
+  {
+    title: "Slider",
+    href: "/home-page-settings/sliders",
+  },
   {
     title: "Latest Cars",
     href: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.latestCars,
