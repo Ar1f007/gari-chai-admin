@@ -4,6 +4,7 @@ import { ReqMethod, TAGS, endpoints } from "..";
 import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
 import { brandSchema } from "@/schema/server";
 import { brandModelSchema } from "./getCarModels";
+import { TPagination } from "@/types/others";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.enum(["boolean", "text"]),
@@ -115,12 +116,17 @@ const carsDataSchema = z.array(carSchema);
 
 export type TCarSchema = z.infer<typeof carSchema>;
 
+type GetCarsResponseData = {
+  results: TCarSchema[];
+  pagination: TPagination;
+};
+
 export async function getCars(queryParams?: string) {
   try {
     const baseUrl = endpoints.api.cars.getCars;
     const url = queryParams ? `${baseUrl}?${queryParams}` : baseUrl;
 
-    const res = await apiFetch(url, {
+    const res = await apiFetch<GetCarsResponseData>(url, {
       method: ReqMethod.GET,
       next: {
         tags: [TAGS.cars],
@@ -129,7 +135,7 @@ export async function getCars(queryParams?: string) {
     });
 
     if (res.status === "success") {
-      const parsedData = carsDataSchema.safeParse(res.data);
+      const parsedData = carsDataSchema.safeParse(res.data.results);
 
       if (parsedData.success) {
         return parsedData.data;

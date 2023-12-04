@@ -60,3 +60,11 @@ export type ImagePayload = {
 };
 
 export type THomeSettingSectionNames = z.infer<typeof homeSettingSections>;
+
+export type TPagination = {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  nextPage: number | null;
+};
