@@ -1,6 +1,5 @@
 import LoaderWithText from "@/components/loaders/WithText";
 import clsx from "clsx";
-import { HTMLAttributes } from "react";
 
 type Props = {
   title: string;

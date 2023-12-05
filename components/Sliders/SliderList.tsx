@@ -1,13 +1,18 @@
-import { sliderService } from "@/services/slider";
-import Image from "next/image";
-import Button from "../UI/Form/Button";
 import clsx from "clsx";
+import { TSlider, sliderService } from "@/services/slider";
+import Image from "next/image";
+import EditButton from "./EditButton";
 
 export const SliderList = async () => {
   const res = await sliderService.getSliders();
 
   if (res.status !== "success") {
     return <p>Something went wrong</p>;
+  }
+
+
+  function handleEdit (slider: TSlider) {
+
   }
 
   return (
@@ -49,11 +54,8 @@ export const SliderList = async () => {
               </p>
              </div>
 
-              <Button
-              type="button"
-              title="Edit"
-              classes="py-2 w-full"              
-            />
+             <EditButton slider={slider} />
+
             </div>
             
           </li>

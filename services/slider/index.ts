@@ -7,7 +7,7 @@ type CreateSliderInput = {
   type: "desktop" | "mobile";
 } & Omit<SliderInputs, "sliderImg" | "type">;
 
-type TSlider = Omit<CreateSliderInput, "type"> & {
+export type TSlider = Omit<CreateSliderInput, "type"> & {
   _id: string;
   sort: string;
   status: "active" | "hidden";
