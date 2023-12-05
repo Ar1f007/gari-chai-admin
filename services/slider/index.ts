@@ -1,6 +1,6 @@
 import { apiFetch } from "@/lib/apiFetch";
 import { SliderInputs } from "@/schema/slider";
-import { ReqMethod, endpoints } from "..";
+import { ReqMethod, TAGS, endpoints } from "..";
 
 type CreateSliderInput = {
   imgUrl: string;
@@ -31,6 +31,9 @@ export const sliderService = {
 
     return apiFetch<TSlider[]>(url, {
       method: ReqMethod.GET,
+      next: {
+        tags: [TAGS.sliders]
+      }
     });
   },
 };

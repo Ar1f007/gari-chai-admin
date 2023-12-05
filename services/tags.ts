@@ -7,6 +7,7 @@ export const TAGS = {
   allHomeSettings: "home-settings",
   carBodyList: "car-body-list",
   brandModelList: "brand-model-list",
+  sliders: "sliders",
 };
 
 export async function invalidateUICache(tags: string[]) {

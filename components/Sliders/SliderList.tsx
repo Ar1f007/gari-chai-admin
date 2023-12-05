@@ -1,6 +1,7 @@
 import { sliderService } from "@/services/slider";
 import Image from "next/image";
 import Button from "../UI/Form/Button";
+import clsx from "clsx";
 
 export const SliderList = async () => {
   const res = await sliderService.getSliders();
@@ -15,30 +16,46 @@ export const SliderList = async () => {
         Sliders
       </h2>
 
-      <ul className="grid grid-cols-1 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 lg:grid-cols-4 gap-5">
         {res.data.map((slider) => (
           <li
             key={slider._id}
-            className="w-full flex flex-col gap-3 py-6 px-4 bg-form-input rounded-md"
+            className="w-full flex flex-col justify-between gap-3 py-6 px-4 bg-form-input rounded-md max-h-500"
           >
             <Image
               src={slider.imgUrl}
               alt="slider"
               width={300}
-              height={300}
+              height={100}
+              className="h-auto max-h-[150px] w-full object-cover"
             />
 
-            <div className="w-fit">
-              <p className="[word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] bg-[#eceff1] px-[12px] py-0 text-[13px] font-normal normal-case leading-loose text-[#4f4f4f] shadow-none transition-[opacity] duration-300 ease-linear hover:!shadow-none dark:bg-neutral-600 dark:text-neutral-200">
+            <div className="w-full space-y-2">
+             
+             <div className="flex justify-between">
+             <p className={
+              clsx(
+                "w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white",
+                { 
+                  "bg-success" : slider.status === 'active',
+                  "bg-danger" : slider.status !== 'active',
+              },
+              )}>
                 {slider.status === "active" ? "Active" : "Hidden"}
               </p>
-            </div>
 
-            <Button
+              <p className="uppercase w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] bg-transparent border-1 border-[#eceff1] px-[12px] py-0 text-[13px] font-normal leading-loose text-[#eceff1]">
+                {slider.type}
+              </p>
+             </div>
+
+              <Button
               type="button"
               title="Edit"
-              classes="py-2"
+              classes="py-2 w-full"              
             />
+            </div>
+            
           </li>
         ))}
       </ul>

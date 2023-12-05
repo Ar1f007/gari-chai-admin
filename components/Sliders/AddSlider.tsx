@@ -16,6 +16,7 @@ import { useUploadImage } from "@/hooks/useUploadImage";
 import { SliderInputs, sliderSchema } from "@/schema/slider";
 import { sliderService } from "@/services/slider";
 import { mapValidationErrors } from "@/util/mapValidationError";
+import { TAGS, invalidateAdminCache, invalidateUICache } from "@/services";
 
 export const AddSlider = () => {
   const [showForm, setShowForm] = useState(false);
@@ -61,6 +62,11 @@ export const AddSlider = () => {
         toast.success("Slider added successfully");
 
         reset();
+        hideForm();
+
+        invalidateAdminCache([TAGS.sliders]);
+        invalidateUICache([TAGS.sliders]);
+        
         return;
       }
 
