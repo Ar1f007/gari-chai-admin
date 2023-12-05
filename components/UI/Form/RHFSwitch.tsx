@@ -66,13 +66,13 @@ const RHFSwitch = ({
         return (
           <div>
             <label
-              htmlFor="toggle4"
+              htmlFor={name}
               className="flex cursor-pointer select-none items-center"
             >
               <div className="relative">
                 <input
                   type="checkbox"
-                  id="toggle4"
+                  id={name}
                   className="sr-only"
                   {...field}
                 />

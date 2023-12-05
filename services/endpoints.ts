@@ -10,6 +10,8 @@ export const endpoints = {
       get: "/home-settings",
       addPopularBrands: "/home-settings/popular-brands",
       getPopularBrands: "/home-settings/popular-brands",
+
+      sliderBaseUrl: "/sliders",
     },
     brand: {
       createBrand: "/brands",
