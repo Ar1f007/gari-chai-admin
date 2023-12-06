@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { SliderInputs } from "@/schema/slider";
+import { EditSliderInputs, SliderInputs } from "@/schema/slider";
 import { ReqMethod, TAGS, endpoints } from "..";
 
 type CreateSliderInput = {
@@ -7,9 +7,20 @@ type CreateSliderInput = {
   type: "desktop" | "mobile";
 } & Omit<SliderInputs, "sliderImg" | "type">;
 
+type UpdateSliderParams = {
+  id: string;
+
+  slider: {
+    status: "active" | "hidden";
+    type: "desktop" | "mobile";
+    showTitle: boolean;
+    imgUrl: string;
+  } & Omit<EditSliderInputs, "sliderImg" | "type" | "status">;
+};
+
 export type TSlider = Omit<CreateSliderInput, "type"> & {
   _id: string;
-  sort: string;
+  sort: number;
   status: "active" | "hidden";
   type: "desktop" | "mobile";
   createdAt: string;
@@ -32,8 +43,17 @@ export const sliderService = {
     return apiFetch<TSlider[]>(url, {
       method: ReqMethod.GET,
       next: {
-        tags: [TAGS.sliders]
-      }
+        tags: [TAGS.sliders],
+      },
+    });
+  },
+
+  async updateSlider(payload: UpdateSliderParams) {
+    const url = endpoints.api.homeSettings.sliderBaseUrl + "/" + payload.id;
+
+    return apiFetch<TSlider>(url, {
+      method: ReqMethod.PUT,
+      body: payload.slider,
     });
   },
 };

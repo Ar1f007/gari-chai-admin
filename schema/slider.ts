@@ -10,4 +10,15 @@ export const sliderSchema = z.object({
   type: z.boolean(),
 });
 
+export const editSliderSchema = sliderSchema.extend({
+  sliderImg: z
+    .undefined()
+    .or(z.instanceof(File, { message: "image should be of type file" })),
+  type: z.boolean(),
+  sort: z.number().min(0),
+  status: z.boolean(),
+});
+
 export type SliderInputs = z.infer<typeof sliderSchema>;
+
+export type EditSliderInputs = z.infer<typeof editSliderSchema>;

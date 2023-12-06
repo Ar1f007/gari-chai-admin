@@ -66,7 +66,7 @@ export const AddSlider = () => {
 
         invalidateAdminCache([TAGS.sliders]);
         invalidateUICache([TAGS.sliders]);
-        
+
         return;
       }
 
@@ -124,7 +124,7 @@ export const AddSlider = () => {
                       />
 
                       <TextInput
-                        name="sliderLink"
+                        name="link"
                         label="Go to link"
                         defaultValue="/"
                       />

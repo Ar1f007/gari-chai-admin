@@ -1,8 +1,13 @@
 "use client";
 
 import { useUploadImage } from "@/hooks/useUploadImage";
-import { SliderInputs, sliderSchema } from "@/schema/slider";
-import { TSlider } from "@/services/slider";
+import {
+  EditSliderInputs,
+  SliderInputs,
+  editSliderSchema,
+  sliderSchema,
+} from "@/schema/slider";
+import { TSlider, sliderService } from "@/services/slider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormProvider } from "../UI/Form/FormProvider";
@@ -12,6 +17,9 @@ import TextInput from "../UI/Form/TextInput";
 import RHFSwitch from "../UI/Form/RHFSwitch";
 import SubmitButton from "@/components/UI/Form/Button";
 import { useState } from "react";
+import { toast } from "sonner";
+import { TAGS, invalidateAdminCache, invalidateUICache } from "@/services";
+import { mapValidationErrors } from "@/util/mapValidationError";
 
 export const EditSlider = ({
   slider,
@@ -23,24 +31,86 @@ export const EditSlider = ({
   const [openImgForm, setOpenImgForm] = useState(false);
   const { uploadImage } = useUploadImage();
 
-  const methods = useForm<SliderInputs>({
+  const methods = useForm<EditSliderInputs>({
     defaultValues: {
       title: slider.title,
       link: slider.link,
       showTitle: slider.showTitle,
       sliderImg: undefined,
+      sort: slider.sort,
+      type: slider.type === "desktop",
+      status: slider.status === "active",
     },
 
-    resolver: zodResolver(sliderSchema),
+    resolver: zodResolver(editSliderSchema),
   });
 
-  async function handleSubmit(data: any) {}
+  console.log(methods.formState.errors);
+
+  async function handleImageUpload(img: File) {
+    try {
+      const res = await uploadImage(img);
+
+      if (!res) {
+        throw new Error("Could not upload image");
+      }
+
+      return res.url;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function updateSlider(data: EditSliderInputs) {
+    try {
+      const imgUrl = data.sliderImg
+        ? await handleImageUpload(data.sliderImg)
+        : slider.imgUrl;
+      const status = data.status ? "active" : "hidden";
+      const type = data.type ? "desktop" : "mobile";
+
+      const res = await sliderService.updateSlider({
+        id: slider._id,
+        slider: {
+          imgUrl,
+          link: data.link,
+          showTitle: data.showTitle,
+          sort: data.sort,
+          status,
+          type,
+          title: data.title,
+        },
+      });
+
+      console.log(res);
+
+      if (res.status === "success") {
+        toast.success("Slider updated successfully");
+        invalidateAdminCache([TAGS.sliders]);
+        invalidateUICache([TAGS.sliders]);
+        onClose();
+        return;
+      }
+
+      if (res.status === "validationError") {
+        mapValidationErrors(res.errors, methods);
+        return;
+      }
+
+      toast.error(res.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message || "Something went wrong");
+      }
+      toast.error("Something went wrong");
+    }
+  }
 
   return (
     <div className="flex flex-col gap-9 w-full max-w-md">
       <FormProvider
         methods={methods}
-        onSubmit={handleSubmit}
+        onSubmit={methods.handleSubmit(updateSlider)}
       >
         <div className="p-5">
           <div className="space-y-5">
@@ -80,19 +150,12 @@ export const EditSlider = ({
               </>
             )}
 
-            <TextInput
-              name="title"
-              defaultValue={slider.title}
-            />
+            <TextInput name="title" />
 
-            <TextInput
-              name="sliderLink"
-              defaultValue={slider.link}
-            />
+            <TextInput name="link" />
 
             <TextInput
               name="sort"
-              defaultValue={slider.sort}
               type="number"
             />
 
@@ -100,6 +163,18 @@ export const EditSlider = ({
               name="showTitle"
               checkedText="Display Title"
               unCheckedText="Hide Title"
+            />
+
+            <RHFSwitch
+              name="status"
+              checkedText="Currently Active"
+              unCheckedText="Marked as Hidden"
+            />
+
+            <RHFSwitch
+              name="type"
+              checkedText="Desktop Slider"
+              unCheckedText="Mobile Slider"
             />
 
             <div className="flex gap-5 items-center">
