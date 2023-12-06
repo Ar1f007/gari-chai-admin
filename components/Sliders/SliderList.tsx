@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { TSlider, sliderService } from "@/services/slider";
 import Image from "next/image";
-import EditButton from "./EditButton";
+import EditDeleteSliderButton from "./EditDeleteSliderButton";
 
 export const SliderList = async () => {
   const res = await sliderService.getSliders();
@@ -10,10 +10,7 @@ export const SliderList = async () => {
     return <p>Something went wrong</p>;
   }
 
-
-  function handleEdit (slider: TSlider) {
-
-  }
+  function handleEdit(slider: TSlider) {}
 
   return (
     <div>
@@ -36,28 +33,25 @@ export const SliderList = async () => {
             />
 
             <div className="w-full space-y-2">
-             
-             <div className="flex justify-between">
-             <p className={
-              clsx(
-                "w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white",
-                { 
-                  "bg-success" : slider.status === 'active',
-                  "bg-danger" : slider.status !== 'active',
-              },
-              )}>
-                {slider.status === "active" ? "Active" : "Hidden"}
-              </p>
+              <div className="flex justify-between">
+                <p
+                  className={clsx(
+                    "w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white",
+                    {
+                      "bg-success": slider.status === "active",
+                      "bg-danger": slider.status !== "active",
+                    }
+                  )}
+                >
+                  {slider.status === "active" ? "Active" : "Hidden"}
+                </p>
 
-              <p className="uppercase w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] bg-transparent border-1 border-[#eceff1] px-[12px] py-0 text-[13px] font-normal leading-loose text-[#eceff1]">
-                {slider.type}
-              </p>
-             </div>
-
-             <EditButton slider={slider} />
-
+                <p className="uppercase w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] bg-transparent border-1 border-[#eceff1] px-[12px] py-0 text-[13px] font-normal leading-loose text-[#eceff1]">
+                  {slider.type}
+                </p>
+              </div>
+              <EditDeleteSliderButton sliderItem={slider} />
             </div>
-            
           </li>
         ))}
       </ul>

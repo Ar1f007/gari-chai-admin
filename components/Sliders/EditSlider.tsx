@@ -82,8 +82,6 @@ export const EditSlider = ({
         },
       });
 
-      console.log(res);
-
       if (res.status === "success") {
         toast.success("Slider updated successfully");
         invalidateAdminCache([TAGS.sliders]);

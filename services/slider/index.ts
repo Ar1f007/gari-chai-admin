@@ -56,4 +56,11 @@ export const sliderService = {
       body: payload.slider,
     });
   },
+
+  async deleteSlider(id: string) {
+    const url = endpoints.api.homeSettings.sliderBaseUrl + "/" + id;
+    return apiFetch(url, {
+      method: ReqMethod.DELETE,
+    });
+  },
 };
