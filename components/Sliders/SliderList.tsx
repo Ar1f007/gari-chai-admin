@@ -10,8 +10,6 @@ export const SliderList = async () => {
     return <p>Something went wrong</p>;
   }
 
-  function handleEdit(slider: TSlider) {}
-
   return (
     <div>
       <h2 className="text-title-md2 font-semibold text-black dark:text-white mb-5">
