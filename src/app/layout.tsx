@@ -38,7 +38,7 @@ export default function RootLayout({
               <section className="flex-1 overflow-y-auto pl-[var(--sidebarWidthCollapsed)] md:pl-0">
                 <section className="min-h-screen flex flex-col">
                   <TopHeader />
-                  <main className="p-4">{children}</main>
+                  <main>{children}</main>
                   <Copyright />
                 </section>
               </section>
