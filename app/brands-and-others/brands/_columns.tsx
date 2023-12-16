@@ -37,6 +37,7 @@ export const columns: ColumnDef<TBrandSchema>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="pl-0"
         >
           Name
           <ArrowUpDownIcon className="ml-2 h-4 w-4" />
@@ -51,6 +52,7 @@ export const columns: ColumnDef<TBrandSchema>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="pl-0"
         >
           Car collection
           <ArrowUpDownIcon className="ml-2 h-4 w-4" />
