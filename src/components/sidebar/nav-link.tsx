@@ -36,7 +36,7 @@ const NavLink = (props: NavLinkProps) => {
         props.children
       ) : (
         <Fragment>
-          {props.hideIcon ? null : props.icon ? (
+          {props.icon ? (
             <>{<props.icon className="flex-shrink-0" />}</>
           ) : (
             <ChevronRightIcon className="flex-shrink-0" />

@@ -12,7 +12,6 @@ export type Route = {
   label: string;
   href: string | NavLinkItem[];
   icon?: LucideIcon;
-  hideIcon?: boolean;
 };
 
 const carLinks: Route[] = [

@@ -11,7 +11,6 @@ type NavLinkGroupProps = {
   links: NavLinkItem[];
   icon?: LucideIcon;
   depthLevel?: number;
-  hideIcon?: boolean;
 };
 
 const NavLinkGroup = ({
@@ -19,7 +18,6 @@ const NavLinkGroup = ({
   links,
   icon: Icon,
   depthLevel = 0,
-  hideIcon = false,
 }: NavLinkGroupProps) => {
   depthLevel += 1;
 
@@ -39,7 +37,7 @@ const NavLinkGroup = ({
         }}
       >
         <span className="flex gap-2 truncate">
-          {hideIcon ? null : Icon ? <>{<Icon />}</> : <LayersIcon />}
+          {Icon ? <>{<Icon />}</> : <LayersIcon />}
 
           <span className="truncate flex-1">{groupName}</span>
         </span>
@@ -83,7 +81,6 @@ const NavLinkGroup = ({
                       : `calc(var(--paddingLeftOffset) * ${2})`,
                 }}
                 data-depth={depthLevel}
-                hideIcon={item.hideIcon}
               />
             )}
           </li>

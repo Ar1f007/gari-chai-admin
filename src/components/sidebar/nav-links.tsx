@@ -20,7 +20,6 @@ const NavLinks = ({ links }: NavLinksProps) => {
         groupName={item.label}
         links={item.href as NavLinkItem[]}
         depthLevel={depthLevel}
-        hideIcon={item.hideIcon}
       />
     );
   }
@@ -37,7 +36,7 @@ const NavLinks = ({ links }: NavLinksProps) => {
   }
 
   return (
-    <ul className="overflow-y-auto h-full border-b transition-[height] ease-linear duration-300">
+    <ul className="overflow-y-auto h-full border-b transition-[height] ease-linear duration-300 min-h-[300px]">
       {links.map((item, idx) => (
         <li key={idx}>
           {Array.isArray(item.href)

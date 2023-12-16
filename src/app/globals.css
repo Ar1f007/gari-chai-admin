@@ -7,7 +7,13 @@
     /* layout */
     --sidebarWidthCollapsed: 56px;
     --sidebarWidth: 280px;
+
     --paddingLeftOffset: 16px;
+
+    --paddingOffset: 32px;
+    --pagePaddingBlock: var(--paddingOffset);
+    --pagePaddingInline: var(--paddingOffset);
+
     --radius: 0.5rem;
     /* end layout */
 
