@@ -3,8 +3,10 @@
 import {
   ColumnDef,
   flexRender,
+  SortingState,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -17,6 +19,9 @@ import {
   TableRow,
 } from "@/components/UI/Table";
 import { Button } from "@/components/UI/Button";
+import { useState } from "react";
+import { RHFSelect } from "@/components/UI/Form/RHFSelect";
+import ReactSelect from "@/components/UI/Form/ReactSelect";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -27,14 +32,21 @@ export function BrandDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
     initialState: {
       pagination: {
-        pageSize: 5,
+        pageSize: 10,
       },
     },
   });
@@ -92,23 +104,57 @@ export function BrandDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="min-w-[150px]">
+          <ReactSelect
+            options={[
+              {
+                value: 10,
+                label: 10,
+              },
+              {
+                value: 20,
+                label: 20,
+              },
+              {
+                value: 30,
+                label: 30,
+              },
+              {
+                value: 40,
+                label: 40,
+              },
+              {
+                value: 40,
+                label: 40,
+              },
+              {
+                value: 50,
+                label: 50,
+              },
+            ]}
+            onChange={(v) => v && table.setPageSize(v.value)}
+            defaultValue={{ value: 10, label: 10 }}
+          />
+        </div>
+        <div className="flex space-x-2 flex-wrap">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

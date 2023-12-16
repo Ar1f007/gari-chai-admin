@@ -5,7 +5,7 @@ import { Button } from "@/components/UI/Button";
 import { TBrandSchema } from "@/services";
 import { PLACEHOLDER_IMAGE } from "@/util/constants";
 import { ColumnDef } from "@tanstack/react-table";
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { ArrowUpDownIcon, EditIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 
 export const columns: ColumnDef<TBrandSchema>[] = [
@@ -32,11 +32,31 @@ export const columns: ColumnDef<TBrandSchema>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "carCollectionCount",
-    header: "Car collection",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Car collection
+          <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     id: "actions",
