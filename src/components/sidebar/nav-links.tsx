@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "@/utils/navigation-links";
+import { Route } from "@/utilss/navigation-links";
 import { NavLinkItem } from "@/types";
 import NavLinkGroup from "@/components/sidebar/nav-link-group";
 import NavLink from "@/components/sidebar/nav-link";

@@ -1,5 +1,5 @@
 import { TApiData, TApiError } from "@/types/others";
-import { API_V1_URL } from "@/util/constants";
+import { API_V1_URL } from "@/utils/constants";
 
 type FetchExtendedOptions = {
   isFormData?: boolean;

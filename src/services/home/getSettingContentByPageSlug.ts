@@ -9,7 +9,7 @@ import {
   endpoints,
 } from "..";
 import { z } from "zod";
-import { homeSettingSections } from "@/util/constants";
+import { homeSettingSections } from "@/utils/constants";
 
 export const homeSettingApiSchemaSingleInstance = z.object({
   _id: z.string(),

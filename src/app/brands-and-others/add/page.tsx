@@ -6,15 +6,32 @@ import { ReactNode, useState } from "react";
 import { AddBrand } from "./add-brand";
 import AddModel from "./add-model";
 import { AddBodyStyle } from "./add-body-style";
+import { Button } from "@/components/ui/button";
 
 type TabBtnValue = "brand" | "model" | "bodyStyle";
 
-const tabBtns: Array<{ title: string; type: TabBtnValue; content: ReactNode }> =
-  [
+const AddBrandsAndOthers = () => {
+  const [selectedTab, setSelectedTab] = useState<TabBtnValue | undefined>(
+    "brand"
+  );
+
+  function hideForm() {
+    setSelectedTab(undefined);
+  }
+
+  function handleClick(type: TabBtnValue) {
+    setSelectedTab(type);
+  }
+
+  const tabBtns: Array<{
+    title: string;
+    type: TabBtnValue;
+    content: ReactNode;
+  }> = [
     {
       title: "Add Car Brand",
       type: "brand",
-      content: <AddBrand />,
+      content: <AddBrand onSuccess={hideForm} />,
     },
     {
       title: "Add Car Model",
@@ -28,46 +45,33 @@ const tabBtns: Array<{ title: string; type: TabBtnValue; content: ReactNode }> =
     },
   ];
 
-const AddBrandsAndOthers = () => {
-  const [selectedTab, setSelectedTab] = useState<TabBtnValue | undefined>(
-    "brand"
-  );
-
-  function hideForm() {
-    setSelectedTab(undefined);
-  }
-
   return (
     <section>
       <PageHeader>Add Car Brands and Others</PageHeader>
 
       <main className="px-[var(--pagePaddingInline)] py-[var(--pagePaddingBlock)]">
         <div className="grid place-items-center">
-          <Tabs
-            orientation="vertical"
-            defaultValue={selectedTab}
-            onValueChange={(v) => v && setSelectedTab(v as TabBtnValue)}
-          >
-            <TabsList>
-              {tabBtns.map((btn) => (
-                <TabsTrigger
-                  key={btn.type}
-                  value={btn.type}
+          <section className="w-full grid grid-cols-1 lg:grid-cols-5 gap-20">
+            <div className="flex flex-col gap-5">
+              {tabBtns.map((btn, idx) => (
+                <Button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleClick(btn.type)}
+                  variant="secondary"
                 >
                   {btn.title}
-                </TabsTrigger>
+                </Button>
               ))}
-            </TabsList>
+            </div>
+            <div className="col-span-4 max-w-xl">
+              {selectedTab === "brand" && <AddBrand onSuccess={hideForm} />}
 
-            {tabBtns.map((btn) => (
-              <TabsContent
-                key={btn.type}
-                value={btn.type}
-              >
-                {btn.content}
-              </TabsContent>
-            ))}
-          </Tabs>
+              {/* {selectedTab === "model" && <AddModel onClose={hideForm} />} */}
+
+              {selectedTab === "bodyStyle" && <AddBodyStyle />}
+            </div>
+          </section>
         </div>
       </main>
     </section>

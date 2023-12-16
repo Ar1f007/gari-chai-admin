@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_V1_URL, UI_BASE_URL } from "@/util/constants";
+import { API_BASE_URL, API_V1_URL, UI_BASE_URL } from "@/utils/constants";
 
 export const endpoints = {
   api: {

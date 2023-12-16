@@ -1,4 +1,4 @@
-import { UI_BASE_URL } from "@/util/constants";
+import { UI_BASE_URL } from "@/utils/constants";
 import { ReqMethod, endpoints } from ".";
 
 export const TAGS = {

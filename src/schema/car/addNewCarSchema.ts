@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { xCharacterLong } from "@/util/other";
+import { xCharacterLong } from "@/utils/other";
 import {
   isNumberRequiredErrMsg,
   numberOrNaN,

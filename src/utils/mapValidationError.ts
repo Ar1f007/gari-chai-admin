@@ -7,8 +7,11 @@ export const mapValidationErrors = <FormFields extends FieldValues>(
   formHandler: UseFormReturn<FormFields>
 ) => {
   errors.forEach((error) => {
-    const path = error.path.join(".");
+    const path = error.path.length > 1 ? error.path.join(".") : error.path[0];
     //@ts-ignore
-    formHandler.setError(path, error.message);
+    formHandler.setError(path, {
+      message: error.message,
+      type: "custom",
+    });
   });
 };

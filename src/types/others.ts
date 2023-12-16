@@ -24,7 +24,7 @@ export type TApiError = TApiErrorData | TApiValidationError;
 import { SVGProps } from "react";
 import { LucideIcon } from "lucide-react";
 import { z } from "zod";
-import { homeSettingSections } from "@/util/constants";
+import { homeSettingSections } from "@/utils/constants";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
