@@ -2,6 +2,8 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { getBrands } from "@/services";
 import { Text } from "@radix-ui/themes";
 import { InfoIcon } from "lucide-react";
+import { BrandDataTable } from "./_data-table";
+import { columns } from "./_columns";
 
 const BrandListPage = async () => {
   const brands = await getBrands();
@@ -21,11 +23,15 @@ const BrandListPage = async () => {
           </Text>
         </div>
       ) : (
-        <ul>
-          {brands.map((brand) => (
-            <li key={brand._id}>{brand.name}</li>
-          ))}
-        </ul>
+        // <ul>
+        //   {brands.map((brand) => (
+        //     <li key={brand._id}>{brand.name}</li>
+        //   ))}
+        // </ul>
+        <BrandDataTable
+          data={brands}
+          columns={columns}
+        />
       )}
     </>
   );

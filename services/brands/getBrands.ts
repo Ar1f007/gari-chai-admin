@@ -13,7 +13,7 @@ export const brandSchema = z.object({
   name: z.string(),
   slug: z.string(),
   carCollectionCount: z.number(),
-  image: imageSchema.optional(),
+  image: imageSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
 });
