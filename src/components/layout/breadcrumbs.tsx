@@ -19,19 +19,19 @@ const Breadcrumbs = () => {
   );
 
   return (
-    <nav className="hidden md:block">
-      <ul className="flex gap-2">
+    <nav className="order-0 md:order-1">
+      <ul className="flex gap-2 flex-wrap">
         {breadcrumbs.map((breadcrumb, index) => (
           <li
             key={index}
-            className="flex gap-1 items-center"
+            className="flex gap-1 items-center truncate"
           >
             {index !== breadcrumbs.length - 1 ? (
               <Fragment>
                 <Link
                   href={breadcrumb.url}
                   className={cn(
-                    "text-primary uppercase hover:text-primary/75",
+                    "text-primary uppercase hover:text-primary/75 truncate max-w-[12ch] sm:max-w-none",
                     {
                       "font-medium text-neutral-300 select-none":
                         index === breadcrumbs.length - 1,
