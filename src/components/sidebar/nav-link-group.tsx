@@ -23,7 +23,6 @@ const NavLinkGroup = ({
 }: NavLinkGroupProps) => {
   depthLevel += 1;
 
-  console.log(depthLevel, groupName);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

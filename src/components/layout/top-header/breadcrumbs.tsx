@@ -13,8 +13,7 @@ const Breadcrumbs = () => {
 
   const breadcrumbs = pathArray.reduce(
     (acc, pathPart) => {
-      const url = `${acc[acc.length - 1].url}/${pathPart}`;
-      return [...acc, { label: pathPart, url }];
+      return [...acc, { label: pathPart, url: `/${pathPart}` }];
     },
     [{ label: "Dashboard", url: "/" }]
   );

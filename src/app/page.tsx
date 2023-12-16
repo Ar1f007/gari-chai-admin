@@ -1,11 +1,12 @@
+import { themeConfig } from "@/configs/theme-config";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "TailAdmin | Next.js E-commerce Dashboard Template",
-  description: "This is Home Blog page for TailAdmin Next.js",
+  title: themeConfig.templateName,
+  description: themeConfig.templateName + " Admin Dashboard",
   // other metadata
 };
 
 export default function Home() {
-  return <></>;
+  return <>Dashboard Content will be here</>;
 }
