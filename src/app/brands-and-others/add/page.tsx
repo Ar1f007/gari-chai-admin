@@ -54,7 +54,7 @@ const AddBrandsAndOthers = () => {
                   key={idx}
                   type="button"
                   onClick={() => handleClick(btn.type)}
-                  variant="secondary"
+                  variant={selectedTab === btn.type ? "default" : "secondary"}
                 >
                   {btn.title}
                 </Button>
@@ -65,7 +65,9 @@ const AddBrandsAndOthers = () => {
 
               {selectedTab === "model" && <AddModel onSuccess={hideForm} />}
 
-              {selectedTab === "bodyStyle" && <AddBodyStyle />}
+              {selectedTab === "bodyStyle" && (
+                <AddBodyStyle onSuccess={hideForm} />
+              )}
             </div>
           </section>
         </div>

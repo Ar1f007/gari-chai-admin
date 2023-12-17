@@ -1,7 +1,14 @@
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
+import { z } from "zod";
+import { imageSchema } from "@/schema/others";
 
-export async function addCarBodyType(payload: { name: string }) {
+export type AddCarBodyTypeParams = {
+  name: string;
+  image?: z.infer<typeof imageSchema>;
+};
+
+export async function addCarBodyType(payload: AddCarBodyTypeParams) {
   try {
     const res = await apiFetch(endpoints.api.cars.createCarBodyType, {
       method: ReqMethod.POST,
