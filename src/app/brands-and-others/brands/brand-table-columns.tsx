@@ -21,10 +21,11 @@ export const brandTableColumns: ColumnDef<TBrandSchema>[] = [
       return (
         <div>
           <Image
-            alt={"row.cell.getContext()."}
+            alt="brand image"
             src={src}
-            width={100}
-            height={100}
+            width={64}
+            height={64}
+            className="w-auto h-auto object-contain"
           />
         </div>
       );
@@ -67,7 +68,7 @@ export const brandTableColumns: ColumnDef<TBrandSchema>[] = [
       return (
         <div className="flex gap-2 flex-wrap">
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
             onClick={() => alert(brand._id)}
           >
@@ -75,12 +76,12 @@ export const brandTableColumns: ColumnDef<TBrandSchema>[] = [
             <EditIcon />
           </Button>
           <Button
-            variant="destructive"
+            variant="outline"
             size="icon"
             onClick={() => alert(brand._id)}
           >
             <div className="sr-only">Click to Delete</div>
-            <Trash2Icon className="hover:text-white" />
+            <Trash2Icon className="text-destructive" />
           </Button>
         </div>
       );
