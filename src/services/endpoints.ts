@@ -31,6 +31,7 @@ export const endpoints = {
 
     carInformation: {
       getBodyTypes: "/car-body-types",
+      carBodyType: "/car-body-types",
     },
   },
   admin: {},

@@ -1,12 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDownIcon, EditIcon, Trash2Icon } from "lucide-react";
+import { ArrowUpDownIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { PLACEHOLDER_IMAGE } from "@/utils/constants";
 import { TCarBodyStylesSchema } from "@/schemas/car-body-style";
+import { BodyStyleActionBtn } from "./action-btns";
 
 export const bodyStylesTableColumns: ColumnDef<TCarBodyStylesSchema>[] = [
   {
@@ -51,26 +52,7 @@ export const bodyStylesTableColumns: ColumnDef<TCarBodyStylesSchema>[] = [
     cell: ({ row }) => {
       const brand = row.original;
 
-      return (
-        <div className="flex gap-2 flex-wrap">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => alert(brand._id)}
-          >
-            <div className="sr-only">Click to Edit</div>
-            <EditIcon />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => alert(brand._id)}
-          >
-            <div className="sr-only">Click to Delete</div>
-            <Trash2Icon className="text-destructive" />
-          </Button>
-        </div>
-      );
+      return <BodyStyleActionBtn item={brand} />;
     },
   },
 ];

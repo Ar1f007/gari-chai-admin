@@ -3,7 +3,6 @@ import { ReqMethod, endpoints } from ".";
 
 export const TAGS = {
   brands: "brands",
-  carModels: "carModels",
   cars: "cars",
   allHomeSettings: "home-settings",
   carBodyList: "car-body-list",

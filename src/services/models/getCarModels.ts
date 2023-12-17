@@ -13,7 +13,7 @@ export async function getCarModels(queryParams?: string) {
       method: ReqMethod.GET,
 
       next: {
-        tags: [TAGS.carModels],
+        tags: [TAGS.brandModelList],
         revalidate: 3600,
       },
     });
