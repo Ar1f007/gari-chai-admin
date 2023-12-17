@@ -38,7 +38,7 @@ const SelectBrand = ({ name = "brand", label = "Pick Brand" }: Props) => {
       setLoading(true);
 
       const brands = await getBrands(SearchParams.getAllBrands);
-      setBrands(brands ? getFormattedBrandOptions(brands) : []);
+      setBrands(brands ? getFormattedBrandOptions(brands.data) : []);
     } catch (error) {
       toast.error("Could not get brands list");
     } finally {

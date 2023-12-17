@@ -20,7 +20,7 @@ export const useGetBrandsOptions = ({
       return toast.error("Something went wrong. Please try again.");
     }
 
-    const data = allBrands.filter(
+    const data = allBrands.data.filter(
       (brand) =>
         !popularBrands.some(
           (popularBrand) => popularBrand.contentId === brand._id
@@ -44,7 +44,7 @@ export const useGetBrandsOptions = ({
             return toast.error("Something went wrong. Please try again.");
           }
 
-          const data = allBrands.filter(
+          const data = allBrands.data.filter(
             (brand) =>
               !popularBrands.some(
                 (popularBrand) => popularBrand.contentId === brand._id
@@ -53,8 +53,8 @@ export const useGetBrandsOptions = ({
 
           setBrands(data ? data : []);
         } else {
-          const data = await getBrands();
-          setBrands(data ? data : []);
+          const brands = await getBrands();
+          setBrands(brands.data);
         }
       } catch (e) {
         toast.error((e as any).message) ?? "Could not get brands list";
