@@ -64,7 +64,7 @@ export const useGetBrandsOptions = ({
     };
 
     fetchData();
-  }, []);
+  }, [filterOutPopularBrands]);
 
   return { brands, isLoading };
 };
