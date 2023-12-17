@@ -14,6 +14,7 @@ export const endpoints = {
       sliderBaseUrl: "/sliders",
     },
     brand: {
+      brands: "/brands",
       createBrand: "/brands",
       getBrands: "/brands",
 
