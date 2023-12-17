@@ -1,30 +1,47 @@
 "use client";
 
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactSelect } from "@/components/ui/react-select";
+
+// Components
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CarModelInputs, carModelSchema } from "@/schemas/car-model";
-import SelectBrand from "@/components/shared/brand/select-brand";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Popover } from "@radix-ui/react-popover";
-import { InfoIcon, Loader2Icon } from "lucide-react";
-import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 
+// Icons
+import { InfoIcon, Loader2Icon } from "lucide-react";
+
+// Services
+import {
+  TAddNewBrandModelPayload,
+  addBrandModel,
+} from "@/services/brands/addBrandModel";
+import { toast } from "sonner";
+import { mapValidationErrors } from "@/utils/mapValidationError";
+import { TAGS, invalidateAdminCache } from "@/services";
+
+// Schemas
+import { CarModelInputs, carModelSchema } from "@/schemas/car-model";
+
+// Shared Components
+import SelectBrand from "@/components/shared/brand/select-brand";
+
 const defaultValues: Partial<CarModelInputs> = {
-  model: "",
+  name: "",
   upcoming: false,
 };
 
@@ -37,7 +54,32 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
   });
 
   async function onSubmit(data: CarModelInputs) {
-    console.log(data);
+    const payload: TAddNewBrandModelPayload = {
+      ...data,
+      brandId: data.brandId.value,
+    };
+
+    const res = await addBrandModel(payload);
+
+    if (!res) {
+      toast.error("Something went wrong");
+      return;
+    }
+
+    if (res.status === "validationError") {
+      mapValidationErrors(res.errors, form);
+      return;
+    }
+
+    if (res.status === "success") {
+      toast.success("Added successfully");
+      invalidateAdminCache([TAGS.brandModelList]);
+
+      onSuccess();
+      return;
+    }
+
+    toast.error(res.message ?? "Something went wrong");
   }
 
   return (
@@ -47,11 +89,11 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 py-8 px-4 bg-muted rounded border"
         >
-          <SelectBrand />
+          <SelectBrand name="brandId" />
 
           <FormField
             control={form.control}
-            name="model"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Model Name</FormLabel>

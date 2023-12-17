@@ -27,7 +27,7 @@ export function ReactSelect<
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
-          paddingBlock: "2px",
+          paddingBlock: "1px",
           // Select Element bg color
           backgroundColor: state.isDisabled
             ? "hsl(var(--muted))"

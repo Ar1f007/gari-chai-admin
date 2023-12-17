@@ -56,7 +56,7 @@ const SelectBrand = ({ name = "brand", label = "Pick Brand" }: Props) => {
       <FormField
         control={form.control}
         name={name}
-        render={({ field }) => (
+        render={({ field: { ref, value, ...rest } }) => (
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
@@ -65,7 +65,8 @@ const SelectBrand = ({ name = "brand", label = "Pick Brand" }: Props) => {
                 options={brands}
                 isClearable
                 isLoading={loading}
-                {...field}
+                value={value || ""}
+                {...rest}
               />
             </FormControl>
             <FormMessage />
