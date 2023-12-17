@@ -26,22 +26,18 @@ const AddBrandsAndOthers = () => {
   const tabBtns: Array<{
     title: string;
     type: TabBtnValue;
-    content: ReactNode;
   }> = [
     {
       title: "Add Car Brand",
       type: "brand",
-      content: <AddBrand onSuccess={hideForm} />,
     },
     {
       title: "Add Car Model",
       type: "model",
-      content: <AddModel />,
     },
     {
       title: "Add Body Style",
       type: "bodyStyle",
-      content: <AddBodyStyle />,
     },
   ];
 
@@ -67,7 +63,7 @@ const AddBrandsAndOthers = () => {
             <div className="col-span-4 max-w-xl">
               {selectedTab === "brand" && <AddBrand onSuccess={hideForm} />}
 
-              {/* {selectedTab === "model" && <AddModel onClose={hideForm} />} */}
+              {selectedTab === "model" && <AddModel onSuccess={hideForm} />}
 
               {selectedTab === "bodyStyle" && <AddBodyStyle />}
             </div>
