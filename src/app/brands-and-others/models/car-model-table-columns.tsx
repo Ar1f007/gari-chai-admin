@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { TCarModelSchema } from "@/schemas/car-model";
+import { CarModelActionBtn } from "./action-btns";
 
 export const carModelTableColumns: ColumnDef<TCarModelSchema>[] = [
   {
@@ -40,28 +41,9 @@ export const carModelTableColumns: ColumnDef<TCarModelSchema>[] = [
     id: "actions",
     header: () => <div className="xl:pl-2">Actions</div>,
     cell: ({ row }) => {
-      const brand = row.original;
+      const model = row.original;
 
-      return (
-        <div className="flex gap-2 flex-wrap">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => alert(brand._id)}
-          >
-            <div className="sr-only">Click to Edit</div>
-            <EditIcon />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => alert(brand._id)}
-          >
-            <div className="sr-only">Click to Delete</div>
-            <Trash2Icon className="text-destructive" />
-          </Button>
-        </div>
-      );
+      return <CarModelActionBtn item={model} />;
     },
   },
 ];

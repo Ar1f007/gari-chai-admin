@@ -22,6 +22,7 @@ export const endpoints = {
     },
     models: {
       getCarModels: "/models",
+      carModels: "/models",
     },
     cars: {
       createNewCar: "/cars",
