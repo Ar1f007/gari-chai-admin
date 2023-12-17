@@ -35,7 +35,7 @@ import { mapValidationErrors } from "@/utils/mapValidationError";
 import { TAGS, invalidateAdminCache } from "@/services";
 
 // Schemas
-import { CarModelInputs, carModelSchema } from "@/schemas/car-model";
+import { CarModelInputs, addCarModelSchema } from "@/schemas/car-model";
 
 // Shared Components
 import SelectBrand from "@/components/shared/brand/select-brand";
@@ -49,7 +49,7 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
   const form = useForm<CarModelInputs>({
     mode: "onTouched",
     criteriaMode: "all",
-    resolver: zodResolver(carModelSchema),
+    resolver: zodResolver(addCarModelSchema),
     defaultValues,
   });
 

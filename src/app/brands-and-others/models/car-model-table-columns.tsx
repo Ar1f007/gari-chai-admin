@@ -5,32 +5,9 @@ import { ArrowUpDownIcon, EditIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import { TBrandSchema } from "@/services";
-import { PLACEHOLDER_IMAGE } from "@/utils/constants";
+import { TCarModelSchema } from "@/schemas/car-model";
 
-export const brandTableColumns: ColumnDef<TBrandSchema>[] = [
-  {
-    accessorKey: "image",
-    header: "Image",
-    cell: ({ row }) => {
-      const value: TBrandSchema["image"] = row.getValue("image");
-
-      const src =
-        (value.thumbnailUrl ?? value.originalUrl) || PLACEHOLDER_IMAGE;
-
-      return (
-        <div>
-          <Image
-            alt="brand image"
-            src={src}
-            width={64}
-            height={64}
-            className="w-auto h-auto object-contain -ml-4"
-          />
-        </div>
-      );
-    },
-  },
+export const carModelTableColumns: ColumnDef<TCarModelSchema>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {

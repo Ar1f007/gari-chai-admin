@@ -12,6 +12,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import * as React from "react";
+
 import {
   Table,
   TableBody,
@@ -21,10 +23,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { SelectPageSize } from "@/components/shared/select-page-size";
 
 type DataTableProps<TData, TValue> = {

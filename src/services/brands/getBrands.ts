@@ -28,7 +28,8 @@ export type TBrandSchema = z.infer<typeof brandSchema>;
 export async function getBrands(queryParams?: string) {
   try {
     const baseUrl = endpoints.api.brand.getBrands;
-    const url = queryParams ? baseUrl + `?${queryParams}` : baseUrl;
+    const url =
+      queryParams && queryParams.length ? baseUrl + `?${queryParams}` : baseUrl;
 
     const res = await apiFetch(url, {
       method: ReqMethod.GET,
@@ -43,13 +44,27 @@ export async function getBrands(queryParams?: string) {
       const parsedData = brandsSchema.safeParse(res.data);
 
       if (parsedData.success) {
-        return parsedData.data;
+        return {
+          message: "",
+          data: parsedData.data,
+        };
+      } else {
+        return {
+          message: "Invalid Input",
+          data: [],
+        };
       }
     }
 
-    return undefined;
+    return {
+      message: res.message || "Something went wrong",
+      data: [],
+    };
   } catch (e) {
-    return undefined;
+    return {
+      message: "Something went wrong",
+      data: [],
+    };
   }
 }
 

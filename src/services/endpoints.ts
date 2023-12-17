@@ -20,6 +20,9 @@ export const endpoints = {
       createModel: "/models",
       getBrandModels: "/models",
     },
+    models: {
+      getCarModels: "/models",
+    },
     cars: {
       createNewCar: "/cars",
       getCars: "/cars",

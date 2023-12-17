@@ -1,29 +1,29 @@
 import PageHeader from "@/components/layout/page-header.tsx";
-import { getBrands } from "@/services";
 
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 import { BrandDataTable } from "./data-table";
-import { brandTableColumns } from "./brand-table-columns";
+import { carModelTableColumns } from "./car-model-table-columns";
+import { getCarModels } from "@/services/models/getCarModels";
 
 const BrandList = async () => {
-  const brands = await getBrands();
-
+  const carModels = await getCarModels("get=all");
+  console.log(carModels);
   return (
     <section>
-      <PageHeader>Brands</PageHeader>
+      <PageHeader>Car Models</PageHeader>
       <section className="p-[var(--paddingOffset)]">
-        {brands.message ? (
+        {carModels.message ? (
           <Alert className="max-w-md mx-auto">
             <AlertTitle className="flex gap-2 items-center">
               <InfoIcon />
-              {brands.message}
+              {carModels.message}
             </AlertTitle>
           </Alert>
         ) : (
           <BrandDataTable
-            data={brands.data}
-            columns={brandTableColumns}
+            data={carModels.data}
+            columns={carModelTableColumns}
           />
         )}
       </section>
