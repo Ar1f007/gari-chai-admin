@@ -32,7 +32,7 @@ const TextField = <T extends FieldValues>(props: TextFieldProps<T>) => {
             <FormControl>
               <Input
                 placeholder={placeholder}
-                value={value || ""}
+                value={value ?? ""}
                 {...rest}
                 {...others}
               />

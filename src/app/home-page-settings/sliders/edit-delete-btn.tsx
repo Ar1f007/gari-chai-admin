@@ -6,28 +6,45 @@ import { TAGS, invalidateAdminCache, invalidateUICache } from "@/services";
 import { TSlider, sliderService } from "@/services/slider";
 import { useState } from "react";
 import { toast } from "sonner";
+import EditSlider from "./edit-slider";
 
 const EditDeleteBtn = ({ item }: { item: TSlider }) => {
-  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const [actionType, setActionType] = useState<
+    "edit-slider" | "delete-slider" | undefined
+  >(undefined);
+
   const [loading, setLoading] = useState(false);
 
   function hideConfirmAlert() {
-    setShowConfirmAlert(false);
+    setActionType(undefined);
+  }
+
+  function handleOnActionBtn(
+    type: "edit-slider" | "delete-slider" | undefined
+  ) {
+    setActionType(type);
   }
 
   async function handleDeleteItem() {
-    const res = await sliderService.deleteSlider(item._id);
+    try {
+      setLoading(true);
+      const res = await sliderService.deleteSlider(item._id);
 
-    if (res.status !== "success") {
-      toast.error(res.message || "Something went wrong");
-      return;
+      if (res.status !== "success") {
+        toast.error(res.message || "Something went wrong");
+        return;
+      }
+
+      invalidateAdminCache([TAGS.sliders]);
+      invalidateUICache([TAGS.sliders]);
+
+      hideConfirmAlert();
+      toast.success("Slider deleted successfully");
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-    invalidateAdminCache([TAGS.sliders]);
-    invalidateUICache([TAGS.sliders]);
-
-    hideConfirmAlert();
-    toast.success("Slider deleted successfully");
   }
 
   return (
@@ -35,6 +52,7 @@ const EditDeleteBtn = ({ item }: { item: TSlider }) => {
       <Button
         className="w-full"
         size="sm"
+        onClick={() => handleOnActionBtn("edit-slider")}
       >
         Edit
       </Button>
@@ -43,17 +61,26 @@ const EditDeleteBtn = ({ item }: { item: TSlider }) => {
         variant="destructive"
         className="w-full"
         size="sm"
-        onClick={() => setShowConfirmAlert(true)}
+        onClick={() => handleOnActionBtn("delete-slider")}
       >
         Delete
       </Button>
 
-      <ConfirmDelete
-        isOpen={showConfirmAlert}
-        handleCancelBtnClick={hideConfirmAlert}
-        onConfirm={handleDeleteItem}
-        loading={loading}
-      />
+      {actionType === "delete-slider" && (
+        <ConfirmDelete
+          isOpen={true}
+          handleCancelBtnClick={hideConfirmAlert}
+          onConfirm={handleDeleteItem}
+          loading={loading}
+        />
+      )}
+
+      {actionType === "edit-slider" && (
+        <EditSlider
+          slider={item}
+          hideForm={hideConfirmAlert}
+        />
+      )}
     </div>
   );
 };
