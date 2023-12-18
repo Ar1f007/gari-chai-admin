@@ -10,7 +10,7 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "../ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, EditIcon, MoreVerticalIcon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -53,23 +53,38 @@ const BrandDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
 
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className="w-full relative"
-            size="sm"
-          >
-            <span>{item.content.name}</span>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setShowEditForm(true)}>
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="w-full space-y-2">
+        <div className="flex items-center justify-between flex-wrap">
+          <p className="w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white bg-success">
+            Sort: {item.sort}
+          </p>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+              >
+                <MoreVerticalIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setShowEditForm(true)}>
+                Update Sort
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <Button
+          className="w-full outline outline-1 outline-success"
+          variant="ghost"
+          size="sm"
+        >
+          {item.content.name}
+        </Button>
+      </div>
 
       {showEditForm && (
         <EditPopularBrand
