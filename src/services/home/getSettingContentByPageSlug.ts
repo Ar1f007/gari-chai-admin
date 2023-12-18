@@ -52,18 +52,26 @@ export async function getSettingContentByPageSlug(slug: string) {
       const parsedData = homeSettingApiMultipleInstance.safeParse(res.data);
 
       if (parsedData.success) {
-        return parsedData.data;
+        return {
+          message: null,
+          data: parsedData.data,
+        };
+      } else {
+        return {
+          message: slug + " Settings data missing",
+          data: null,
+        };
       }
-
-      throw new Error(slug + " Settings data missing");
     }
 
-    if (res.status) {
-      return res.message;
-    }
-
-    return undefined;
+    return {
+      message: res.message,
+      data: null,
+    };
   } catch (error) {
-    return (error as Error)?.message ?? undefined;
+    return {
+      message: (error as Error)?.message || "Something went",
+      data: null,
+    };
   }
 }
