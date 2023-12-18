@@ -5,6 +5,7 @@ import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
 import { brandSchema } from "@/schema/server";
 import { brandModelSchema } from "./getCarModels";
 import { TPagination } from "@/types/others";
+import { carBodyStylesSchema } from "@/schemas/car-body-style";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.enum(["boolean", "text"]),
@@ -20,26 +21,19 @@ export const carSchema = z.object({
   description: z.string().optional(),
 
   brand: z.object({
-    id: z.union([z.string(), brandSchema]),
+    id: z.union([z.string(), brandSchema, z.null()]),
     name: z.string(),
   }),
 
   brandModel: z.object({
-    id: z.union([z.string(), brandModelSchema]),
+    id: z.union([z.string(), brandModelSchema, z.null()]),
     name: z.string(),
-  }),
-
-  engine: z.object({
-    type: z.string(),
-    numOfCylinders: numberOrNull,
-    horsePower: numberOrNull,
-    torque: numberOrNull,
   }),
 
   transmission: z.string(),
 
   bodyStyle: z.object({
-    id: z.string(),
+    id: z.union([z.string(), carBodyStylesSchema, z.null()]),
     name: z.string(),
   }),
 
@@ -48,17 +42,11 @@ export const carSchema = z.object({
       type: z.string(),
       fullForm: z.string(),
     }),
-    economy: z.object({ city: numberOrNull, highway: numberOrNull }),
-  }),
-
-  acceleration: z.object({
-    zeroTo60: numberOrNull,
-    topSpeed: numberOrNull,
   }),
 
   posterImage: z.object({
     originalUrl: z.string().url(),
-    thumbnailUrl: z.string().url(),
+    thumbnailUrl: z.string().url().optional(),
   }),
 
   imageUrls: z.array(z.string()).optional(),
@@ -110,6 +98,10 @@ export const carSchema = z.object({
   launchedAt: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
+
+  status: z.enum(["available", "sold", "reserved"]),
+  soldAt: z.string().optional(),
+  cities: z.array(z.string()),
 });
 
 const carsDataSchema = z.array(carSchema);

@@ -20,7 +20,7 @@ const Sidebar = () => {
     <aside
       className={cn(
         "fixed md:static flex flex-col w-[var(--sidebarWidthCollapsed)] transition-all duration-300 ease-in-out py-2 " +
-          "bg-background border-r max-h-screen overflow-hidden",
+          "bg-background border-r max-h-screen overflow-hidden z-[9999]",
         {
           "w-[var(--sidebarWidth)] shadow-lg": isOpen,
         }

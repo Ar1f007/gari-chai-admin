@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { EditSliderInputs, SliderInputs } from "@/schema/slider";
+import { EditSliderInputs, SliderInputs } from "@/schemas/slider";
 import { ReqMethod, TAGS, endpoints } from "..";
 
 type CreateSliderInput = {

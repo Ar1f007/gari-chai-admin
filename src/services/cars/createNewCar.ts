@@ -1,6 +1,6 @@
 import { apiFetch } from "@/lib/apiFetch";
 import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
-import { NewCarInputs } from "@/schema/car/addNewCarSchema";
+import { NewCarInputs } from "@/schemas/new-car";
 
 export type TCreateNewCarParams = Omit<NewCarInputs, "posterImage"> & {
   posterImage: {

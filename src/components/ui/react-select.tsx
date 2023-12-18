@@ -1,4 +1,5 @@
 "use client";
+import { useId } from "react";
 import Select, { GroupBase, Props } from "react-select";
 
 type SelectProps<
@@ -12,8 +13,10 @@ export function ReactSelect<
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 >(props: SelectProps<Option, IsMulti, Group>) {
+  const id = useId();
   return (
     <Select
+      instanceId={id}
       theme={(theme) => ({
         ...theme,
         colors: {
@@ -59,7 +62,8 @@ export function ReactSelect<
           };
         },
       }}
-      menuPortalTarget={document.body}
+      // menuPortalTarget={document.body}
+      hideSelectedOptions
       {...props}
     />
   );
