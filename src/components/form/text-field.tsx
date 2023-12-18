@@ -28,7 +28,7 @@ const TextField = <T extends FieldValues>(props: TextFieldProps<T>) => {
         name={name}
         render={({ field: { value, ...rest } }) => (
           <FormItem>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="capitalize">{label}</FormLabel>
             <FormControl>
               <Input
                 placeholder={placeholder}
