@@ -89,15 +89,12 @@ const AddSlider = () => {
 
   return (
     <div>
-      <Button
-        onClick={() => setShowForm((prev) => !prev)}
-        className="mb-5"
-      >
+      <Button onClick={() => setShowForm((prev) => !prev)}>
         {showForm ? "Hide Form" : "Add New Slider"}
       </Button>
 
       {showForm && (
-        <div className="rounded-md outline outline-1 outline-muted p-5 shadow max-w-lg">
+        <div className="rounded-md outline outline-1 outline-muted p-5 shadow max-w-lg mt-5">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="space-y-5">
