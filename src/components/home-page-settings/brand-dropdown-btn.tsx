@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   THomeSettingApiSchema,
   deleteHomeSettingItem,
@@ -17,8 +18,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import EditPopularBrand from "./edit-popular-brand";
 
 const BrandDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
+  const [showEditForm, setShowEditForm] = useState(false);
+
+  function hideEditForm() {
+    setShowEditForm(false);
+  }
+
   async function handleDelete() {
     const res = await deleteHomeSettingItem({
       itemId: item._id,
@@ -42,22 +50,34 @@ const BrandDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
 
     toast.error(res.message);
   }
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          className="w-full relative"
-          size="sm"
-        >
-          <span>{item.content.name}</span>
-          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            className="w-full relative"
+            size="sm"
+          >
+            <span>{item.content.name}</span>
+            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setShowEditForm(true)}>
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {showEditForm && (
+        <EditPopularBrand
+          item={item}
+          onSuccess={hideEditForm}
+        />
+      )}
+    </>
   );
 };
 export default BrandDropdownBtn;
