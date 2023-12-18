@@ -15,7 +15,7 @@ export const editSliderSchema = sliderSchema.extend({
     .undefined()
     .or(z.instanceof(File, { message: "image should be of type file" })),
   type: z.boolean(),
-  sort: z.number().min(0),
+  sort: z.coerce.number().min(0),
   status: z.boolean(),
 });
 
