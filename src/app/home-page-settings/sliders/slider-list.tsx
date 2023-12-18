@@ -1,6 +1,7 @@
 import { sliderService } from "@/services/slider";
 import clsx from "clsx";
 import Image from "next/image";
+import EditDeleteBtn from "./edit-delete-btn";
 
 const SliderList = async () => {
   const res = await sliderService.getSliders();
@@ -34,7 +35,7 @@ const SliderList = async () => {
                   className={clsx(
                     "w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white",
                     {
-                      "bg-primary": slider.status === "active",
+                      "bg-success": slider.status === "active",
                       "bg-destructive": slider.status !== "active",
                     }
                   )}
@@ -46,7 +47,7 @@ const SliderList = async () => {
                   {slider.type}
                 </p>
               </div>
-              {/* <EditDeleteSliderButton sliderItem={slider} /> */}
+              <EditDeleteBtn item={slider} />
             </div>
           </li>
         ))}
