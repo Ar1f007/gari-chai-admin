@@ -1,7 +1,8 @@
+import AddNewCar from "@/components/home-page-settings/add-new-car";
 import Car from "@/components/home-page-settings/car";
 import PageHeader from "@/components/layout/page-header.tsx";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { TCarSchema, getSettingContentByPageSlug } from "@/services";
+import { getSettingContentByPageSlug } from "@/services";
 import { InfoIcon } from "lucide-react";
 import { Fragment } from "react";
 
@@ -20,7 +21,9 @@ const HomeSettingsSectionPage = async (props: Props) => {
     <Fragment>
       <PageHeader>Home Page Settings</PageHeader>
 
-      <section className="p-[var(--paddingOffset)]">
+      <section className="p-[var(--paddingOffset)] space-y-5">
+        <AddNewCar />
+
         {res.message && (
           <Alert className="max-w-md mx-auto">
             <AlertTitle className="flex gap-2 items-center">

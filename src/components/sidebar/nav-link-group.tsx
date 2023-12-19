@@ -80,7 +80,6 @@ const NavLinkGroup = ({
                       ? `calc(var(--paddingLeftOffset) * ${depthLevel + 1})`
                       : `calc(var(--paddingLeftOffset) * ${2})`,
                 }}
-                data-depth={depthLevel}
               />
             )}
           </li>

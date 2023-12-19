@@ -65,7 +65,7 @@ const SelectBrand = ({ name = "brand", label = "Pick Brand" }: Props) => {
                 options={brands}
                 isClearable
                 isLoading={loading}
-                value={value || ""}
+                value={value ?? ""}
                 {...rest}
               />
             </FormControl>
