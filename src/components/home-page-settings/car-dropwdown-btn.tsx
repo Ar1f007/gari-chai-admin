@@ -10,7 +10,7 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "../ui/button";
-import { MoreVerticalIcon } from "lucide-react";
+import { ChevronDownCircleIcon, MoreVerticalIcon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -18,9 +18,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditPopularBrand from "./edit-popular-brand";
 
-const BrandDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
+const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
   const [showEditForm, setShowEditForm] = useState(false);
 
   function hideEditForm() {
@@ -53,7 +52,8 @@ const BrandDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
 
   return (
     <>
-      <div className="w-full space-y-2">
+      <div className="w-full space-y-2 p-4">
+        <h3 className="text-center font-medium">{item.content.name}</h3>
         <div className="flex items-center justify-between flex-wrap">
           <p className="w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white bg-success">
             Sort: {item.sort}
@@ -65,34 +65,26 @@ const BrandDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
                 size="icon"
                 variant="ghost"
               >
-                <MoreVerticalIcon />
+                <ChevronDownCircleIcon />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setShowEditForm(true)}>
-                Update Sort
+                Edit
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
-        <Button
-          className="w-full outline outline-1 outline-success"
-          variant="ghost"
-          size="sm"
-        >
-          {item.content.name}
-        </Button>
       </div>
 
-      {showEditForm && (
+      {/* {showEditForm && (
         <EditPopularBrand
           item={item}
           onSuccess={hideEditForm}
         />
-      )}
+      )} */}
     </>
   );
 };
-export default BrandDropdownBtn;
+export default CarDropdownBtn;

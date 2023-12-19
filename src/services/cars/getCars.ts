@@ -99,9 +99,9 @@ export const carSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
 
-  status: z.enum(["available", "sold", "reserved"]),
+  status: z.enum(["available", "sold", "reserved"]).optional(),
   soldAt: z.string().optional(),
-  cities: z.array(z.string()),
+  cities: z.array(z.string()).optional(),
 });
 
 const carsDataSchema = z.array(carSchema);
