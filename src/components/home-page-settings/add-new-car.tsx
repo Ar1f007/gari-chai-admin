@@ -90,6 +90,8 @@ const AddNewCar = () => {
     const query = `brand=${brand.value}`;
 
     fetchCars(query);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brand]);
 
   async function addNewItem(data: AddCarToHomePageInputs) {
