@@ -28,6 +28,8 @@ type CarOption = {
   image: string | undefined;
 };
 
+const maxSelectableTagOption = 1;
+
 const AddNewCar = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,6 +59,8 @@ const AddNewCar = () => {
 
   const brand = form.watch("brand");
   const sectionToAdd = form.watch("sectionToAdd");
+
+  const selectedTag = form.watch("tag");
 
   function closeForm() {
     setShowForm(false);
@@ -96,6 +100,15 @@ const AddNewCar = () => {
 
   async function addNewItem(data: AddCarToHomePageInputs) {
     console.log(data);
+
+    const payload = {
+      ...data,
+      tag:
+        data.sectionToAdd.value !== HOME_SETTINGS_OPTIONS.electricCars &&
+        !!data.tag?.length
+          ? []
+          : data.tag,
+    };
   }
 
   return (
@@ -132,7 +145,17 @@ const AddNewCar = () => {
                 <SelectField
                   name="tag"
                   label="Add to category"
-                  options={carSubCategoryOptions}
+                  isMulti
+                  options={
+                    selectedTag?.length === maxSelectableTagOption
+                      ? []
+                      : carSubCategoryOptions
+                  }
+                  noOptionsMessage={() => {
+                    return selectedTag?.length === maxSelectableTagOption
+                      ? "Maximum one category can be selected"
+                      : "No options available";
+                  }}
                 />
               )}
 
