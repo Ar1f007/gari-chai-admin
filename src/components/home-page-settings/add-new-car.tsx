@@ -16,6 +16,11 @@ import {
 } from "@/utils/constants";
 import TextField from "../form/text-field";
 import { LoadingBtn } from "../ui/loading-btn";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  AddCarToHomePageInputs,
+  addCarToHomePageSchema,
+} from "@/schemas/home-page-add-car";
 
 type CarOption = {
   value: TCarSchema;
@@ -29,7 +34,9 @@ const AddNewCar = () => {
 
   const [cars, setCars] = useState<CarOption[]>();
 
-  const form = useForm({
+  const form = useForm<AddCarToHomePageInputs>({
+    mode: "onTouched",
+    criteriaMode: "all",
     defaultValues: {
       brand: {
         value: "",
@@ -39,8 +46,13 @@ const AddNewCar = () => {
         value: "",
         label: "",
       },
-      sort: 10,
+      selectedCar: {
+        value: undefined,
+        label: "",
+      },
+      sort: 0,
     },
+    resolver: zodResolver(addCarToHomePageSchema),
   });
 
   const brand = form.watch("brand");
@@ -73,12 +85,16 @@ const AddNewCar = () => {
   useEffect(() => {
     if (!brand) return;
 
+    form.resetField("selectedCar");
+
     const query = `brand=${brand.value}`;
 
     fetchCars(query);
   }, [brand]);
 
-  async function addNewItem() {}
+  async function addNewItem(data: AddCarToHomePageInputs) {
+    console.log(data);
+  }
   return (
     <Fragment>
       <Button onClick={() => setShowForm(true)}>Add New Car</Button>
