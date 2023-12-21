@@ -97,6 +97,7 @@ const AddNewCar = () => {
   async function addNewItem(data: AddCarToHomePageInputs) {
     console.log(data);
   }
+
   return (
     <Fragment>
       <Button onClick={() => setShowForm(true)}>Add New Car</Button>
@@ -129,8 +130,8 @@ const AddNewCar = () => {
 
               {sectionToAdd?.value === HOME_SETTINGS_OPTIONS.electricCars && (
                 <SelectField
-                  label="Add to category"
                   name="tag"
+                  label="Add to category"
                   options={carSubCategoryOptions}
                 />
               )}

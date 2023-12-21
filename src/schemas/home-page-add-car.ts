@@ -20,7 +20,7 @@ export const addCarToHomePageSchema = z.object({
   tag: z.optional(
     z.object({
       label: z.string().min(1, "Required"),
-      value: carSchema,
+      value: z.string().min(1, "required"),
     })
   ),
 
