@@ -11,7 +11,7 @@ import { ComponentProps } from "react";
 
 type SelectFieldProps<T extends FieldValues> = {
   name: FieldPath<T>;
-  label: string;
+  label?: string;
   placeholder?: string;
   isLoading?: boolean;
 } & ComponentProps<typeof ReactSelect>;
@@ -19,7 +19,7 @@ type SelectFieldProps<T extends FieldValues> = {
 const SelectField = <T extends FieldValues>(props: SelectFieldProps<T>) => {
   const {
     name,
-    label,
+    label = name,
     isLoading = false,
     placeholder,
     options,

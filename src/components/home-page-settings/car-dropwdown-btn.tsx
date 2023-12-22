@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import EditNewCar from "./edit-new-car";
 
 const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
   const [showEditForm, setShowEditForm] = useState(false);
@@ -78,12 +79,12 @@ const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
         </div>
       </div>
 
-      {/* {showEditForm && (
-        <EditPopularBrand
+      {showEditForm && (
+        <EditNewCar
           item={item}
           onSuccess={hideEditForm}
         />
-      )} */}
+      )}
     </>
   );
 };

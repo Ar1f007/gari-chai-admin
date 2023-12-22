@@ -6,11 +6,18 @@ import { Dialog, DialogHeader, DialogContent } from "../ui/dialog";
 import { Form } from "../ui/form";
 import { useForm } from "react-hook-form";
 import SelectBrand from "../shared/brand/select-brand";
-import { TCarSchema, getCars } from "@/services";
+import {
+  TCarSchema,
+  addToHomePageSettings,
+  getCars,
+  invalidateAdminCache,
+  invalidateUICache,
+} from "@/services";
 import { toast } from "sonner";
 import SelectField from "../form/select-field";
 import {
   HOME_SETTINGS_OPTIONS,
+  MAX_SELECTABLE_TAGS_OPTIONS,
   carCategoryOptions,
   carSubCategoryOptions,
 } from "@/utils/constants";
@@ -21,14 +28,13 @@ import {
   AddCarToHomePageInputs,
   addCarToHomePageSchema,
 } from "@/schemas/home-page-add-car";
+import { mapValidationErrors } from "@/utils/mapValidationError";
 
 type CarOption = {
   value: TCarSchema;
   label: string;
   image: string | undefined;
 };
-
-const maxSelectableTagOption = 1;
 
 const AddNewCar = () => {
   const [showForm, setShowForm] = useState(false);
@@ -99,16 +105,44 @@ const AddNewCar = () => {
   }, [brand]);
 
   async function addNewItem(data: AddCarToHomePageInputs) {
-    console.log(data);
+    try {
+      const res = await addToHomePageSettings({
+        contentId: data.selectedCar.value._id,
+        content: data.selectedCar.value,
+        sectionName: data.sectionToAdd.value,
+        sort: data.sort,
+        tags: data.tag && data.tag.length ? [data.tag[0].value] : [],
+      });
 
-    const payload = {
-      ...data,
-      tag:
-        data.sectionToAdd.value !== HOME_SETTINGS_OPTIONS.electricCars &&
-        !!data.tag?.length
-          ? []
-          : data.tag,
-    };
+      if (!res || res.status === "error" || res.status === "fail") {
+        toast.error("Failed to add to the " + sectionToAdd);
+        return;
+      }
+
+      if (res.status === "success") {
+        toast.success("Added successfully");
+
+        await invalidateAdminCache([sectionToAdd.value]);
+
+        closeForm();
+
+        const revalidated = await invalidateUICache([sectionToAdd.value]);
+
+        if (!revalidated) {
+          toast.error(
+            `Could not update the UI of main website for the tag: ${sectionToAdd.value}`
+          );
+        }
+      }
+
+      if (res.status === "validationError") {
+        mapValidationErrors(res.errors, form);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong. Please try again");
+    }
   }
 
   return (
@@ -147,12 +181,12 @@ const AddNewCar = () => {
                   label="Add to category"
                   isMulti
                   options={
-                    selectedTag?.length === maxSelectableTagOption
+                    selectedTag?.length === MAX_SELECTABLE_TAGS_OPTIONS
                       ? []
                       : carSubCategoryOptions
                   }
                   noOptionsMessage={() => {
-                    return selectedTag?.length === maxSelectableTagOption
+                    return selectedTag?.length === MAX_SELECTABLE_TAGS_OPTIONS
                       ? "Maximum one category can be selected"
                       : "No options available";
                   }}

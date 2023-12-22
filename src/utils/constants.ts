@@ -81,3 +81,5 @@ export const carTagOptions = [
     label: "Upcoming Car",
   },
 ];
+
+export const MAX_SELECTABLE_TAGS_OPTIONS = 1;
