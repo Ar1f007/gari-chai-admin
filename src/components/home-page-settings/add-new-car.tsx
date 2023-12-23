@@ -92,18 +92,6 @@ const AddNewCar = () => {
     }
   }
 
-  useEffect(() => {
-    if (!brand) return;
-
-    form.resetField("selectedCar");
-
-    const query = `brand=${brand.value}`;
-
-    fetchCars(query);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [brand]);
-
   async function addNewItem(data: AddCarToHomePageInputs) {
     try {
       const res = await addToHomePageSettings({
@@ -144,6 +132,18 @@ const AddNewCar = () => {
       toast.error("something went wrong. Please try again");
     }
   }
+
+  useEffect(() => {
+    if (!brand) return;
+
+    form.resetField("selectedCar");
+
+    const query = `brand=${brand.value}`;
+
+    fetchCars(query);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [brand]);
 
   return (
     <Fragment>

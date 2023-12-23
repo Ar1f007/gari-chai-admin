@@ -1,10 +1,16 @@
 "use client";
 
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { Form } from "../ui/form";
 import SelectField from "../form/select-field";
-import { TCarSchema, THomeSettingApiSchema } from "@/services";
+import {
+  TCarSchema,
+  THomeSettingApiSchema,
+  invalidateAdminCache,
+  invalidateUICache,
+  updateHomeSettingItem,
+} from "@/services";
 import {
   HOME_SETTINGS_OPTIONS,
   MAX_SELECTABLE_TAGS_OPTIONS,
@@ -15,6 +21,8 @@ import TextField from "../form/text-field";
 import { LoadingBtn } from "../ui/loading-btn";
 import { Button } from "../ui/button";
 import { EditHomePageCarInputs } from "@/schemas/home-page-edit-car";
+import { toast } from "sonner";
+import { mapValidationErrors } from "@/utils/mapValidationError";
 
 const EditNewCar = ({
   item,
@@ -52,7 +60,59 @@ const EditNewCar = ({
 
   const selectedTags = form.watch("tag");
 
-  async function updateSetting() {}
+  async function updateSetting(data: EditHomePageCarInputs) {
+    console.log(data.sort);
+    try {
+      const res = await updateHomeSettingItem({
+        contentId: data.selectedCar.value._id,
+        sectionName: data.sectionToAdd.value,
+        sort: +data.sort,
+        tags: data.tags && data.tags.length ? [data.tags[0].value] : [],
+      });
+
+      if (!res || res.status === "error" || res.status === "fail") {
+        toast.error("Failed to update " + data.selectedCar.label);
+        return;
+      }
+
+      if (res.status === "success") {
+        toast.success("Updated Successfully");
+
+        await invalidateAdminCache([data.sectionToAdd.value]);
+        closeForm();
+
+        const uiRevalidated = await invalidateUICache([
+          data.sectionToAdd.value,
+        ]);
+
+        if (!uiRevalidated) {
+          toast.error(
+            `Could not update the UI of main website for the tag: ${sectionToAdd.value}`
+          );
+        }
+
+        // might need to revalidate
+        // if (data.sectionToAdd.value !== item.sectionName) {
+        //   await invalidateAdminCache([item.sectionName]);
+        // }
+        return;
+      }
+
+      if (res.status === "validationError") {
+        mapValidationErrors(res.errors, form);
+        return;
+      }
+
+      toast.error("Something went wrong");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
+  }
+
   return (
     <Dialog
       defaultOpen
@@ -102,6 +162,7 @@ const EditNewCar = ({
               label="Sort"
               name="sort"
               type="number"
+              min={0}
             />
 
             <div className="flex gap-2">

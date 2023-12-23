@@ -46,6 +46,8 @@ export const editHomePageCarSchema = z
     }
   })
   .transform((val) => {
+    console.log(val.sort);
+
     if (
       val.sectionToAdd.value !== HOME_SETTINGS_OPTIONS.electricCars &&
       !!val.tags?.length
