@@ -48,7 +48,7 @@ const ConfirmDelete = ({
           </AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>
             {loading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
-            {textWhileLoading ? textWhileLoading : confirmBtnContent}
+            {loading && textWhileLoading ? textWhileLoading : confirmBtnContent}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

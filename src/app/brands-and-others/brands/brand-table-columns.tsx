@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDownIcon, EditIcon, Trash2Icon } from "lucide-react";
+import { ArrowUpDownIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
