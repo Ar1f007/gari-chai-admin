@@ -5,6 +5,7 @@ import { DataTableRowActions } from "./data-table-row-actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TCarSchema } from "@/services";
 import { ColumnDef } from "@tanstack/react-table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const carTableColumns: ColumnDef<TCarSchema>[] = [
   {
@@ -35,6 +36,35 @@ export const carTableColumns: ColumnDef<TCarSchema>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "posterImage",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Image"
+      />
+    ),
+    cell: ({ row }) => {
+      const src =
+        (row.getValue("posterImage") as TCarSchema["posterImage"])
+          .thumbnailUrl ??
+        (row.getValue("posterImage") as TCarSchema["posterImage"]).originalUrl;
+      return (
+        <Avatar className="h-16 w-16">
+          <AvatarImage
+            src={src}
+            alt={row.getValue("name")}
+          />
+          <AvatarFallback>{row.getValue("name")}</AvatarFallback>
+        </Avatar>
+      );
+    },
+    enableSorting: false,
+    meta: {
+      columnName: "Image",
+    },
+  },
+
+  {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -56,6 +86,9 @@ export const carTableColumns: ColumnDef<TCarSchema>[] = [
     cell: ({ row }) => (
       <div>{(row.getValue("brand") as TCarSchema["brand"]).name}</div>
     ),
+    meta: {
+      columnName: "Brand",
+    },
   },
 
   {
@@ -69,6 +102,9 @@ export const carTableColumns: ColumnDef<TCarSchema>[] = [
     cell: ({ row }) => (
       <div>{(row.getValue("brandModel") as TCarSchema["brandModel"]).name}</div>
     ),
+    meta: {
+      columnName: "Model",
+    },
   },
   {
     accessorKey: "actions",
