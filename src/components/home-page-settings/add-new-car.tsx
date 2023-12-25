@@ -75,9 +75,11 @@ const AddNewCar = () => {
   async function fetchCars(query: string) {
     try {
       setLoading(true);
-      const cars = await getCars(query);
+      const res = await getCars(query);
 
-      const carOptions = (cars ?? []).map((car) => ({
+      const cars = (res.data && res.data.cars) || [];
+
+      const carOptions = cars.map((car) => ({
         value: car,
         label: car.name,
         image: car.posterImage.thumbnailUrl,

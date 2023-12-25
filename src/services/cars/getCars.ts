@@ -1,12 +1,11 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, endpoints } from "..";
-import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
+import { singleSpecificationSchema } from "@/schema/others";
 import { brandSchema } from "@/schema/server";
 import { brandModelSchema } from "./getCarModels";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
-import { delay } from "@/lib/utils";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.enum(["boolean", "text"]),
@@ -116,16 +115,14 @@ type GetCarsResponseData = {
 
 export async function getCars(queryParams?: string) {
   try {
-    await delay(5000);
-
     const baseUrl = endpoints.api.cars.getCars;
-    const url = queryParams ? `${baseUrl}?${queryParams}` : baseUrl;
+    const url = queryParams?.length ? `${baseUrl}?${queryParams}` : baseUrl;
 
     const res = await apiFetch<GetCarsResponseData>(url, {
       method: ReqMethod.GET,
-      next: {
-        tags: [TAGS.cars],
-      },
+      // next: {
+      //   tags: [TAGS.cars],
+      // },
       cache: "no-store",
     });
 
@@ -133,14 +130,29 @@ export async function getCars(queryParams?: string) {
       const parsedData = carsDataSchema.safeParse(res.data.results);
 
       if (parsedData.success) {
-        return parsedData.data;
+        return {
+          data: {
+            cars: parsedData.data,
+            pagination: res.data.pagination,
+          },
+          message: null,
+        };
+      } else {
+        return {
+          data: null,
+          message: "Invalid Input",
+        };
       }
-
-      throw new Error("Cars data missing");
     }
 
-    return undefined;
+    return {
+      data: null,
+      message: res.message || "Something went wrong, please try again later.",
+    };
   } catch (e) {
-    return undefined;
+    return {
+      data: null,
+      message: "Something went wrong, please try again later.",
+    };
   }
 }

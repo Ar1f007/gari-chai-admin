@@ -20,15 +20,13 @@ export const brandTableColumns: ColumnDef<TBrandSchema>[] = [
         (value.thumbnailUrl ?? value.originalUrl) || PLACEHOLDER_IMAGE;
 
       return (
-        <div>
-          <Image
-            alt="brand image"
-            src={src}
-            width={64}
-            height={64}
-            className="w-auto h-auto object-contain -ml-4"
-          />
-        </div>
+        <Image
+          alt="brand image"
+          src={src}
+          width={64}
+          height={64}
+          className="w-auto h-auto object-contain -ml-4 max-h-16"
+        />
       );
     },
   },

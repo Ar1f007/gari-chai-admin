@@ -6,9 +6,9 @@ import { BrandDataTable } from "./data-table";
 import { carModelTableColumns } from "./car-model-table-columns";
 import { getCarModels } from "@/services/models/getCarModels";
 
-const BrandList = async () => {
+const CarModelList = async () => {
   const carModels = await getCarModels("get=all");
-  console.log(carModels);
+
   return (
     <section>
       <PageHeader>Car Models</PageHeader>
@@ -30,4 +30,4 @@ const BrandList = async () => {
     </section>
   );
 };
-export default BrandList;
+export default CarModelList;

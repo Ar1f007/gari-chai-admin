@@ -68,9 +68,3 @@ export type TPagination = {
   hasNextPage: boolean;
   nextPage: number | null;
 };
-
-export type SearchParams = {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
-};
