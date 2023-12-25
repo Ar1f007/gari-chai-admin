@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { EditSliderInputs, SliderInputs } from "@/schemas/slider";
 import { ReqMethod, TAGS, endpoints } from "..";
 

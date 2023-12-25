@@ -26,7 +26,7 @@ export function DataTableViewOptions<TData>({
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto hidden h-8 lg:flex"
+          className="ml-auto h-8 lg:flex"
         >
           <SlidersHorizontalIcon className="mr-2 h-4 w-4" />
           View
@@ -34,12 +34,12 @@ export function DataTableViewOptions<TData>({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-[150px]"
+        className="w-[180px]"
       >
         <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
-          .getAllColumns()
+          .getAllLeafColumns()
           .filter(
             (column) =>
               typeof column.accessorFn !== "undefined" && column.getCanHide()

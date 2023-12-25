@@ -1,19 +1,24 @@
 import PageHeader from "@/components/layout/page-header.tsx";
 import { DataTable } from "@/components/shared/data-table";
-import { carTableColumns } from "./columns";
+import { carTableColumns } from "./_components/columns";
 import { getCars } from "@/services";
+import { SearchParams } from "@/types/others";
+import { Shell } from "@/components/shared/shell";
 
-const CarsPage = async () => {
+const CarsPage = async ({ searchParams }: SearchParams) => {
   const cars = await getCars();
 
   return (
     <>
       <PageHeader>Cars</PageHeader>
       <section className="p-[var(--paddingOffset)]">
-        <DataTable
-          columns={carTableColumns}
-          data={cars ?? []}
-        />
+        <Shell>
+          <DataTable
+            columns={carTableColumns}
+            data={cars ?? []}
+            defaultVisibleColumns={{}}
+          />
+        </Shell>
       </section>
     </>
   );

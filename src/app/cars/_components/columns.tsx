@@ -76,15 +76,16 @@ export const carTableColumns: ColumnDef<TCarSchema>[] = [
   },
 
   {
-    accessorKey: "brand",
+    accessorFn: (row) => row.brand.name,
+    id: "brand",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
         title="Brand"
       />
     ),
-    cell: ({ row }) => (
-      <div>{(row.getValue("brand") as TCarSchema["brand"]).name}</div>
+    cell: (info) => (
+      <span className="capitalize">{info.getValue() as string}</span>
     ),
     meta: {
       columnName: "Brand",
@@ -92,20 +93,75 @@ export const carTableColumns: ColumnDef<TCarSchema>[] = [
   },
 
   {
-    accessorKey: "brandModel",
+    accessorFn: (row) => row.brandModel.name,
+    id: "brandModel",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
         title="Model"
       />
     ),
-    cell: ({ row }) => (
-      <div>{(row.getValue("brandModel") as TCarSchema["brandModel"]).name}</div>
+    cell: (info) => (
+      <span className="capitalize">{info.getValue() as string}</span>
     ),
+
     meta: {
       columnName: "Model",
     },
   },
+  {
+    accessorKey: "price",
+    header: () => <div className="text-center">Price</div>,
+    columns: [
+      {
+        accessorFn: (row) => row.price.min,
+        id: "priceMin",
+        header: ({ column }) => (
+          <DataTableColumnHeader
+            column={column}
+            title="Min Price"
+          />
+        ),
+        cell: (info) => info.getValue(),
+        enableHiding: true,
+        meta: {
+          columnName: "Price Min",
+        },
+      },
+      {
+        accessorFn: (row) => row.price.max,
+        id: "priceMax",
+
+        header: ({ column }) => (
+          <DataTableColumnHeader
+            column={column}
+            title="Max Price"
+          />
+        ),
+        cell: (info) => info.getValue(),
+        enableHiding: true,
+        meta: {
+          columnName: "Price Max",
+        },
+      },
+      {
+        accessorFn: (row) => row.price.isNegotiable,
+        id: "isNegotiable",
+        cell: (info) => (info.getValue() === true ? "YES" : "NO"),
+        header: ({ column }) => (
+          <DataTableColumnHeader
+            column={column}
+            title="Negotiable"
+          />
+        ),
+        enableHiding: true,
+        meta: {
+          columnName: "Price Negotiable",
+        },
+      },
+    ],
+  },
+
   {
     accessorKey: "actions",
     header(props) {

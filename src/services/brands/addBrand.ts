@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { TBrand } from "@/types/brand";
 import { endpoints, ReqMethod } from "..";
 import { ImagePayload } from "@/types/others";

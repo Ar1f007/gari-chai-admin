@@ -5,7 +5,7 @@
 import { imageSchema } from "@/schema/others";
 import { z } from "zod";
 import { ReqMethod, TAGS, endpoints } from "..";
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { toast } from "sonner";
 
 export const carBodyTypeSchema = z.object({

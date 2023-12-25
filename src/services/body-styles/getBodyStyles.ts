@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
 

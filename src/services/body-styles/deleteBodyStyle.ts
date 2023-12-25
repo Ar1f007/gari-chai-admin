@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, endpoints } from "..";
 
 export async function deleteBodyStyles(id: string) {

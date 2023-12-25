@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
 import { NewCarInputs } from "@/schemas/new-car";
 

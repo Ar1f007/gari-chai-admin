@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { carModelSchema } from "@/schemas/car-model";
 import { z } from "zod";

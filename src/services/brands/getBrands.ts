@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { endpoints, ReqMethod, TAGS } from "..";
 import { imageSchema } from "@/schema/others";
 

@@ -1,11 +1,12 @@
 import { z } from "zod";
-import { apiFetch } from "@/lib/apiFetch";
+import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { numberOrNull, singleSpecificationSchema } from "@/schema/others";
 import { brandSchema } from "@/schema/server";
 import { brandModelSchema } from "./getCarModels";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
+import { delay } from "@/lib/utils";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.enum(["boolean", "text"]),
@@ -115,6 +116,8 @@ type GetCarsResponseData = {
 
 export async function getCars(queryParams?: string) {
   try {
+    await delay(5000);
+
     const baseUrl = endpoints.api.cars.getCars;
     const url = queryParams ? `${baseUrl}?${queryParams}` : baseUrl;
 
