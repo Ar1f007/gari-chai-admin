@@ -14,6 +14,8 @@ const nextConfig = {
   },
 };
 
-module.exports = withHydrationOverlay({
-  appRootSelector: "main",
-})(nextConfig);
+// module.exports = withHydrationOverlay({
+//   appRootSelector: "main",
+// })(nextConfig);
+
+module.exports = nextConfig;
