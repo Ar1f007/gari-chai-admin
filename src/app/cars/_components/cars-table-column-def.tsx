@@ -158,7 +158,7 @@ export function fetchCarsTableColumnDefs(
 
     {
       accessorKey: "price",
-      header: () => <span className="text-center">Price</span>,
+      header: () => <div className="text-center">Price</div>,
       columns: [
         {
           accessorFn: (row) => row.price.min,
@@ -206,6 +206,7 @@ export function fetchCarsTableColumnDefs(
           },
         },
       ],
+      enableSorting: false,
     },
 
     {

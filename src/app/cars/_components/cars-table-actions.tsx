@@ -23,10 +23,10 @@ import {
 //   updateTaskPriority,
 //   updateTaskStatus,
 // } from "../_actions/actions";
-import { TCarSchema } from "@/services";
+import { TAGS, TCarSchema, deleteCar, invalidateAdminCache } from "@/services";
 import { ArrowUpIcon, CheckCircleIcon, Trash2Icon } from "lucide-react";
 
-export function deleteSelectedRows(
+export async function deleteSelectedRows(
   table: Table<TCarSchema>,
   event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
 ) {
@@ -34,24 +34,48 @@ export function deleteSelectedRows(
   const selectedRows = table.getFilteredSelectedRowModel().rows as {
     original: TCarSchema;
   }[];
-  // toast.promise(
-  //   Promise.all(
-  //     selectedRows.map(async (row) =>
-  //       deleteTask({
-  //         id: row.original._id,
-  //       })
-  //     )
-  //   ),
-  //   {
-  //     loading: "Deleting...",
-  //     success: () => {
-  //       return "Tasks deleted successfully.";
-  //     },
-  //     error: (err: unknown) => {
-  //       return catchError(err);
-  //     },
-  //   }
-  // );
+
+  try {
+    const data = await Promise.all(
+      selectedRows.map(
+        async (row) =>
+          await deleteCar({
+            doc: row.original,
+          })
+      )
+    );
+
+    const atLeastOneCarGotDeleted = data.some(
+      (car) => car.status === "success"
+    );
+
+    if (atLeastOneCarGotDeleted) {
+      invalidateAdminCache([
+        TAGS.cars,
+        TAGS.allHomeSettings,
+        TAGS.brands,
+        TAGS.brandModelList,
+      ]);
+    }
+
+    data.map((res) => {
+      if (res.status !== "success") {
+        toast.error(res.message);
+      }
+    });
+
+    const couldNotDeleteAllSelectedRows = data.some(
+      (res) => res.status !== "success"
+    );
+
+    if (couldNotDeleteAllSelectedRows) {
+      return;
+    }
+
+    toast.success("Car deleted successfully");
+  } catch (err: unknown) {
+    catchError(err);
+  }
 }
 
 export function updateTasksStatus(table: Table<TCarSchema>, status: string) {
@@ -83,7 +107,7 @@ export function updateTasksPriority(
   // });
 }
 
-export function TasksTableFloatingBarContent(table: Table<TCarSchema>) {
+export function CarsTableFloatingBarContent(table: Table<TCarSchema>) {
   return (
     <div className="justify-between gap-2 align-middle">
       <Select onValueChange={(value) => updateTasksStatus(table, value)}>

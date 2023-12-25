@@ -10,7 +10,10 @@ import {
 } from "./cars-table-column-def";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTable } from "@/components/shared/data-tabl/data-table";
-import { deleteSelectedRows } from "./cars-table-actions";
+import {
+  CarsTableFloatingBarContent,
+  deleteSelectedRows,
+} from "./cars-table-actions";
 
 type CarsTableShellProps = {
   data: TCarSchema[];
@@ -45,7 +48,7 @@ export const CarsTableShell = ({ data, pageCount }: CarsTableShellProps) => {
       // Render dynamic searchable filters
       searchableColumns={searchableColumns}
       // Render floating action controls at the bottom of the table on Row selection
-      // floatingBarContent={TasksTableFloatingBarContent(dataTable)}
+      // floatingBarContent={CarsTableFloatingBarContent(dataTable)}
       // Delete selected rows
       deleteRowsAction={(event) => deleteSelectedRows(dataTable, event)}
     />

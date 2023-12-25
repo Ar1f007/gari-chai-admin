@@ -44,6 +44,7 @@ export async function getSettingContentByPageSlug(slug: string) {
       method: ReqMethod.GET,
       next: {
         tags: [TAGS.allHomeSettings, slug],
+        // TODO : FIX REVALIDATION HERE
         revalidate: 0,
       },
     });

@@ -26,9 +26,14 @@ export const endpoints = {
       carModels: "/models",
     },
     cars: {
+      base: "/cars",
       createNewCar: "/cars",
       getCars: "/cars",
       createCarBodyType: "/car-body-types",
+    },
+
+    usedCars: {
+      base: "/used-cars",
     },
 
     carInformation: {

@@ -1,13 +1,13 @@
-import * as React from "react"
+import * as React from "react";
 import type {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
-} from "@/types"
+} from "@/types";
 import {
   flexRender,
   type ColumnDef,
   type Table as TanstackTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -16,21 +16,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-import { DataTableAdvancedToolbar } from "./advanced/data-table-advanced-toolbar"
-import { DataTableFloatingBar } from "./data-table-floating-bar"
-import { DataTablePagination } from "./data-table-pagination"
-import { DataTableToolbar } from "./data-table-toolbar"
+import { DataTableAdvancedToolbar } from "./advanced/data-table-advanced-toolbar";
+import { DataTableFloatingBar } from "./data-table-floating-bar";
+import { DataTablePagination } from "./data-table-pagination";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
-  dataTable: TanstackTable<TData>
-  columns: ColumnDef<TData, TValue>[]
-  filterableColumns?: DataTableFilterableColumn<TData>[]
-  searchableColumns?: DataTableSearchableColumn<TData>[]
-  advancedFilter?: boolean
-  floatingBarContent?: React.ReactNode | null
-  deleteRowsAction: React.MouseEventHandler<HTMLButtonElement>
+  dataTable: TanstackTable<TData>;
+  columns: ColumnDef<TData, TValue>[];
+  filterableColumns?: DataTableFilterableColumn<TData>[];
+  searchableColumns?: DataTableSearchableColumn<TData>[];
+  advancedFilter?: boolean;
+  floatingBarContent?: React.ReactNode | null;
+  deleteRowsAction: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export function DataTable<TData, TValue>({
@@ -65,7 +65,10 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -73,7 +76,7 @@ export function DataTable<TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -117,5 +120,5 @@ export function DataTable<TData, TValue>({
         ) : null}
       </div>
     </div>
-  )
+  );
 }
