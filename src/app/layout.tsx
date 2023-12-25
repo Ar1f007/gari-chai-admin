@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import TopHeader from "@/components/layout/top-header";
 
-import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
+// import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,30 +28,28 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${inter.className} overflow-hidden`}>
-        <HydrationOverlay>
-          <EdgeStoreProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <main className="flex max-h-screen overflow-hidden">
-                <Sidebar />
+        <EdgeStoreProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="flex max-h-screen overflow-hidden">
+              <Sidebar />
 
-                <section className="flex-1 overflow-y-auto pl-[var(--sidebarWidthCollapsed)] md:pl-0">
-                  <section className="min-h-screen flex flex-col">
-                    <TopHeader />
-                    <main>{children}</main>
-                    <Copyright />
-                  </section>
+              <section className="flex-1 overflow-y-auto pl-[var(--sidebarWidthCollapsed)] md:pl-0">
+                <section className="min-h-screen flex flex-col">
+                  <TopHeader />
+                  <main>{children}</main>
+                  <Copyright />
                 </section>
-              </main>
+              </section>
+            </main>
 
-              <Toaster richColors />
-            </ThemeProvider>
-          </EdgeStoreProvider>
-        </HydrationOverlay>
+            <Toaster richColors />
+          </ThemeProvider>
+        </EdgeStoreProvider>
       </body>
     </html>
   );
