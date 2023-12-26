@@ -9,7 +9,7 @@ import {
   searchableColumns,
 } from "./cars-table-column-def";
 import { useDataTable } from "@/hooks/use-data-table";
-import { DataTable } from "@/components/shared/data-tabl/data-table";
+import { DataTable } from "@/components/shared/data-table/data-table";
 import {
   CarsTableFloatingBarContent,
   deleteSelectedRows,

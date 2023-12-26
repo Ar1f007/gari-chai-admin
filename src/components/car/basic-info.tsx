@@ -45,6 +45,7 @@ const BasicInfo = () => {
           name="seatingCapacity"
           label="Seating Capacity"
           placeholder="eg. 6"
+          type="number"
         />
 
         <TextField<NewCarInputs>

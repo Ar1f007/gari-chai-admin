@@ -21,7 +21,12 @@ import { LoadingBtn } from "@/components/ui/loading-btn";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { useEdgeStore } from "@/lib/edgestore";
 import { NewCarInputs, createNewCarSchema } from "@/schemas/new-car";
-import { TCreateNewCarParams, createNewCar } from "@/services";
+import {
+  TAGS,
+  TCreateNewCarParams,
+  createNewCar,
+  invalidateAdminCache,
+} from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 
 const AddCarPage = () => {
@@ -108,6 +113,7 @@ const AddCarPage = () => {
       case "success":
         toast.success("Added successfully");
         form.reset();
+        invalidateAdminCache([TAGS.brands, TAGS.cars, TAGS.brandModelList]);
         return;
 
       case "validationError":

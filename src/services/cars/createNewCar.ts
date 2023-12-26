@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/api-fetch";
-import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
+import { ReqMethod, endpoints } from "..";
 import { NewCarInputs } from "@/schemas/new-car";
 
 export type TCreateNewCarParams = Omit<NewCarInputs, "posterImage"> & {
@@ -15,8 +15,6 @@ export async function createNewCar(payload: TCreateNewCarParams) {
       method: ReqMethod.POST,
       body: payload,
     });
-
-    invalidateAdminCache([TAGS.brands, TAGS.cars]);
 
     return res;
   } catch (e) {

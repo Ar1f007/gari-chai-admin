@@ -16,7 +16,7 @@ import type {
 //   QuestionMarkCircledIcon,
 //   StopwatchIcon,
 // } from "@radix-ui/react-icons";
-import { SlidersHorizontalIcon } from "lucide-react";
+import { MoreHorizontalIcon, SlidersHorizontalIcon } from "lucide-react";
 
 import { type ColumnDef } from "@tanstack/react-table";
 import { toast } from "sonner";
@@ -38,9 +38,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DataTableColumnHeader } from "@/components/shared/data-tabl/data-table-column-header";
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 import { TCarSchema } from "@/services";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 // import { deleteTask, updateTaskLabel } from "../_actions/actions";
 
@@ -211,76 +212,7 @@ export function fetchCarsTableColumnDefs(
 
     {
       header: "Actions",
-      cell: ({ row }) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              aria-label="Open menu"
-              variant="ghost"
-              className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-            >
-              <SlidersHorizontalIcon
-                className="h-4 w-4"
-                aria-hidden="true"
-              />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="w-[160px]"
-          >
-            <DropdownMenuSub>
-              {/* <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup
-                  value={row.original.label}
-                  onValueChange={(value) => {
-                    startTransition(async () => {
-                      await updateTaskLabel({
-                        id: row.original.id,
-                        label: value as Task["label"],
-                      });
-                    });
-                  }}
-                >
-                  {tasks.label.enumValues.map((label) => (
-                    <DropdownMenuRadioItem
-                      key={label}
-                      value={label}
-                      disabled={isPending}
-                      className="capitalize"
-                    >
-                      {label}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
-              </DropdownMenuSubContent> */}
-            </DropdownMenuSub>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                startTransition(() => {
-                  row.toggleSelected(false);
-
-                  // toast.promise(
-                  //   deleteTask({
-                  //     id: row.original.id,
-                  //   }),
-                  //   {
-                  //     loading: "Deleting...",
-                  //     success: () => "Task deleted successfully.",
-                  //     error: (err: unknown) => catchError(err),
-                  //   }
-                  // );
-                });
-              }}
-            >
-              Delete
-              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
+      cell: ({ row }) => <DataTableRowActions row={row} />,
     },
   ];
 }

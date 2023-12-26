@@ -1,17 +1,18 @@
 "use client";
 
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Table } from "@tanstack/react-table";
+import { type Table } from "@tanstack/react-table";
 
-import { Button } from "../../ui/button";
+import { SlidersHorizontalIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "../../ui/dropdown-menu";
-import { SlidersHorizontalIcon } from "lucide-react";
+} from "@/components/ui/dropdown-menu";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -24,9 +25,10 @@ export function DataTableViewOptions<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          aria-label="Toggle columns"
           variant="outline"
           size="sm"
-          className="ml-auto h-8 lg:flex"
+          className="ml-auto hidden h-8 lg:flex"
         >
           <SlidersHorizontalIcon className="mr-2 h-4 w-4" />
           View
