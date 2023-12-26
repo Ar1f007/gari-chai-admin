@@ -27,6 +27,7 @@ const LaunchedDate = () => {
 
   useEffect(() => {
     setValue("launchedAt", new Date());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function setLaunchDate(e: FocusEvent<HTMLInputElement, Element>) {

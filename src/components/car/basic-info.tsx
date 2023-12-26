@@ -5,7 +5,7 @@ import TextField from "../form/text-field";
 import SelectBrand from "../shared/brand/select-brand";
 import SelectCarModel from "./select-car-model";
 import { useFormContext } from "react-hook-form";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import SelectCarType from "./select-car-type";
 import SelectBodyType from "./select-body-type";
 
@@ -26,12 +26,14 @@ const BasicInfo = () => {
         placeholder="eg. Tata Harrier"
       />
 
-      <div className="flex flex-col lg:flex-row gap-5">
-        <SelectBrand />
-        <SelectCarModel />
-        <SelectCarType />
-        <SelectBodyType />
-      </div>
+      <Suspense>
+        <div className="flex flex-col lg:flex-row gap-5">
+          <SelectBrand />
+          <SelectCarModel />
+          <SelectCarType />
+          <SelectBodyType />
+        </div>
+      </Suspense>
 
       <div className="flex flex-col lg:flex-row gap-5">
         <TextField<NewCarInputs>

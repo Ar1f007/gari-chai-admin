@@ -1,49 +1,18 @@
 "use client";
 
-// import { tasks, type Task } from "@/db/schema";
 import type {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
 } from "@/types";
-// import {
-//   ArrowDownIcon,
-//   ArrowRightIcon,
-//   ArrowUpIcon,
-//   CheckCircledIcon,
-//   CircleIcon,
-//   CrossCircledIcon,
-//   DotsHorizontalIcon,
-//   QuestionMarkCircledIcon,
-//   StopwatchIcon,
-// } from "@radix-ui/react-icons";
-import { MoreHorizontalIcon, SlidersHorizontalIcon } from "lucide-react";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import { toast } from "sonner";
 
-import { catchError } from "@/lib/catch-error";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 import { TCarSchema } from "@/services";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DataTableRowActions } from "./data-table-row-actions";
-
-// import { deleteTask, updateTaskLabel } from "../_actions/actions";
 
 export function fetchCarsTableColumnDefs(
   isPending: boolean,
