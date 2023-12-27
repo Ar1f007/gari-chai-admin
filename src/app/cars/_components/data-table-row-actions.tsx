@@ -18,9 +18,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ConfirmDelete from "@/components/shared/delete-alert-dialog";
 
-import { TAGS, carSchema, deleteCar, invalidateAdminCache } from "@/services";
+import {
+  TAGS,
+  carSchema,
+  deleteCar,
+  endpoints,
+  invalidateAdminCache,
+} from "@/services";
 import { toast } from "sonner";
 import { catchError } from "@/lib/catch-error";
+import Link from "next/link";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -37,8 +44,11 @@ export function DataTableRowActions<TData>({
   const router = useRouter();
 
   function handleViewDetails() {
-    const pathname = "/cars" + car.slug;
-    router.push(pathname);
+    const carType = car.carType === "new" ? "cars" : "used-cars";
+
+    const pathname = endpoints.ui.baseUrl + "/" + carType + "/" + car.slug;
+
+    return pathname;
   }
 
   function handleEdit() {
@@ -101,7 +111,12 @@ export function DataTableRowActions<TData>({
           className="w-[160px]"
         >
           <DropdownMenuItem onClick={handleViewDetails}>
-            View details
+            <Link
+              href={handleViewDetails()}
+              target="_blank"
+            >
+              View details
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
           <DropdownMenuSeparator />
