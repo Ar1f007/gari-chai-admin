@@ -51,7 +51,7 @@ export function useDataTable<TData, TValue>({
   const perPageAsNumber = Number(limit);
   const fallbackPerPage = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
   const sort = searchParams?.get("sort");
-  const [column, order] = sort?.split(".") ?? [];
+  const [column, order] = sort?.split(":") ?? [];
 
   // Create query string
   const createQueryString = React.useCallback(
@@ -128,7 +128,7 @@ export function useDataTable<TData, TValue>({
       `${pathname}?${createQueryString({
         page,
         sort: sorting[0]?.id
-          ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
+          ? `${sorting[0]?.id}:${sorting[0]?.desc ? "desc" : "asc"}`
           : null,
       })}`
     );
@@ -232,7 +232,7 @@ export function useDataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     manualPagination: true,
-    manualSorting: true,
+    manualSorting: false,
     manualFiltering: true,
   });
 

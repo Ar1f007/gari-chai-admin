@@ -93,7 +93,7 @@ export function fetchCarsTableColumnDefs(
     },
     {
       accessorFn: (row) => row.brand.name,
-      id: "brand",
+      id: "brand.name",
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -110,7 +110,7 @@ export function fetchCarsTableColumnDefs(
 
     {
       accessorFn: (row) => row.brandModel.name,
-      id: "brandModel",
+      id: "brandModel.name",
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -132,7 +132,7 @@ export function fetchCarsTableColumnDefs(
       columns: [
         {
           accessorFn: (row) => row.price.min,
-          id: "priceMin",
+          id: "price.min",
           header: ({ column }) => (
             <DataTableColumnHeader
               column={column}
@@ -146,7 +146,7 @@ export function fetchCarsTableColumnDefs(
         },
         {
           accessorFn: (row) => row.price.max,
-          id: "priceMax",
+          id: "price.max",
 
           header: ({ column }) => (
             <DataTableColumnHeader
@@ -162,7 +162,7 @@ export function fetchCarsTableColumnDefs(
         },
         {
           accessorFn: (row) => row.price.isNegotiable,
-          id: "isNegotiable",
+          id: "price.isNegotiable",
           cell: (info) => (info.getValue() === true ? "YES" : "NO"),
           header: ({ column }) => (
             <DataTableColumnHeader
