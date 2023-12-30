@@ -5,19 +5,19 @@ import { EditNewCarInputs } from "@/schemas/edit-new-car";
 import { TCarSchema, brandSchema } from "@/services";
 import { Form } from "../ui/form";
 import BasicInfo from "../car/basic-info";
-import { brandModelSchema } from "@/services/cars/getCarModels";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
 import Price from "../car/price";
 import FuelType from "../car/fuel-type";
 import GroupSpecifications from "../car/group-specifications";
 import Specifications from "../car/specifications";
 import CarColors from "../car/colors";
+import { carModelSchema } from "@/schemas/car-model";
 
 const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   console.log(data);
 
   const brandData = brandSchema.parse(data.brand.value);
-  const modelData = brandModelSchema.parse(data.brandModel.value);
+  const modelData = carModelSchema.parse(data.brandModel.value);
   const bodyStyle = carBodyStylesSchema.parse(data.bodyStyle.value);
 
   const form = useForm<EditNewCarInputs>({

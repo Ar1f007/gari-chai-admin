@@ -2,9 +2,9 @@ import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, brandSchema, endpoints } from "..";
 import { singleSpecificationSchema } from "@/schemas/utils";
-import { brandModelSchema } from "./getCarModels";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
+import { carModelSchema } from "@/schemas/car-model";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.object({
@@ -28,7 +28,7 @@ export const carSchema = z.object({
   }),
 
   brandModel: z.object({
-    value: z.union([z.string(), brandModelSchema, z.null()]),
+    value: z.union([z.string(), carModelSchema, z.null()]),
     label: z.string(),
   }),
 

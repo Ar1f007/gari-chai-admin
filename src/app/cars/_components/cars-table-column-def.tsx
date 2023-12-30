@@ -92,7 +92,7 @@ export function fetchCarsTableColumnDefs(
       ),
     },
     {
-      accessorFn: (row) => row.brand.name,
+      accessorFn: (row) => row.brand.value,
       id: "brand.name",
       header: ({ column }) => (
         <DataTableColumnHeader
@@ -109,7 +109,7 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
-      accessorFn: (row) => row.brandModel.name,
+      accessorFn: (row) => row.brandModel.value,
       id: "brandModel.name",
       header: ({ column }) => (
         <DataTableColumnHeader

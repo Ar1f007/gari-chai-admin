@@ -1,32 +1,11 @@
-/**=====================
- * Schema
- =======================*/
-
-import { imageSchema } from "@/schema/others";
 import { z } from "zod";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { apiFetch } from "@/lib/api-fetch";
 import { toast } from "sonner";
+import { carModelSchema } from "@/schemas/car-model";
 
-export const brandModelSchema = z.object({
-  _id: z.string(),
-  name: z.string(),
-  carCollectionCount: z.any(),
-  brand: z.string(),
-  upcoming: z.boolean(),
-  slug: z.string(),
-  image: imageSchema.optional(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
+export const brandModelsSchema = z.array(carModelSchema);
 
-export const brandModelsSchema = z.array(brandModelSchema);
-
-export type TBrandModelSchema = z.infer<typeof brandModelSchema>;
-
-/**=====================
- * API Call
- =======================*/
 export async function getModelsByBrand({
   docId,
   queryParams,

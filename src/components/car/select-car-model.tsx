@@ -16,10 +16,10 @@ const SelectCarModel = () => {
 
   const brand: SelectOption = useWatch({ name: "brand" });
 
-  function getFormattedBrandOptions(brands: TCarModelSchema[]) {
-    return brands.map((brand) => ({
-      value: brand._id,
-      label: brand.name,
+  function getFormattedModelOptions(models: TCarModelSchema[]) {
+    return models.map((model) => ({
+      value: model._id,
+      label: model.brand,
     }));
   }
 
@@ -30,7 +30,7 @@ const SelectCarModel = () => {
       const models = await getModelsByBrand({
         docId: brand.value,
       });
-      setModels(models ? getFormattedBrandOptions(models) : []);
+      setModels(models ? getFormattedModelOptions(models) : []);
     } catch (error) {
       toast.error("Could not get models list");
     } finally {
