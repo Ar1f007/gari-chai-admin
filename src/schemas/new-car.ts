@@ -1,11 +1,7 @@
 import { z } from "zod";
 
 import { xCharacterLong } from "@/utils/other";
-import {
-  numberOrNaN,
-  isNumberRequiredErrMsg,
-  singleSpecificationSchema,
-} from "./utils";
+import { isNumberRequiredErrMsg, singleSpecificationSchema } from "./utils";
 
 export const engineSchemaBasic = z.object({
   type: z.string().min(1, "required"),
@@ -25,15 +21,9 @@ export const selectOptionSchema = z.object(
 export const createNewCarSchema = z.object({
   name: z.string().min(1, "required").min(3, xCharacterLong("Name", 3)),
 
-  brand: selectOptionSchema.transform((brand) => ({
-    id: brand.value,
-    name: brand.label,
-  })),
+  brand: selectOptionSchema,
 
-  brandModel: selectOptionSchema.transform((brandModel) => ({
-    id: brandModel.value,
-    name: brandModel.label,
-  })),
+  brandModel: selectOptionSchema,
 
   tags: z
     .array(
@@ -46,10 +36,7 @@ export const createNewCarSchema = z.object({
     .refine((val) => val.length, { message: "required" })
     .default([]),
 
-  bodyStyle: selectOptionSchema.transform((bodyStyle) => ({
-    id: bodyStyle.value,
-    name: bodyStyle.label,
-  })),
+  bodyStyle: selectOptionSchema,
 
   seatingCapacity: z.coerce
     .number({ ...isNumberRequiredErrMsg })
@@ -70,7 +57,7 @@ export const createNewCarSchema = z.object({
   transmission: z.string().min(1, "required"),
 
   fuel: z.object({
-    typeInfo: selectOptionSchema.transform((fuelType) => fuelType.value),
+    typeInfo: selectOptionSchema,
   }),
 
   price: z.object({
@@ -120,11 +107,14 @@ export const createNewCarSchema = z.object({
     .optional(z.array(singleSpecificationSchema))
     .default([]),
 
-  cities: z.optional(
-    z
-      .array(z.object({ value: z.string(), label: z.string() }))
-      .transform((cities) => cities.map((city) => city.value))
-  ),
+  cities: z
+    .optional(z.array(z.object({ value: z.string(), label: z.string() })))
+    .default([
+      {
+        value: "all",
+        label: "All",
+      },
+    ]),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;

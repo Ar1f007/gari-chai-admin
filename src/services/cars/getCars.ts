@@ -1,14 +1,16 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
-import { ReqMethod, TAGS, endpoints } from "..";
-import { singleSpecificationSchema } from "@/schema/others";
-import { brandSchema } from "@/schema/server";
+import { ReqMethod, brandSchema, endpoints } from "..";
+import { singleSpecificationSchema } from "@/schemas/utils";
 import { brandModelSchema } from "./getCarModels";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
 
 const attributeSchema = singleSpecificationSchema.extend({
-  valueType: z.enum(["boolean", "text"]),
+  valueType: z.object({
+    value: z.enum(["boolean", "text"]),
+    label: z.string(),
+  }),
 });
 
 export const carSchema = z.object({
@@ -21,26 +23,29 @@ export const carSchema = z.object({
   description: z.string().optional(),
 
   brand: z.object({
-    id: z.union([z.string(), brandSchema, z.null()]),
-    name: z.string(),
+    value: z.union([z.string(), brandSchema, z.null()]),
+    label: z.string(),
   }),
 
   brandModel: z.object({
-    id: z.union([z.string(), brandModelSchema, z.null()]),
-    name: z.string(),
+    value: z.union([z.string(), brandModelSchema, z.null()]),
+    label: z.string(),
   }),
 
   transmission: z.string(),
 
   bodyStyle: z.object({
-    id: z.union([z.string(), carBodyStylesSchema, z.null()]),
-    name: z.string(),
+    value: z.union([z.string(), carBodyStylesSchema, z.null()]),
+    label: z.string(),
   }),
 
   fuel: z.object({
     typeInfo: z.object({
-      type: z.string(),
-      fullForm: z.string(),
+      value: z.object({
+        type: z.string(),
+        fullForm: z.string(),
+      }),
+      label: z.string(),
     }),
   }),
 
@@ -49,7 +54,7 @@ export const carSchema = z.object({
     thumbnailUrl: z.string().url().optional(),
   }),
 
-  imageUrls: z.array(z.string()).optional(),
+  imageUrls: z.array(z.string()),
 
   videoUrls: z
     .array(
@@ -58,7 +63,6 @@ export const carSchema = z.object({
         url: z.string().url(),
       })
     )
-    .optional()
     .default([]),
 
   colors: z
@@ -72,26 +76,24 @@ export const carSchema = z.object({
 
   numOfDoors: z.number(),
 
+  seatingCapacity: z.number(),
+
   price: z.object({
     min: z.number(),
     max: z.number(),
     isNegotiable: z.boolean(),
   }),
 
-  tags: z
-    .array(z.object({ value: z.string(), label: z.string(), _id: z.string() }))
-    .optional(),
+  tags: z.array(z.object({ value: z.string(), label: z.string() })),
 
-  specificationsByGroup: z
-    .array(
-      z.object({
-        groupName: z.string(),
-        values: z.array(attributeSchema).optional(),
-      })
-    )
-    .optional(),
+  specificationsByGroup: z.array(
+    z.object({
+      groupName: z.string(),
+      values: z.array(attributeSchema).default([]),
+    })
+  ),
 
-  additionalSpecifications: z.array(attributeSchema).optional(),
+  additionalSpecifications: z.array(attributeSchema),
 
   carType: z.enum(["new", "used"]),
 
@@ -99,9 +101,14 @@ export const carSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
 
-  status: z.enum(["available", "sold", "reserved"]).optional(),
+  status: z.enum(["available", "sold", "reserved"]),
   soldAt: z.string().optional(),
-  cities: z.array(z.string()).optional(),
+  cities: z.array(
+    z.object({
+      value: z.string(),
+      label: z.string(),
+    })
+  ),
 });
 
 const carsDataSchema = z.array(carSchema);

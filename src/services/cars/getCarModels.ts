@@ -11,7 +11,7 @@ import { toast } from "sonner";
 export const brandModelSchema = z.object({
   _id: z.string(),
   name: z.string(),
-  carCollectionCount: z.number(),
+  carCollectionCount: z.any(),
   brand: z.string(),
   upcoming: z.boolean(),
   slug: z.string(),

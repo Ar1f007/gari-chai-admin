@@ -2,7 +2,7 @@ import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, endpoints } from "..";
 import { NewCarInputs } from "@/schemas/new-car";
 
-export type TCreateNewCarParams = Omit<NewCarInputs, "posterImage"> & {
+export type TCreateNewCarParams = Omit<NewCarInputs, "posterImage" | "fuel"> & {
   posterImage: {
     originalUrl: string;
     thumbnailUrl: string;

@@ -8,8 +8,14 @@ import { useFormContext } from "react-hook-form";
 import { Suspense, useEffect } from "react";
 import SelectCarType from "./select-car-type";
 import SelectBodyType from "./select-body-type";
+import { EditNewCarInputs } from "@/schemas/edit-new-car";
+import { cn } from "@/lib/utils";
 
-const BasicInfo = () => {
+type BasicInfoProps = {
+  showSlugInput?: boolean;
+};
+
+const BasicInfo = ({ showSlugInput = false }: BasicInfoProps) => {
   const { resetField, watch } = useFormContext();
   const brand = watch("brand");
 
@@ -20,11 +26,21 @@ const BasicInfo = () => {
 
   return (
     <>
-      <TextField<NewCarInputs>
-        name="name"
-        label="Name"
-        placeholder="eg. Tata Harrier"
-      />
+      <div className={cn("flex flex-col lg:flex-row gap-5")}>
+        <TextField<NewCarInputs>
+          name="name"
+          label="Name"
+          placeholder="eg. Tata Harrier"
+        />
+
+        {showSlugInput && (
+          <TextField<EditNewCarInputs>
+            name="slug"
+            label="Slug"
+            placeholder="eg. Tata Harrier"
+          />
+        )}
+      </div>
 
       <Suspense>
         <div className="flex flex-col lg:flex-row gap-5">
