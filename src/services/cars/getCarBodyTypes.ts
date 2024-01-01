@@ -2,7 +2,7 @@
  * Schema
  =======================*/
 
-import { imageSchema } from "@/schema/others";
+import { imageSchema } from "@/schemas/utils";
 import { z } from "zod";
 import { ReqMethod, TAGS, endpoints } from "..";
 import { apiFetch } from "@/lib/api-fetch";

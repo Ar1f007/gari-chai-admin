@@ -1,7 +1,7 @@
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, endpoints, invalidateAdminCache } from "..";
 import { z } from "zod";
-import { imageSchema } from "@/schema/others";
+import { imageSchema } from "@/schemas/utils";
 
 export type AddCarBodyTypeParams = {
   name: string;

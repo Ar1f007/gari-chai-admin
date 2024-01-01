@@ -1,11 +1,12 @@
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import TextField from "../form/text-field";
 import { InfoIcon, Trash2Icon } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "../ui/button";
 import RHFMultiImageFileDropzone from "../ui/rhf-multi-image";
+import { MAX_ALLOWED_COLOR_IMAGE } from "@/utils/constants";
 
-const CarColors = () => {
+const CarColors = ({ isEditing = false }: { isEditing?: boolean }) => {
   const { fields, append, remove } = useFieldArray({
     name: "colors",
   });
@@ -36,11 +37,14 @@ const CarColors = () => {
                 </span>
               </span>{" "}
               <span className="text-xs text-bodydark1">
-                (optional, max allowed - 5)
+                (optional, max allowed - {MAX_ALLOWED_COLOR_IMAGE})
               </span>
             </p>
 
-            <RHFMultiImageFileDropzone name={`colors.${idx}.imageUrls`} />
+            <RHFMultiImageFileDropzone
+              name={`colors.${idx}.imageUrls`}
+              isEditing={isEditing}
+            />
 
             <div className="h-[1px] bg-input w-full" />
 

@@ -1,10 +1,13 @@
 "use client";
 
+import { imageSchema } from "@/schemas/utils";
 import { UploadCloudIcon, X } from "lucide-react";
 import Image from "next/image";
 import * as React from "react";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
+import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 const variants = {
   base: "relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border border-dashed border-gray-400 dark:border-gray-300 transition-colors duration-200 ease-in-out",
@@ -21,7 +24,7 @@ type InputProps = {
   width: number;
   height: number;
   className?: string;
-  value?: File | string;
+  value?: File | string | z.infer<typeof imageSchema>;
   onChange?: (file?: File) => void | Promise<void>;
   disabled?: boolean;
   dropzoneOptions?: Omit<DropzoneOptions, "disabled">;
@@ -51,9 +54,11 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
       if (typeof value === "string") {
         // in case a url is passed in, use it to display the image
         return value;
+      } else if (value && "thumbnailUrl" in value) {
+        return value.thumbnailUrl;
       } else if (value) {
         // in case a file is passed in, create a base64 url to display the image
-        return URL.createObjectURL(value);
+        return URL.createObjectURL(value as File);
       }
       return null;
     }, [value]);
@@ -139,13 +144,16 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
 
           {imageUrl ? (
             // Image Preview
-            <Image
-              width={300}
-              height={300}
-              className="h-full w-full rounded-md object-cover"
-              src={imageUrl}
-              alt={acceptedFiles[0]?.name}
-            />
+            <div>
+              <Image
+                width={300}
+                height={300}
+                className="h-full w-full rounded-md object-cover"
+                src={imageUrl}
+                alt="prev"
+              />
+              <small>Click to change</small>
+            </div>
           ) : (
             // Upload Icon
             <div className="flex flex-col items-center justify-center text-xs text-gray-400">
@@ -163,6 +171,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
               className="group absolute right-0 top-0 -translate-y-1/4 translate-x-1/4 transform"
               onClick={(e) => {
                 e.stopPropagation();
+
                 void onChange?.(undefined);
               }}
             >

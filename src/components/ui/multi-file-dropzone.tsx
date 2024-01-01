@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
 import { twMerge } from "tailwind-merge";
+import { Button } from "./button";
 
 const variants = {
   base: "relative rounded-md p-4 md:w-96 max-w-[calc(100vw-1rem)] flex justify-center items-center flex-col cursor-pointer border border-dashed border-gray-400 dark:border-gray-300 transition-colors duration-200 ease-in-out",
@@ -31,8 +32,11 @@ type InputProps = {
   value?: FileState[];
   onChange?: (files: FileState[]) => void | Promise<void>;
   onFilesAdded?: (addedFiles: FileState[]) => void | Promise<void>;
+  onFileRemove?: (fileKey: string) => void;
   disabled?: boolean;
   dropzoneOptions?: Omit<DropzoneOptions, "disabled">;
+  formImageLength?: number;
+  isEditing?: boolean;
 };
 
 const ERROR_MESSAGES = {
@@ -50,9 +54,57 @@ const ERROR_MESSAGES = {
   },
 };
 
+function hasExceededLimit({
+  formImageLength,
+  value,
+  acceptedFiles,
+  maxFileLimit,
+  isEditing,
+}: {
+  formImageLength: number;
+  value: number;
+  acceptedFiles: number;
+  maxFileLimit: number;
+  isEditing: boolean;
+}) {
+  if (!isEditing || (isEditing && formImageLength === 0))
+    return value + acceptedFiles > maxFileLimit;
+
+  const curMaxAllowedLimit = maxFileLimit - formImageLength;
+
+  if (
+    acceptedFiles === curMaxAllowedLimit &&
+    formImageLength + value === curMaxAllowedLimit + maxFileLimit
+  ) {
+    return false;
+  }
+
+  if (
+    value + formImageLength >= maxFileLimit ||
+    acceptedFiles + formImageLength > maxFileLimit
+  )
+    return true;
+
+  const curUploadLimitAgainstValue = maxFileLimit - formImageLength - value;
+
+  if (acceptedFiles > curUploadLimitAgainstValue) return true;
+
+  return false;
+}
+
 const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { dropzoneOptions, value, className, disabled, onFilesAdded, onChange },
+    {
+      dropzoneOptions,
+      value,
+      className,
+      disabled,
+      onFilesAdded,
+      onChange,
+      onFileRemove,
+      formImageLength = 0,
+      isEditing = false,
+    },
     ref
   ) => {
     const [customError, setCustomError] = React.useState<string>();
@@ -71,10 +123,17 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
       disabled,
       onDrop: (acceptedFiles) => {
         const files = acceptedFiles;
+
         setCustomError(undefined);
         if (
           dropzoneOptions?.maxFiles &&
-          (value?.length ?? 0) + files.length > dropzoneOptions.maxFiles
+          hasExceededLimit({
+            formImageLength,
+            value: value?.length ?? 0,
+            acceptedFiles: files.length,
+            maxFileLimit: dropzoneOptions?.maxFiles ?? Infinity,
+            isEditing,
+          })
         ) {
           setCustomError(ERROR_MESSAGES.tooManyFiles(dropzoneOptions.maxFiles));
           return;
@@ -159,58 +218,72 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
 
           {/* Selected Files */}
-          {value?.map(({ file, progress }, i) => (
+          {value?.map(({ file, progress, key }, i) => (
             <div
               key={i}
-              className="flex h-16 w-96 max-w-[100vw] flex-col justify-center rounded border border-gray-300 px-4 py-2"
+              className="flex gap-2 items-center"
             >
-              <div className="flex items-center gap-2 text-gray-500 dark:text-white">
-                <FileIcon
-                  size="30"
-                  className="shrink-0"
-                />
-                <div className="min-w-0 text-sm">
-                  <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {file.name}
+              <div className="flex h-16 w-96 max-w-[100vw] flex-col justify-center rounded border border-gray-300 px-4 py-2">
+                <div className="flex items-center gap-2 text-gray-500 dark:text-white">
+                  <FileIcon
+                    size="30"
+                    className="shrink-0"
+                  />
+                  <div className="min-w-0 text-sm">
+                    <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {file.name}
+                    </div>
+                    <div className="text-xs text-gray-400 dark:text-gray-400">
+                      {formatFileSize(file.size)}
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-400 dark:text-gray-400">
-                    {formatFileSize(file.size)}
+                  <div className="grow" />
+                  <div className="flex w-12 justify-end text-xs">
+                    {progress === "PENDING" ? (
+                      <button
+                        type="button"
+                        className="rounded-md p-1 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        onClick={() => {
+                          void onChange?.(
+                            value.filter((_, index) => index !== i)
+                          );
+                        }}
+                      >
+                        <Trash2Icon className="shrink-0" />
+                      </button>
+                    ) : progress === "ERROR" ? (
+                      <LucideFileWarning className="shrink-0 text-red-600 dark:text-red-400" />
+                    ) : progress !== "COMPLETE" ? (
+                      <div>{Math.round(progress)}%</div>
+                    ) : (
+                      <CheckCircleIcon className="shrink-0 text-green-600 dark:text-gray-400" />
+                    )}
                   </div>
                 </div>
-                <div className="grow" />
-                <div className="flex w-12 justify-end text-xs">
-                  {progress === "PENDING" ? (
-                    <button
-                      className="rounded-md p-1 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => {
-                        void onChange?.(
-                          value.filter((_, index) => index !== i)
-                        );
-                      }}
-                    >
-                      <Trash2Icon className="shrink-0" />
-                    </button>
-                  ) : progress === "ERROR" ? (
-                    <LucideFileWarning className="shrink-0 text-red-600 dark:text-red-400" />
-                  ) : progress !== "COMPLETE" ? (
-                    <div>{Math.round(progress)}%</div>
-                  ) : (
-                    <CheckCircleIcon className="shrink-0 text-green-600 dark:text-gray-400" />
-                  )}
-                </div>
+                {/* Progress Bar */}
+                {typeof progress === "number" && (
+                  <div className="relative h-0">
+                    <div className="absolute top-1 h-1 w-full overflow-clip rounded-full bg-gray-200 dark:bg-gray-700">
+                      <div
+                        className="h-full bg-gray-400 transition-all duration-300 ease-in-out dark:bg-white"
+                        style={{
+                          width: progress ? `${progress}%` : "0%",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-              {/* Progress Bar */}
-              {typeof progress === "number" && (
-                <div className="relative h-0">
-                  <div className="absolute top-1 h-1 w-full overflow-clip rounded-full bg-gray-200 dark:bg-gray-700">
-                    <div
-                      className="h-full bg-gray-400 transition-all duration-300 ease-in-out dark:bg-white"
-                      style={{
-                        width: progress ? `${progress}%` : "0%",
-                      }}
-                    />
-                  </div>
-                </div>
+
+              {progress === "COMPLETE" && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => onFileRemove?.(key)}
+                >
+                  <Trash2Icon className="w-6 h-6 text-destructive" />
+                </Button>
               )}
             </div>
           ))}

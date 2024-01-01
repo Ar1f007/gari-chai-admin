@@ -5,6 +5,15 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useEdgeStore } from "@/lib/edgestore";
 import { Button } from "./button";
+import { imageSchema } from "@/schemas/utils";
+import { infer as ZodInfer } from "zod";
+import { XIcon } from "lucide-react";
+import { MAX_ALLOWED_COLOR_IMAGE } from "@/utils/constants";
+
+type ImageKeyUrl = {
+  key: string;
+  url: ZodInfer<typeof imageSchema>;
+};
 
 export const defaultMultiImageDropzoneOptions: Omit<
   DropzoneOptions,
@@ -18,18 +27,21 @@ export const defaultMultiImageDropzoneOptions: Omit<
 type RHFMultiImageFileDropzoneParamsType = {
   name: string;
   dropzoneOptions?: Omit<DropzoneOptions, "disabled">;
+  isEditing?: boolean;
 };
 
 const RHFMultiImageFileDropzone = ({
   name,
   dropzoneOptions = defaultMultiImageDropzoneOptions,
+  isEditing = false,
 }: RHFMultiImageFileDropzoneParamsType) => {
+  const form = useFormContext();
+
   const [fileStates, setFileStates] = useState<FileState[]>([]);
 
-  const { setValue } = useFormContext();
-
-  const [uploadRes, setUploadRes] = useState<string[]>([]);
   const { edgestore } = useEdgeStore();
+
+  const imgFiles = form.watch(name) as ImageKeyUrl[];
 
   function updateFileProgress(key: string, progress: FileState["progress"]) {
     setFileStates((fileStates) => {
@@ -37,17 +49,27 @@ const RHFMultiImageFileDropzone = ({
       const fileState = newFileStates.find(
         (fileState) => fileState.key === key
       );
+
       if (fileState) {
         fileState.progress = progress;
       }
+
       return newFileStates;
     });
   }
 
-  useEffect(() => {
-    setValue(name, uploadRes);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uploadRes, name]);
+  function removeFileFromFormAndState(fileKey: string) {
+    const newFiles = fileStates.filter((file) => file.key !== fileKey);
+
+    // files which is stored in form
+    const files = (form.getValues(name) as ImageKeyUrl[]).filter(
+      (file) => file.key !== fileKey
+    );
+
+    setFileStates(newFiles);
+
+    form.setValue(name, files);
+  }
 
   return (
     <div>
@@ -60,6 +82,10 @@ const RHFMultiImageFileDropzone = ({
         onFilesAdded={async (addedFiles) => {
           setFileStates([...fileStates, ...addedFiles]);
         }}
+        disabled={imgFiles.length >= MAX_ALLOWED_COLOR_IMAGE}
+        onFileRemove={removeFileFromFormAndState}
+        formImageLength={imgFiles.length}
+        isEditing={isEditing}
       />
 
       <Button
@@ -85,7 +111,17 @@ const RHFMultiImageFileDropzone = ({
                     temporary: true,
                   },
                 });
-                setUploadRes((uploadRes) => [...uploadRes, res.url]);
+
+                form.setValue(name, [
+                  ...form.getValues(name),
+                  {
+                    key: fileState.key,
+                    url: {
+                      originalUrl: res.url,
+                      thumbnailUrl: res.thumbnailUrl || res.url,
+                    },
+                  },
+                ]);
               } catch (err) {
                 updateFileProgress(fileState.key, "ERROR");
               }
@@ -99,6 +135,36 @@ const RHFMultiImageFileDropzone = ({
       >
         Upload
       </Button>
+
+      {imgFiles.length > 0 ? (
+        <ul className="flex flex-wrap gap-5 max-w-lg mt-5">
+          {imgFiles.map((val) => (
+            <li
+              key={val.key}
+              className="flex gap-2"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={val.url.originalUrl}
+                alt="preview"
+                width={100}
+                height={100}
+                className="rounded"
+              />
+
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={() => removeFileFromFormAndState(val.key)}
+                className="h-8 w-8"
+              >
+                <XIcon className="w-6 h-6 text-destructive" />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 };

@@ -19,7 +19,7 @@ const SelectCarModel = () => {
   function getFormattedModelOptions(models: TCarModelSchema[]) {
     return models.map((model) => ({
       value: model._id,
-      label: model.brand,
+      label: model.name,
     }));
   }
 

@@ -5,7 +5,7 @@ import TextField from "../form/text-field";
 import SelectBrand from "../shared/brand/select-brand";
 import SelectCarModel from "./select-car-model";
 import { useFormContext } from "react-hook-form";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import SelectCarType from "./select-car-type";
 import SelectBodyType from "./select-body-type";
 import { EditNewCarInputs } from "@/schemas/edit-new-car";
@@ -16,11 +16,22 @@ type BasicInfoProps = {
 };
 
 const BasicInfo = ({ showSlugInput = false }: BasicInfoProps) => {
-  const { resetField, watch } = useFormContext();
-  const brand = watch("brand");
+  const form = useFormContext();
+
+  const brand = form.watch("brand");
 
   useEffect(() => {
-    resetField("brandModel");
+    // we are checking if `brand` field is dirty or modified
+    // if modified then updating the `model` field
+    // so that user can only select correct `model`, models which belongs to the currently selected `brand`.
+    // we are using setValue instead of resetField is because, resetField resets the value to defaultValue in the `edit form`
+    // in case of edit form, that's something we don't want to set
+    // that's why we are using `setValue`
+
+    if (form.getFieldState("brand").isDirty) {
+      form.setValue("brandModel", null);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brand]);
 
@@ -42,14 +53,12 @@ const BasicInfo = ({ showSlugInput = false }: BasicInfoProps) => {
         )}
       </div>
 
-      <Suspense>
-        <div className="flex flex-col lg:flex-row gap-5">
-          <SelectBrand />
-          <SelectCarModel />
-          <SelectCarType />
-          <SelectBodyType />
-        </div>
-      </Suspense>
+      <div className="flex flex-col lg:flex-row gap-5">
+        <SelectBrand />
+        <SelectCarModel />
+        <SelectCarType />
+        <SelectBodyType />
+      </div>
 
       <div className="flex flex-col lg:flex-row gap-5">
         <TextField<NewCarInputs>

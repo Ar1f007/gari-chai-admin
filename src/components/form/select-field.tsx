@@ -1,4 +1,9 @@
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  FieldPath,
+  FieldValues,
+  useFormContext,
+} from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -40,7 +45,7 @@ const SelectField = <T extends FieldValues>(props: SelectFieldProps<T>) => {
               options={options}
               isClearable
               isLoading={isLoading}
-              value={value || ""}
+              value={value ?? ""}
               {...rest}
               {...others}
             />
@@ -49,6 +54,21 @@ const SelectField = <T extends FieldValues>(props: SelectFieldProps<T>) => {
         </FormItem>
       )}
     />
+    // <Controller
+    //   name={name}
+    //   control={form.control}
+    //   render={({ field }) => (
+    //     <ReactSelect
+    //       placeholder={placeholder || label}
+    //       options={options}
+    //       isClearable
+    //       isLoading={isLoading}
+    //       {...field}
+    //       value={field.value || ""}
+    //       {...others}
+    //     />
+    //   )}
+    // />
   );
 };
 export default SelectField;

@@ -28,6 +28,7 @@ import {
   invalidateAdminCache,
 } from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
+import { VideoUrl } from "@/components/car/video-urls";
 
 const AddCarPage = () => {
   const { uploadImage } = useUploadImage();
@@ -63,23 +64,11 @@ const AddCarPage = () => {
     );
   }
 
+  async function handleVideoLinksWithImages(data: NewCarInputs["videos"]) {
+    data?.map;
+  }
+
   async function onSubmit(data: NewCarInputs) {
-    // first confirm the uploading of color images
-    if (data.colors.length) {
-      // extracting all the urls into one array
-      const urlList: string[] = [];
-
-      data.colors.map((color) => {
-        if (color.imageUrls?.length) {
-          color.imageUrls.map((imgUrl) => urlList.push(imgUrl));
-        }
-      });
-
-      if (urlList.length) {
-        await confirmUpload(urlList);
-      }
-    }
-
     const payload: TCreateNewCarParams = {
       ...data,
       posterImage: {
@@ -100,6 +89,57 @@ const AddCarPage = () => {
         "Something went wrong while uploading thumbnail image. Please Try Again"
       );
       return;
+    }
+
+    if (data.videos && !!data.videos.length) {
+      const videos: NewCarInputs["videos"] = [];
+
+      for (let i = 0; i < data.videos.length; i++) {
+        if (
+          data.videos[i].thumbnailImage &&
+          data.videos[i].thumbnailImage instanceof File
+        ) {
+          const res = await uploadImage(data.videos[i].thumbnailImage as File);
+
+          if (!res) {
+            toast.error("Error, uploading video thumbnail");
+            return;
+          }
+
+          videos.push({
+            link: data.videos[i].link,
+            thumbnailImage: {
+              originalUrl: res.url,
+              thumbnailUrl: res.thumbnailUrl ?? res.url,
+            },
+          });
+        } else {
+          videos.push({
+            link: data.videos[i].link,
+            thumbnailImage: undefined,
+          });
+        }
+      }
+
+      payload.videos = videos;
+    }
+
+    // confirm the uploading of color images
+    if (data.colors.length) {
+      // extracting all the urls into one array
+      const urlList: string[] = [];
+
+      data.colors.map((color) => {
+        if (color.imageUrls?.length) {
+          color.imageUrls.map((imgUrl) => {
+            urlList.push(imgUrl.url.originalUrl);
+          });
+        }
+      });
+
+      if (urlList.length) {
+        await confirmUpload(urlList);
+      }
     }
 
     const res = await createNewCar(payload);
@@ -139,28 +179,21 @@ const AddCarPage = () => {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-10 xl:gap-15 md:px-5 py-5">
               <BasicInfo />
-
               <Price />
-
               <FuelType />
-
               <GroupSpecifications />
-
               <Specifications
                 specificationName="additionalSpecifications"
                 isCalledSeparately
               />
-
               <CarColors />
 
+              <VideoUrl />
+
               <ChooseCities />
-
               <LaunchedDate />
-
               <CarDescription />
-
               <UploadThumbnail />
-
               <LoadingBtn
                 type="submit"
                 isLoading={form.formState.isSubmitting}

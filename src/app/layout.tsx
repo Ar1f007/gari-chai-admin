@@ -7,7 +7,6 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import TopHeader from "@/components/layout/top-header";
 
-// import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });

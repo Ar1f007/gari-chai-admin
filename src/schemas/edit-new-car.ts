@@ -1,43 +1,47 @@
 import { xCharacterLong } from "@/utils/other";
 import { z } from "zod";
 
-import { selectOptionSchema } from "./new-car";
+import { createNewCarSchema } from "./new-car";
 import { carSchema } from "@/services";
-import { singleSpecificationSchema } from "./utils";
+import { MAX_ALLOWED_COLOR_IMAGE } from "@/utils/constants";
 
-export const editNewCarSchema = carSchema
+export const editNewCarSchema = createNewCarSchema
   .extend({
     slug: z.string().min(3, xCharacterLong("Name", 3)),
 
-    brand: selectOptionSchema,
+    status: z.enum(["available", "sold", "reserved"]).default("available"),
 
-    brandModel: selectOptionSchema,
+    posterImage: createNewCarSchema.shape.posterImage.optional(),
 
-    bodyStyle: selectOptionSchema,
-
-    fuel: z.object({
-      typeInfo: selectOptionSchema,
-    }),
-
-    specificationsByGroup: z
-      .optional(
-        z.array(
-          z.object({
-            groupName: z.string().min(3, xCharacterLong("Group name", 3)),
-            values: z.array(singleSpecificationSchema),
-          })
-        )
-      )
-      .default([]),
+    initialColors: carSchema.shape.colors,
   })
-  .superRefine((val) => {
-    return {
-      ...val,
-      brand: {
-        id: val.brand.value,
-        name: val.brand.label,
-      },
-    };
+  .superRefine((val, ctx) => {
+    val.colors.map((color, idx) => {
+      if (color.imageUrls?.length) {
+        const colorImagesLength = color.imageUrls.length;
+        const imagesFromOriginalDoc = val.initialColors.find(
+          (item) => item.name === color.name
+        );
+
+        if (!imagesFromOriginalDoc) return;
+
+        if (imagesFromOriginalDoc) {
+          if (
+            imagesFromOriginalDoc.imageUrls.length + colorImagesLength >
+            MAX_ALLOWED_COLOR_IMAGE
+          ) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "Too many images max allowed " + MAX_ALLOWED_COLOR_IMAGE,
+              fatal: true,
+              path: [`colors.${idx}.name`],
+            });
+
+            return z.NEVER;
+          }
+        }
+      }
+    });
   });
 
 export type EditNewCarInputs = z.infer<typeof editNewCarSchema>;

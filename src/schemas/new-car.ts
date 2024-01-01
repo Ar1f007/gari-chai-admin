@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 import { xCharacterLong } from "@/utils/other";
-import { isNumberRequiredErrMsg, singleSpecificationSchema } from "./utils";
+import {
+  imageSchema,
+  isNumberRequiredErrMsg,
+  singleSpecificationSchema,
+} from "./utils";
 
 export const engineSchemaBasic = z.object({
   type: z.string().min(1, "required"),
@@ -48,7 +52,14 @@ export const createNewCarSchema = z.object({
     .array(
       z.object({
         name: z.string().min(1, "Color name is required"),
-        imageUrls: z.array(z.string()).optional(),
+        imageUrls: z
+          .array(
+            z.object({
+              key: z.string(),
+              url: imageSchema,
+            })
+          )
+          .optional(),
       })
     )
     .optional()
@@ -81,7 +92,23 @@ export const createNewCarSchema = z.object({
 
   posterImage: z.instanceof(File, { message: "Image is required" }),
 
-  imageUrls: z.array(z.string()).optional(),
+  imageUrls: z
+    .array(
+      z.object({
+        key: z.string(),
+        url: imageSchema,
+      })
+    )
+    .optional(),
+
+  videos: z
+    .array(
+      z.object({
+        link: z.string().min(1, "Video link is required").url(),
+        thumbnailImage: z.union([z.instanceof(File), imageSchema]).optional(),
+      })
+    )
+    .optional(),
 
   description: z.optional(
     z.string().refine((val) => {

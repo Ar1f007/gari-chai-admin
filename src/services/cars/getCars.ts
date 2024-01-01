@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, brandSchema, endpoints } from "..";
-import { singleSpecificationSchema } from "@/schemas/utils";
+import { imageSchema, singleSpecificationSchema } from "@/schemas/utils";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
 import { carModelSchema } from "@/schemas/car-model";
@@ -54,22 +54,33 @@ export const carSchema = z.object({
     thumbnailUrl: z.string().url().optional(),
   }),
 
-  imageUrls: z.array(z.string()),
+  imageUrls: z.array(
+    z.object({
+      key: z.string(),
+      url: imageSchema,
+    })
+  ),
 
-  videoUrls: z
+  videos: z
     .array(
       z.object({
-        thumbnailUrl: z.string().url().optional(),
-        url: z.string().url(),
+        thumbnailImage: z.optional(imageSchema),
+        link: z.string().url(),
       })
     )
+    .optional()
     .default([]),
 
   colors: z
     .array(
       z.object({
         name: z.string(),
-        imageUrls: z.array(z.string().url()).optional(),
+        imageUrls: z.array(
+          z.object({
+            key: z.string(),
+            url: imageSchema,
+          })
+        ),
       })
     )
     .default([]),

@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { Trash2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import SelectField from "../form/select-field";
-import { ReactSelect } from "../ui/react-select";
 import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Checkbox } from "../ui/checkbox";
 import { cn } from "@/lib/utils";

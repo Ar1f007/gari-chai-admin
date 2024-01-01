@@ -1,5 +1,5 @@
-import { imageSchema } from "@/schema/others";
 import { z } from "zod";
+import { imageSchema } from "./utils";
 
 export const createCarBodyStyleSchema = z.object({
   name: z.string().min(1, "Required"),
