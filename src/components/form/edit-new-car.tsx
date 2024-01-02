@@ -121,13 +121,13 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
     }
   }
 
-  async function getNewUrlAndDelPrevOne(img: File) {
+  async function getNewUrlAndDelPrevOne(img: File, prevUrl: string) {
     try {
       const res = await uploadImage(img);
 
       if (!res) throw new Error();
 
-      deleteImgFromStore(data.posterImage.originalUrl);
+      deleteImgFromStore(prevUrl);
 
       return {
         originalUrl: res.url,
@@ -144,7 +144,7 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   async function getFormattedPayload(formData: EditNewCarInputs) {
     const posterImage = !formData.posterImage
       ? data.posterImage
-      : await getNewUrlAndDelPrevOne(formData.posterImage);
+      : await getNewUrlAndDelPrevOne(formData.posterImage, data.posterImage.originalUrl);
 
     const payload = {
       ...formData,
