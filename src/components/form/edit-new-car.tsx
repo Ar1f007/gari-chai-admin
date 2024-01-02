@@ -25,9 +25,9 @@ import { useUploadImage } from "@/hooks/useUploadImage";
 import { useEdgeStore } from "@/lib/edgestore";
 import { toast } from "sonner";
 import { VideoUrl } from "../car/video-urls";
+import { updateNewCar } from "@/services/cars/updateNewCar";
 
 const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
-
   const brandData = brandSchema.parse(data.brand.value);
   const modelData = carModelSchema.parse(data.brandModel.value);
   const bodyStyle = carBodyStylesSchema.parse(data.bodyStyle.value);
@@ -42,17 +42,17 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       brand: {
         value: brandData._id,
-        label: brandData.name
+        label: brandData.name,
       },
 
       brandModel: {
         value: modelData._id,
-        label: modelData.name
+        label: modelData.name,
       },
 
       bodyStyle: {
         value: bodyStyle._id,
-        label: bodyStyle.name
+        label: bodyStyle.name,
       },
 
       tags: data.tags,
@@ -71,8 +71,6 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       additionalSpecifications: data.additionalSpecifications,
 
-      initialColors: data.colors,
-
       colors: data.colors,
 
       cities: data.cities,
@@ -85,8 +83,10 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       status: data.status,
 
-      videos: data.videos
-    }
+      videos: data.videos,
+
+      posterImage: data.posterImage,
+    },
   });
 
   const { uploadImage } = useUploadImage();
@@ -101,7 +101,7 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
       ...data.imageUrls,
       data.posterImage.originalUrl,
       data.posterImage.thumbnailUrl,
-      ...colorImages(data.colors)
+      ...colorImages(data.colors),
     ];
 
     return imgUrls;
@@ -132,7 +132,7 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       return {
         originalUrl: res.url,
-        thumbnailUrl: res?.thumbnailUrl
+        thumbnailUrl: res?.thumbnailUrl || res.url,
       };
     } catch (error) {
       toast.error(
@@ -142,37 +142,41 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
     }
   }
 
-  async function handleVideos(currentVideos: TCarSchema["videos"], prevVideos: TCarSchema["videos"]) {
-    if (!currentVideos.length) {
-      return prevVideos;
+  async function handleVideos(currentVideos: EditNewCarInputs["videos"]) {
+    if (!currentVideos || !currentVideos.length) {
+      return [];
     }
 
     const videos: TCarSchema["videos"] = [];
 
     for (const video of currentVideos) {
-
       if (video.thumbnailImage && video.thumbnailImage instanceof File) {
         try {
           const res = await uploadImage(video.thumbnailImage);
 
           if (!res) throw new Error(video.thumbnailImage.name);
 
-          video.thumbnailImage = {
-            originalUrl: res.url,
-            thumbnailUrl: res?.thumbnailUrl || res.url
-          };
+          videos.push({
+            link: video.link,
+            thumbnailImage: {
+              originalUrl: res.url,
+              thumbnailUrl: res?.thumbnailUrl || res.url,
+            },
+          });
         } catch (e: any) {
           if (e instanceof Error) {
-            return toast.error("Could not upload thumbnail image for video: " + e.message);
+            toast.error(
+              "Could not upload thumbnail image for video: " + e.message
+            );
           }
-          toast.error("Something went wrong while uploading thumbnail image for video");
-
-          return [];
+          toast.error(
+            "Something went wrong while uploading thumbnail image for video"
+          );
         }
       } else {
         videos.push({
           link: video.link,
-          thumbnailImage: video.thumbnailImage
+          thumbnailImage: video.thumbnailImage,
         });
       }
     }
@@ -180,25 +184,54 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
     return videos;
   }
 
-  async function getFormattedPayload(formData: EditNewCarInputs) {
-    const posterImage = !formData.posterImage
-      ? data.posterImage
-      : await getNewUrlAndDelPrevOne(formData.posterImage, data.posterImage.originalUrl);
+  async function handlePosterImg(
+    curData: EditNewCarInputs["posterImage"],
+    prevData: TCarSchema["posterImage"]
+  ) {
+    if (curData instanceof File) {
+      const res = await getNewUrlAndDelPrevOne(curData, prevData.originalUrl);
 
-    // const videos = await handleVideos(formData.videos || [], data.videos);
+      if (!res) {
+        return {
+          originalUrl: prevData.thumbnailUrl,
+          thumbnailUrl: prevData.thumbnailUrl,
+        };
+      }
+
+      return res;
+    }
+
+    return prevData;
+  }
+
+  async function getFormattedPayload(formData: EditNewCarInputs) {
+    const posterImage = await handlePosterImg(
+      formData.posterImage,
+      data.posterImage
+    );
 
     const payload = {
       ...formData,
-      posterImage: posterImage || data.posterImage
+      posterImage,
+      videos: await handleVideos(formData.videos),
     };
 
     return payload;
   }
 
   async function onSubmit(formData: EditNewCarInputs) {
-    const payload = await getFormattedPayload(formData);
+    try {
+      const payload = await getFormattedPayload(formData);
 
-    console.log(payload);
+      const res = await updateNewCar(payload, data.slug);
+
+      if (!res) {
+        return toast.error("Something went wrong");
+      }
+
+      console.log(res.status);
+      // console.log
+    } catch (error) {}
   }
 
   return (

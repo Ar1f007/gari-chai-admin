@@ -51,7 +51,7 @@ export const carSchema = z.object({
 
   posterImage: z.object({
     originalUrl: z.string().url(),
-    thumbnailUrl: z.string().url().optional(),
+    thumbnailUrl: z.string().url(),
   }),
 
   imageUrls: z.array(

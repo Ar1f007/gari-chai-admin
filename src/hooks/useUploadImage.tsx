@@ -1,5 +1,6 @@
 import { useEdgeStore } from "@/lib/edgestore";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const useUploadImage = () => {
   const { edgestore } = useEdgeStore();
@@ -19,8 +20,25 @@ export const useUploadImage = () => {
     }
   }
 
+  async function confirmUpload(urls: string[]) {
+    await Promise.all(
+      urls.map(async (urlToConfirm) => {
+        try {
+          await edgestore.publicImages.confirmUpload({
+            url: urlToConfirm,
+          });
+        } catch (error) {
+          toast.error("Image upload is failed");
+          // TODO
+          // Allow user to confirm the upload again
+        }
+      })
+    );
+  }
+
   return {
     uploadImage,
+    confirmUpload,
     fileProgress,
   };
 };
