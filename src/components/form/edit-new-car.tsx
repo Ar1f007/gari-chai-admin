@@ -110,10 +110,10 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   async function deleteImgFromStore(urls: string | string[]) {
     try {
       if (typeof urls === "string") {
-        edgestore.publicImages.delete({ url: urls });
+        await edgestore.publicImages.delete({ url: urls });
       } else {
         for (const url of urls) {
-          edgestore.publicImages.delete({ url });
+          await edgestore.publicImages.delete({ url });
         }
       }
     } catch (error) {
@@ -141,20 +141,23 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
     }
   }
 
-  function getFormattedPayload(formData: EditNewCarInputs) {
+  async function getFormattedPayload(formData: EditNewCarInputs) {
     const posterImage = !formData.posterImage
       ? data.posterImage
-      : getNewUrlAndDelPrevOne(formData.posterImage);
+      : await getNewUrlAndDelPrevOne(formData.posterImage);
 
     const payload = {
       ...formData,
       posterImage: posterImage || data.posterImage,
     };
+
+    return payload;
   }
 
   async function onSubmit(formData: EditNewCarInputs) {
-    console.log(formData);
-    const payload = getFormattedPayload(formData);
+    const payload = await getFormattedPayload(formData);
+
+    console.log(payload);
   }
 
   return (

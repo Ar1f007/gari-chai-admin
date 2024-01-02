@@ -36,7 +36,7 @@ export const VideoUrl = ({ value }: VideoProps) => {
           {fields.map((field, idx) => (
             <li
               key={field.id}
-              className="flex flex-col gap-5 outline rounded outline-1 outline-muted p-5"
+              className="flex flex-col gap-8 outline rounded outline-1 outline-muted p-5"
             >
               <div className="flex flex-col lg:flex-row gap-5 lg:items-end">
                 <FormField
