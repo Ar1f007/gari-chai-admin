@@ -80,9 +80,11 @@ const AddCarPage = () => {
     try {
       const res = await uploadImage(data.posterImage);
 
+      if (!res) throw new Error();
+
       payload.posterImage = {
-        originalUrl: res?.url ?? "",
-        thumbnailUrl: res?.thumbnailUrl ?? "",
+        originalUrl: res.url,
+        thumbnailUrl: res.thumbnailUrl ?? res.url,
       };
     } catch (error) {
       toast.error(
@@ -116,7 +118,7 @@ const AddCarPage = () => {
         } else {
           videos.push({
             link: data.videos[i].link,
-            thumbnailImage: undefined,
+            thumbnailImage: data.videos[i].thumbnailImage,
           });
         }
       }

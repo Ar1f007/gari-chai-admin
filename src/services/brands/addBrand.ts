@@ -1,11 +1,12 @@
+import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
 import { TBrand } from "@/types/brand";
 import { endpoints, ReqMethod } from "..";
-import { ImagePayload } from "@/types/others";
+import { imageSchema } from "@/schemas/utils";
 
 export type TAddNewBrandPayload = {
   name: string;
-  image: ImagePayload;
+  image: z.infer<typeof imageSchema>;
 };
 
 export async function addBrandName(payload: TAddNewBrandPayload) {

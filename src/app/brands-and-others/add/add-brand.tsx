@@ -62,7 +62,7 @@ export const AddBrand = ({ onSuccess }: AddBrandProps) => {
       name: data.name,
       image: {
         originalUrl: imgUrls.url,
-        thumbnailUrl: imgUrls.thumbnailUrl,
+        thumbnailUrl: imgUrls.thumbnailUrl ?? imgUrls.url,
       },
     };
 

@@ -7,13 +7,6 @@ import {
   singleSpecificationSchema,
 } from "./utils";
 
-export const engineSchemaBasic = z.object({
-  type: z.string().min(1, "required"),
-  displacement: z.string().optional(),
-  horsePower: z.string().optional(),
-  torque: z.string().optional(),
-});
-
 export const selectOptionSchema = z.object(
   {
     value: z.string().or(z.any()),
@@ -92,14 +85,7 @@ export const createNewCarSchema = z.object({
 
   posterImage: z.instanceof(File, { message: "Image is required" }),
 
-  imageUrls: z
-    .array(
-      z.object({
-        key: z.string(),
-        url: imageSchema,
-      })
-    )
-    .optional(),
+  imageUrls: z.array(imageSchema).optional(),
 
   videos: z
     .array(

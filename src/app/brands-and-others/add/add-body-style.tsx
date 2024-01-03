@@ -72,7 +72,7 @@ export const AddBodyStyle = ({ onSuccess }: AddBrandProps) => {
 
       payload.image = {
         originalUrl: imgUrl.url,
-        thumbnailUrl: imgUrl.thumbnailUrl ?? undefined,
+        thumbnailUrl: imgUrl.thumbnailUrl ?? imgUrl.url,
       };
     }
 

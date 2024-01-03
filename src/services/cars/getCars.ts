@@ -20,8 +20,6 @@ export const carSchema = z.object({
 
   slug: z.string(),
 
-  description: z.string().optional(),
-
   brand: z.object({
     value: z.union([z.string(), brandSchema, z.null()]),
     label: z.string(),
@@ -32,12 +30,18 @@ export const carSchema = z.object({
     label: z.string(),
   }),
 
-  transmission: z.string(),
-
   bodyStyle: z.object({
     value: z.union([z.string(), carBodyStylesSchema, z.null()]),
     label: z.string(),
   }),
+
+  tags: z.array(z.object({ value: z.string(), label: z.string() })),
+
+  transmission: z.string(),
+
+  numOfDoors: z.number(),
+
+  seatingCapacity: z.number(),
 
   fuel: z.object({
     typeInfo: z.object({
@@ -48,28 +52,6 @@ export const carSchema = z.object({
       label: z.string(),
     }),
   }),
-
-  posterImage: z.object({
-    originalUrl: z.string().url(),
-    thumbnailUrl: z.string().url(),
-  }),
-
-  imageUrls: z.array(
-    z.object({
-      key: z.string(),
-      url: imageSchema,
-    })
-  ),
-
-  videos: z
-    .array(
-      z.object({
-        thumbnailImage: z.optional(imageSchema),
-        link: z.string().url(),
-      })
-    )
-    .optional()
-    .default([]),
 
   colors: z
     .array(
@@ -85,17 +67,11 @@ export const carSchema = z.object({
     )
     .default([]),
 
-  numOfDoors: z.number(),
-
-  seatingCapacity: z.number(),
-
   price: z.object({
     min: z.number(),
     max: z.number(),
     isNegotiable: z.boolean(),
   }),
-
-  tags: z.array(z.object({ value: z.string(), label: z.string() })),
 
   specificationsByGroup: z.array(
     z.object({
@@ -106,7 +82,33 @@ export const carSchema = z.object({
 
   additionalSpecifications: z.array(attributeSchema),
 
+  posterImage: z.object({
+    originalUrl: z.string().url(),
+    thumbnailUrl: z.string().url(),
+  }),
+
+  imageUrls: z.array(imageSchema),
+
+  videos: z
+    .array(
+      z.object({
+        thumbnailImage: z.optional(imageSchema),
+        link: z.string().url(),
+      })
+    )
+    .optional()
+    .default([]),
+
   carType: z.enum(["new", "used"]),
+
+  description: z.string().optional(),
+
+  cities: z.array(
+    z.object({
+      value: z.string(),
+      label: z.string(),
+    })
+  ),
 
   launchedAt: z.string(),
   createdAt: z.string(),
@@ -114,12 +116,6 @@ export const carSchema = z.object({
 
   status: z.enum(["available", "sold", "reserved"]),
   soldAt: z.string().optional(),
-  cities: z.array(
-    z.object({
-      value: z.string(),
-      label: z.string(),
-    })
-  ),
 });
 
 const carsDataSchema = z.array(carSchema);

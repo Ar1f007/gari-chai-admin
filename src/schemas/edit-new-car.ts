@@ -14,33 +14,7 @@ export const editNewCarSchema = createNewCarSchema
       imageSchema,
       z.instanceof(File, { message: "Image is required" }),
     ]),
-
-    // initialColors: carSchema.shape.colors,
   })
-  .superRefine((val, ctx) => {
-    // val.colors.map((color, idx) => {
-    //   if (color.imageUrls?.length) {
-    //     const colorImagesLength = color.imageUrls.length;
-    //     const imagesFromOriginalDoc = val.initialColors.find(
-    //       (item) => item.name === color.name
-    //     );
-    //     if (!imagesFromOriginalDoc) return;
-    //     if (imagesFromOriginalDoc) {
-    //       if (
-    //         imagesFromOriginalDoc.imageUrls.length + colorImagesLength >
-    //         MAX_ALLOWED_COLOR_IMAGE
-    //       ) {
-    //         ctx.addIssue({
-    //           code: z.ZodIssueCode.custom,
-    //           message: "Too many images max allowed " + MAX_ALLOWED_COLOR_IMAGE,
-    //           fatal: true,
-    //           path: [`colors.${idx}.name`],
-    //         });
-    //         return z.NEVER;
-    //       }
-    //     }
-    //   }
-    // });
-  });
+  .superRefine((val, ctx) => {});
 
 export type EditNewCarInputs = z.infer<typeof editNewCarSchema>;

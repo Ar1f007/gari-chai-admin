@@ -55,7 +55,7 @@ export type SelectOption<TValue = string, TLabel = string, TImage = string> = {
 };
 
 export type ImagePayload = {
-  thumbnailUrl: string | null;
+  thumbnailUrl: string;
   originalUrl: string;
 };
 
