@@ -1,14 +1,12 @@
 import * as React from "react";
 import { TVendorSchema } from "@/schemas/vendor";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 
 export function fetchVendorTableColumns(
   isPending: boolean,
   startTransition: React.TransitionStartFunction
 ): ColumnDef<TVendorSchema, unknown>[] {
-  const columnHelper = createColumnHelper<TVendorSchema>();
-
   return [
     {
       accessorKey: "name",
@@ -27,6 +25,17 @@ export function fetchVendorTableColumns(
         <DataTableColumnHeader
           column={column}
           title="Phone"
+        />
+      ),
+      cell: (info) => info.getValue(),
+    },
+
+    {
+      accessorKey: "carCollectionCount",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Total Cars"
         />
       ),
       cell: (info) => info.getValue(),
