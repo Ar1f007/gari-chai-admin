@@ -2,12 +2,12 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 
 import PageHeader from "@/components/layout/page-header.tsx";
+import VendorDataTableShell from "./components/vendor-data-table-shell";
+import { fetchVendorTableColumns } from "./components/vendor-column-def";
+import { vendorService } from "@/services/vendor";
 
-const VendorListPage = () => {
-  const vendors = {
-    message: null,
-    data: [],
-  };
+const VendorListPage = async () => {
+  const vendors = await vendorService.getVendors();
 
   return (
     <>
@@ -20,11 +20,9 @@ const VendorListPage = () => {
               {vendors.message}
             </AlertTitle>
           </Alert>
-        ) : // <BrandDataTable
-        //   data={brands.data}
-        //   columns={brandTableColumns}
-        // />
-        null}
+        ) : (
+          <VendorDataTableShell data={vendors.data ?? []} />
+        )}
       </section>
     </>
   );
