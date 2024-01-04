@@ -5,6 +5,7 @@ import { imageSchema, singleSpecificationSchema } from "@/schemas/utils";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
 import { carModelSchema } from "@/schemas/car-model";
+import { vendorSchema } from "@/schemas/vendor";
 
 const attributeSchema = singleSpecificationSchema.extend({
   valueType: z.object({
@@ -19,6 +20,11 @@ export const carSchema = z.object({
   name: z.string(),
 
   slug: z.string(),
+
+  vendor: z.object({
+    value: z.union([z.string(), vendorSchema, z.null()]),
+    label: z.string(),
+  }),
 
   brand: z.object({
     value: z.union([z.string(), brandSchema, z.null()]),

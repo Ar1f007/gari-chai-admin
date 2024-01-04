@@ -26,11 +26,13 @@ import { useEdgeStore } from "@/lib/edgestore";
 import { toast } from "sonner";
 import { VideoUrl } from "../car/video-urls";
 import { updateNewCar } from "@/services/cars/updateNewCar";
+import { vendorSchema } from "@/schemas/vendor";
 
 const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   const brandData = brandSchema.parse(data.brand.value);
   const modelData = carModelSchema.parse(data.brandModel.value);
   const bodyStyle = carBodyStylesSchema.parse(data.bodyStyle.value);
+  const vendorData = vendorSchema.parse(data.vendor.value);
 
   const form = useForm<EditNewCarInputs>({
     mode: "onTouched",
@@ -39,6 +41,11 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
     defaultValues: {
       name: data.name,
       slug: data.slug,
+
+      vendor: {
+        value: vendorData._id,
+        label: vendorData.name,
+      },
 
       brand: {
         value: brandData._id,

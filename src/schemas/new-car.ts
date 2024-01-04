@@ -18,6 +18,8 @@ export const selectOptionSchema = z.object(
 export const createNewCarSchema = z.object({
   name: z.string().min(1, "required").min(3, xCharacterLong("Name", 3)),
 
+  vendor: selectOptionSchema,
+
   brand: selectOptionSchema,
 
   brandModel: selectOptionSchema,

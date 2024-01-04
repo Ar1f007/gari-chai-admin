@@ -10,6 +10,7 @@ import SelectCarType from "./select-car-type";
 import SelectBodyType from "./select-body-type";
 import { EditNewCarInputs } from "@/schemas/edit-new-car";
 import { cn } from "@/lib/utils";
+import SelectVendor from "./select-vendor";
 
 type BasicInfoProps = {
   showSlugInput?: boolean;
@@ -58,6 +59,7 @@ const BasicInfo = ({ showSlugInput = false }: BasicInfoProps) => {
         <SelectCarModel />
         <SelectCarType />
         <SelectBodyType />
+        <SelectVendor />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-5">
