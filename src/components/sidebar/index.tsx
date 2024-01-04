@@ -10,7 +10,7 @@ import QuickActions from "@/components/sidebar/quick-actions";
 import { themeConfig } from "@/configs/theme-config";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(themeConfig.expandSidebarByDefault);
 
   function toggleMenu() {
     setIsOpen((prev) => !prev);
@@ -33,6 +33,9 @@ const Sidebar = () => {
           size="icon"
         >
           {isOpen ? <XIcon /> : <MenuIcon />}
+          <div className="sr-only">
+            {isOpen ? "Close Sidebar" : "Open Sidebar"}
+          </div>
         </Button>
       </div>
 

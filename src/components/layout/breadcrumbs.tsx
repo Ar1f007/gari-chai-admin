@@ -1,12 +1,19 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
+import { Icon } from "@/types";
 
-const Breadcrumbs = () => {
+type BreadcrumbsProps = {
+  rootBreadcrumbLabel?: string;
+  rootBreadcrumbUrl?: string;
+  separator?: Icon | string | ReactNode;
+};
+
+const Breadcrumbs = (props: BreadcrumbsProps) => {
   const pathname = usePathname();
 
   const pathArray = pathname.split("/").filter((el) => el !== "");
@@ -15,7 +22,12 @@ const Breadcrumbs = () => {
     (acc, pathPart) => {
       return [...acc, { label: pathPart, url: `/${pathPart}` }];
     },
-    [{ label: "Dashboard", url: "/" }]
+    [
+      {
+        label: props.rootBreadcrumbLabel || "Home",
+        url: props.rootBreadcrumbUrl || "/",
+      },
+    ]
   );
 
   return (

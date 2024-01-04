@@ -23,11 +23,23 @@ const NavLinkGroup = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleToggle();
+    }
+  };
+
   return (
     <Fragment>
       <div
         role="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={handleToggle}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
         className={cn("sidebarLink flex items-center justify-between pr-4")}
         style={{
           paddingLeft:
