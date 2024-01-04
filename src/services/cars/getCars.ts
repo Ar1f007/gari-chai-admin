@@ -143,7 +143,9 @@ export async function getCars(queryParams?: string) {
       // next: {
       //   tags: [TAGS.cars],
       // },
-      cache: "no-store",
+      next: {
+        revalidate: 0,
+      },
     });
 
     if (res.status === "success") {

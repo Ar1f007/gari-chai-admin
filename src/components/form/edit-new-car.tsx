@@ -20,13 +20,14 @@ import UploadThumbnail from "../car/upload-thumbnail";
 import { LoadingBtn } from "../ui/loading-btn";
 import Status from "../car/status";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { useEdgeStore } from "@/lib/edgestore";
 import { toast } from "sonner";
 import { VideoUrl } from "../car/video-urls";
 import { updateNewCar } from "@/services/cars/updateNewCar";
 import { vendorSchema } from "@/schemas/vendor";
+import { mapValidationErrors } from "@/utils/mapValidationError";
 
 const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   const brandData = brandSchema.parse(data.brand.value);
@@ -236,7 +237,19 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
         return toast.error("Something went wrong");
       }
 
-      console.log(res.status);
+      if (res.status === "success") {
+        toast.success("Updated Successfully");
+
+        return;
+      }
+
+      if (res.status === "validationError") {
+        mapValidationErrors(res.errors, form);
+        toast.error(res.message);
+        return;
+      }
+
+      toast.error(res.message);
       // console.log
     } catch (error) {}
   }

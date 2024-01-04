@@ -48,6 +48,7 @@ export function fetchCarsTableColumnDefs(
       enableHiding: false,
     },
     {
+      id: "posterImage",
       accessorKey: "posterImage",
       header: ({ column }) => (
         <DataTableColumnHeader
@@ -78,6 +79,7 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
+      id: "name",
       accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader
@@ -92,8 +94,8 @@ export function fetchCarsTableColumnDefs(
       ),
     },
     {
-      accessorFn: (row) => row.brand.value,
       id: "brand.name",
+      accessorFn: (row) => row.brand.value,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -109,8 +111,8 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
-      accessorFn: (row) => row.brandModel.value,
       id: "brandModel.name",
+      accessorFn: (row) => row.brandModel.value,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -127,6 +129,7 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
+      id: "price",
       accessorKey: "price",
       header: () => <div className="text-center">Price</div>,
       columns: [
@@ -180,6 +183,7 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
+      id: "actions",
       header: "Actions",
       cell: ({ row }) => <DataTableRowActions row={row} />,
     },
