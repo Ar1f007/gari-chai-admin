@@ -36,6 +36,10 @@ export const endpoints = {
       base: "/used-cars",
     },
 
+    vendors: {
+      base: "/vendors",
+    },
+
     carInformation: {
       getBodyTypes: "/car-body-types",
       carBodyType: "/car-body-types",

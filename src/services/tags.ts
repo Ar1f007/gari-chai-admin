@@ -8,6 +8,7 @@ export const TAGS = {
   carBodyList: "car-body-list",
   brandModelList: "brand-model-list",
   sliders: "sliders",
+  vendors: "vendors",
 };
 
 export async function invalidateUICache(tags: string[]) {

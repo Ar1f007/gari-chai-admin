@@ -27,3 +27,5 @@ export const singleSpecificationSchema = z.object({
 export const isNumberRequiredErrMsg = {
   invalid_type_error: "required a number",
 };
+
+export const fileSchema = z.custom<FileList>();

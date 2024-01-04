@@ -44,6 +44,17 @@ const brandLinks: Route[] = [
   },
 ];
 
+const vendorLinks: Route[] = [
+  {
+    label: "Add",
+    href: routes.vendorRoutes.addVendor,
+  },
+  {
+    label: "Vendors",
+    href: routes.vendorRoutes.vendorList,
+  },
+];
+
 const homepageSettingLinks: Route[] = [
   {
     label: "Sliders",
@@ -96,6 +107,10 @@ const adminLinks: Route[] = [
     label: "Brands & Others",
     href: brandLinks,
     icon: Dice1Icon,
+  },
+  {
+    label: "Vendors",
+    href: vendorLinks,
   },
   {
     label: "Home Page Settings",

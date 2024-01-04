@@ -1,8 +1,7 @@
 "use client";
 
 import PageHeader from "@/components/layout/page-header.tsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { AddBrand } from "./add-brand";
 import AddModel from "./add-model";
 import { AddBodyStyle } from "./add-body-style";

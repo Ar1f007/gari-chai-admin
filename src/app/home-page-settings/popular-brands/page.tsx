@@ -1,7 +1,7 @@
 import Brand from "@/components/home-page-settings/brand";
 import PageHeader from "@/components/layout/page-header.tsx";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { TBrandSchema, getSettingContentByPageSlug } from "@/services";
+import { getSettingContentByPageSlug } from "@/services";
 import { HOME_SETTINGS_OPTIONS } from "@/utils/constants";
 import { InfoIcon } from "lucide-react";
 

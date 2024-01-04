@@ -16,6 +16,11 @@ const newCarRoutes = {
   carList: "/cars",
 };
 
+const vendorRoutes = {
+  addVendor: "/vendors/add",
+  vendorList: "/vendors",
+};
+
 const brandRoutes = {
   add: "/brands-and-others/add",
   brands: "/brands-and-others/brands",
@@ -27,4 +32,5 @@ export const routes = {
   homepageSettingRoutes,
   newCarRoutes,
   brandRoutes,
+  vendorRoutes,
 };
