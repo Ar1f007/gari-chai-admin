@@ -3,7 +3,6 @@ import { InfoIcon } from "lucide-react";
 
 import PageHeader from "@/components/layout/page-header.tsx";
 import VendorDataTableShell from "./components/vendor-data-table-shell";
-import { fetchVendorTableColumns } from "./components/vendor-column-def";
 import { vendorService } from "@/services/vendor";
 
 const VendorListPage = async () => {

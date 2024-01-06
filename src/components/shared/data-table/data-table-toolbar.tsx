@@ -31,6 +31,7 @@ export function DataTableToolbar<TData>({
   deleteRowsAction,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+
   const [isPending, startTransition] = React.useTransition();
 
   return (
@@ -74,7 +75,9 @@ export function DataTableToolbar<TData>({
             aria-label="Reset filters"
             variant="ghost"
             className="h-8 px-2 lg:px-3"
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => {
+              table.resetColumnFilters();
+            }}
           >
             Reset
             <XIcon

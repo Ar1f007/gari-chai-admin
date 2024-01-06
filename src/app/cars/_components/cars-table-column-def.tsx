@@ -5,7 +5,7 @@ import type {
   DataTableSearchableColumn,
 } from "@/types";
 
-import { type ColumnDef } from "@tanstack/react-table";
+import { VisibilityState, type ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -13,6 +13,7 @@ import { DataTableColumnHeader } from "@/components/shared/data-table/data-table
 import { TCarSchema } from "@/services";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DataTableRowActions } from "./data-table-row-actions";
+import { formatDate } from "@/lib/utils";
 
 export function fetchCarsTableColumnDefs(
   isPending: boolean,
@@ -94,8 +95,8 @@ export function fetchCarsTableColumnDefs(
       ),
     },
     {
-      id: "brand.name",
-      accessorFn: (row) => row.brand.value,
+      id: "brand.label",
+      accessorFn: (row) => row.brand.label,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -111,8 +112,8 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
-      id: "brandModel.name",
-      accessorFn: (row) => row.brandModel.value,
+      id: "brandModel.label",
+      accessorFn: (row) => row.brandModel.label,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -183,6 +184,29 @@ export function fetchCarsTableColumnDefs(
     },
 
     {
+      id: "launchedAt",
+      accessorKey: "launchedAt",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Launch Date"
+        />
+      ),
+      cell: (info) => (
+        <span>
+          {formatDate(
+            info.row.getValue("launchedAt"),
+            "ddd, MMM D, YYYY h:mm A"
+          )}
+        </span>
+      ),
+      enableHiding: true,
+      meta: {
+        columnName: "Launched Status",
+      },
+    },
+
+    {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => <DataTableRowActions row={row} />,
@@ -191,22 +215,17 @@ export function fetchCarsTableColumnDefs(
 }
 
 export const filterableColumns: DataTableFilterableColumn<TCarSchema>[] = [
-  // {
-  //   id: "status",
-  //   title: "Status",
-  //   options: tasks.status.enumValues.map((status) => ({
-  //     label: status[0]?.toUpperCase() + status.slice(1),
-  //     value: status,
-  //   })),
-  // },
-  // {
-  //   id: "priority",
-  //   title: "Priority",
-  //   options: tasks.priority.enumValues.map((priority) => ({
-  //     label: priority[0]?.toUpperCase() + priority.slice(1),
-  //     value: priority,
-  //   })),
-  // },
+  {
+    id: "launchedAt",
+    title: "Launch Date",
+    options: [
+      { label: "Launched Already", value: "past" },
+      { label: "Not Launched Yet", value: "future" },
+    ].map((status) => ({
+      label: status.label,
+      value: status.value,
+    })),
+  },
 ];
 
 export const searchableColumns: DataTableSearchableColumn<TCarSchema>[] = [
@@ -215,3 +234,7 @@ export const searchableColumns: DataTableSearchableColumn<TCarSchema>[] = [
     title: "Car Name",
   },
 ];
+
+export const initialColumnVisibility = {
+  launchedAt: true,
+};

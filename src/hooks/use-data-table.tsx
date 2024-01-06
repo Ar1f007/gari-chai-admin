@@ -29,6 +29,7 @@ interface UseDataTableProps<TData, TValue> {
   pageCount: number;
   filterableColumns?: DataTableFilterableColumn<TData>[];
   searchableColumns?: DataTableSearchableColumn<TData>[];
+  initialColumnVisibility?: VisibilityState | undefined;
 }
 
 export function useDataTable<TData, TValue>({
@@ -37,6 +38,7 @@ export function useDataTable<TData, TValue>({
   pageCount,
   filterableColumns = [],
   searchableColumns = [],
+  initialColumnVisibility = {},
 }: UseDataTableProps<TData, TValue>) {
   const router = useRouter();
   const pathname = usePathname();
@@ -74,7 +76,7 @@ export function useDataTable<TData, TValue>({
   // Table states
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>(initialColumnVisibility);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );

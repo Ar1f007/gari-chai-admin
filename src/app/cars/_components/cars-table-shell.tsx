@@ -7,6 +7,7 @@ import {
   fetchCarsTableColumnDefs,
   filterableColumns,
   searchableColumns,
+  initialColumnVisibility,
 } from "./cars-table-column-def";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTable } from "@/components/shared/data-table/data-table";
@@ -35,6 +36,7 @@ export const CarsTableShell = ({ data, pageCount }: CarsTableShellProps) => {
     pageCount,
     filterableColumns,
     searchableColumns,
+    initialColumnVisibility,
   });
 
   return (

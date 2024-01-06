@@ -29,8 +29,9 @@ export interface DataTableSearchableColumn<TData> {
   title: string;
 }
 
-export interface DataTableFilterableColumn<TData>
-  extends DataTableSearchableColumn<TData> {
+export interface DataTableFilterableColumn<TData> {
+  id: keyof TData;
+  title: string;
   options: Option[];
 }
 

@@ -17,6 +17,9 @@ async function getVendors() {
   try {
     const res = await apiFetch(url, {
       method: ReqMethod.GET,
+      next: {
+        revalidate: 0,
+      },
     });
 
     if (!res) {
