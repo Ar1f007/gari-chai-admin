@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, brandSchema, endpoints } from "..";
-import { imageSchema, singleSpecificationSchema } from "@/schemas/utils";
+import {
+  fuelTypeSchema,
+  imageSchema,
+  singleSpecificationSchema,
+} from "@/schemas/utils";
 import { TPagination } from "@/types/others";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
 import { carModelSchema } from "@/schemas/car-model";
@@ -49,15 +53,7 @@ export const carSchema = z.object({
 
   seatingCapacity: z.number(),
 
-  fuel: z.object({
-    typeInfo: z.object({
-      value: z.object({
-        type: z.string(),
-        fullForm: z.string(),
-      }),
-      label: z.string(),
-    }),
-  }),
+  fuel: z.array(fuelTypeSchema),
 
   colors: z
     .array(
@@ -122,6 +118,8 @@ export const carSchema = z.object({
 
   status: z.enum(["available", "sold", "reserved"]),
   soldAt: z.string().optional(),
+
+  metaData: z.record(z.string().min(1), z.any()).optional().default({}),
 });
 
 const carsDataSchema = z.array(carSchema);

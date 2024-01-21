@@ -68,6 +68,7 @@ const AddCarPage = () => {
     data?.map;
   }
 
+  // console.log(form.formState.errors.fuel);
   async function onSubmit(data: NewCarInputs) {
     const payload: TCreateNewCarParams = {
       ...data,

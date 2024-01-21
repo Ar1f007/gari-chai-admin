@@ -2,18 +2,12 @@ import { z } from "zod";
 
 import { xCharacterLong } from "@/utils/other";
 import {
+  fuelTypeSchema,
   imageSchema,
   isNumberRequiredErrMsg,
+  selectOptionSchema,
   singleSpecificationSchema,
 } from "./utils";
-
-export const selectOptionSchema = z.object(
-  {
-    value: z.string().or(z.any()),
-    label: z.string(),
-  },
-  { required_error: "required", invalid_type_error: "required" }
-);
 
 export const createNewCarSchema = z.object({
   name: z.string().min(1, "required").min(3, xCharacterLong("Name", 3)),
@@ -62,9 +56,7 @@ export const createNewCarSchema = z.object({
 
   transmission: z.string().min(1, "required"),
 
-  fuel: z.object({
-    typeInfo: selectOptionSchema,
-  }),
+  fuel: z.array(fuelTypeSchema),
 
   price: z.object({
     min: z.coerce.number({ ...isNumberRequiredErrMsg }).min(1, "required"),
@@ -130,6 +122,8 @@ export const createNewCarSchema = z.object({
         label: "All",
       },
     ]),
+
+  metaData: z.record(z.string().min(1), z.any()).optional().default({}),
 });
 
 export type NewCarInputs = z.infer<typeof createNewCarSchema>;

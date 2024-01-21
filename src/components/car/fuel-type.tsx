@@ -8,8 +8,11 @@ const FuelType = () => {
     <div className="w-full max-w-md">
       <SelectField<NewCarInputs>
         label="Fuel Type"
-        name="fuel.typeInfo"
+        name="fuel"
         options={data.fuelOptions}
+        isMulti
+        isSearchable
+        isClearable
       />
     </div>
   );

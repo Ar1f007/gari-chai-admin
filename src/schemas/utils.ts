@@ -29,3 +29,19 @@ export const isNumberRequiredErrMsg = {
 };
 
 export const fileSchema = z.custom<FileList>();
+
+export const fuelTypeSchema = z.object({
+  label: z.string(),
+  value: z.object({
+    fuelType: z.string(),
+    fullForm: z.string(),
+  }),
+});
+
+export const selectOptionSchema = z.object(
+  {
+    value: z.string().or(z.any()),
+    label: z.string(),
+  },
+  { required_error: "required", invalid_type_error: "required" }
+);
