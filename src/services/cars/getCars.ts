@@ -119,6 +119,13 @@ export const carSchema = z.object({
   status: z.enum(["available", "sold", "reserved"]),
   soldAt: z.string().optional(),
 
+  isVerified: z.boolean(),
+
+  panoramaImages: z
+    .array(imageSchema.extend({ title: z.string() }))
+    .optional()
+    .default([]),
+
   metaData: z.record(z.string().min(1), z.any()).optional().default({}),
 });
 

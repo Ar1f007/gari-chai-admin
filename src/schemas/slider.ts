@@ -8,6 +8,16 @@ export const sliderSchema = z.object({
     message: "add an image",
   }),
   type: z.boolean(),
+
+  // TODO ADD THEM BY UPDATING EDIT SCHEMA
+  // isSponsored: z.boolean().default(false).optional(),
+  // metadata: z.record(z.string().min(1), z.any()).optional().default({}),
+  // sliderStyle: z
+  //   .object({
+  //     textColor: z.string().default(""),
+  //     bgColor: z.string().default(""),
+  //   })
+  //   .optional(),
 });
 
 export const editSliderSchema = sliderSchema.extend({
