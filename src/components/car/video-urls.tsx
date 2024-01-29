@@ -14,6 +14,15 @@ import clsx from "clsx";
 
 import { imageSchema } from "@/schemas/utils";
 import { z } from "zod";
+import SelectField from "../form/select-field";
+
+const videoPlatform = [
+  { value: "youtube", label: "Youtube" },
+  { value: "facebook", label: "Facebook" },
+  { value: "twitch", label: "Twitch" },
+  { value: "dailymotion", label: "Daily Motion" },
+  { value: "vimeo", label: "Vimeo" },
+];
 
 type VideoProps = {
   value?: z.infer<typeof imageSchema>;
@@ -75,6 +84,15 @@ export const VideoUrl = ({ value }: VideoProps) => {
                 )} */}
               </div>
 
+              {/* <div className="max-w-xs">
+                <SelectField
+                  name={`videos.${idx}.videoFrom`}
+                  options={videoPlatform}
+                  placeholder="Select Type"
+                  label="Select Type"
+                />
+              </div> */}
+
               <TextField
                 name={`videos.${idx}.link`}
                 label="Video URL *"
@@ -105,7 +123,9 @@ export const VideoUrl = ({ value }: VideoProps) => {
 
         <Button
           type="button"
-          onClick={() => append({ link: "", thumbnailImage: undefined })}
+          onClick={() =>
+            append({ videoFrom: "", link: "", thumbnailImage: undefined })
+          }
           className={clsx("", {
             "mt-5": !!fields.length,
           })}

@@ -59,10 +59,10 @@ const BasicInfo = ({ showSlugInput = false }: BasicInfoProps) => {
         <SelectCarModel />
         <SelectCarType />
         <SelectBodyType />
-        <SelectVendor />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-5">
+        <SelectVendor />
         <TextField<NewCarInputs>
           name="numOfDoors"
           label="Number of Doors"

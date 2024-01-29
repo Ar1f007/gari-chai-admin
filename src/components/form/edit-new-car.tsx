@@ -28,6 +28,7 @@ import { VideoUrl } from "../car/video-urls";
 import { updateNewCar } from "@/services/cars/updateNewCar";
 import { vendorSchema } from "@/schemas/vendor";
 import { mapValidationErrors } from "@/utils/mapValidationError";
+import AdditionalImages from "../car/additional-images";
 
 const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   const brandData = brandSchema.parse(data.brand.value);
@@ -293,6 +294,8 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
           <CarDescription />
 
           <UploadThumbnail value={data.posterImage} />
+
+          <AdditionalImages isEditing={true} />
 
           <LoadingBtn
             type="submit"

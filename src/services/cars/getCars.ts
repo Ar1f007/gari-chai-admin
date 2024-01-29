@@ -89,7 +89,12 @@ export const carSchema = z.object({
     thumbnailUrl: z.string().url(),
   }),
 
-  imageUrls: z.array(imageSchema),
+  imageUrls: z.array(
+    z.object({
+      key: z.string(),
+      url: imageSchema,
+    })
+  ),
 
   videos: z
     .array(

@@ -79,7 +79,26 @@ export const createNewCarSchema = z.object({
 
   posterImage: z.instanceof(File, { message: "Image is required" }),
 
-  imageUrls: z.array(imageSchema).optional(),
+  imageUrls: z
+    .array(
+      z.object({
+        key: z.string(),
+        url: imageSchema,
+      })
+    )
+    .optional()
+    .default([]),
+
+  panoramaImages: z
+    .array(
+      z.object({
+        key: z.string(),
+        title: z.string(),
+        url: imageSchema,
+      })
+    )
+    .optional()
+    .default([]),
 
   videos: z
     .array(

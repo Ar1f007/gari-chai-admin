@@ -15,7 +15,7 @@ type ImageKeyUrl = {
   url: ZodInfer<typeof imageSchema>;
 };
 
-export const defaultMultiImageDropzoneOptions: Omit<
+export const DEFAULT_MULTI_IMAGE_DROPZONE_OPTIONS: Omit<
   DropzoneOptions,
   "disabled"
 > = {
@@ -32,7 +32,7 @@ type RHFMultiImageFileDropzoneParamsType = {
 
 const RHFMultiImageFileDropzone = ({
   name,
-  dropzoneOptions = defaultMultiImageDropzoneOptions,
+  dropzoneOptions = DEFAULT_MULTI_IMAGE_DROPZONE_OPTIONS,
   isEditing = false,
 }: RHFMultiImageFileDropzoneParamsType) => {
   const form = useFormContext();

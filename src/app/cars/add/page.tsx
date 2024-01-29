@@ -29,6 +29,7 @@ import {
 } from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import { VideoUrl } from "@/components/car/video-urls";
+import AdditionalImages from "@/components/car/additional-images";
 
 const AddCarPage = () => {
   const { uploadImage } = useUploadImage();
@@ -45,6 +46,8 @@ const AddCarPage = () => {
       specificationsByGroup: [],
       additionalSpecifications: [],
       colors: [],
+      imageUrls: [],
+      panoramaImages: [],
     },
   });
 
@@ -68,7 +71,6 @@ const AddCarPage = () => {
     data?.map;
   }
 
-  // console.log(form.formState.errors.fuel);
   async function onSubmit(data: NewCarInputs) {
     const payload: TCreateNewCarParams = {
       ...data,
@@ -145,6 +147,11 @@ const AddCarPage = () => {
       }
     }
 
+    if (data.imageUrls.length) {
+      const urlList = data.imageUrls.map((image) => image.url.originalUrl);
+      await confirmUpload(urlList);
+    }
+
     const res = await createNewCar(payload);
 
     if (!res) {
@@ -197,6 +204,7 @@ const AddCarPage = () => {
               <LaunchedDate />
               <CarDescription />
               <UploadThumbnail />
+              <AdditionalImages />
               <LoadingBtn
                 type="submit"
                 isLoading={form.formState.isSubmitting}
