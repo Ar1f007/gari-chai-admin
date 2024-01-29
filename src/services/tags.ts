@@ -11,7 +11,16 @@ export const TAGS = {
   vendors: "vendors",
 };
 
-export async function invalidateUICache(tags: string[]) {
+export async function invalidateUICache({
+  tags = [],
+  paths = [],
+}: {
+  tags?: string[];
+  paths?: {
+    path: string;
+    type?: "layout" | "page" | undefined;
+  }[];
+}) {
   try {
     const endpoint = endpoints.ui.revalidate;
 
@@ -28,7 +37,7 @@ export async function invalidateUICache(tags: string[]) {
 
     const res = await fetch(url, {
       method: ReqMethod.POST,
-      body: JSON.stringify({ tags }),
+      body: JSON.stringify({ tags, paths }),
     });
 
     const jsonRes = await res.json();

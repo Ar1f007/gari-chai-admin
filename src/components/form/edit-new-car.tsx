@@ -20,7 +20,7 @@ import UploadThumbnail from "../car/upload-thumbnail";
 import { LoadingBtn } from "../ui/loading-btn";
 import Status from "../car/status";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { useEdgeStore } from "@/lib/edgestore";
 import { toast } from "sonner";
@@ -239,12 +239,6 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
       }
 
       if (res.status === "success") {
-        invalidateUICache([
-          data.carType === "new"
-            ? `/cars/${data.slug}`
-            : `/used-cars/${data.slug}`,
-        ]);
-
         toast.success("Updated Successfully");
 
         return;

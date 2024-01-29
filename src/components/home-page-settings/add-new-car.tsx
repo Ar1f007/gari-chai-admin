@@ -116,7 +116,9 @@ const AddNewCar = () => {
 
         closeForm();
 
-        const revalidated = await invalidateUICache([sectionToAdd.value]);
+        const revalidated = await invalidateUICache({
+          tags: [sectionToAdd.value],
+        });
 
         if (!revalidated) {
           toast.error(

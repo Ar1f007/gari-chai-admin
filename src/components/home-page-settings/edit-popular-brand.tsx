@@ -65,7 +65,9 @@ const EditPopularBrand = ({
         toast.success("Updated Successfully");
 
         invalidateAdminCache([pageSlug]);
-        const revalidated = invalidateUICache([pageSlug]);
+        const revalidated = invalidateUICache({
+          tags: [pageSlug],
+        });
 
         if (!revalidated) {
           toast.error(

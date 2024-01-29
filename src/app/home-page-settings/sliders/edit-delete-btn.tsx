@@ -36,7 +36,9 @@ const EditDeleteBtn = ({ item }: { item: TSlider }) => {
       }
 
       invalidateAdminCache([TAGS.sliders]);
-      invalidateUICache([TAGS.sliders]);
+      invalidateUICache({
+        tags: [TAGS.sliders],
+      });
 
       hideConfirmAlert();
       toast.success("Slider deleted successfully");

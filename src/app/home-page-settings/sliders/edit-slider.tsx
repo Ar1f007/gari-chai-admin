@@ -99,7 +99,9 @@ const EditSlider = ({
       if (res.status === "success") {
         toast.success("Slider updated successfully");
         invalidateAdminCache([TAGS.sliders]);
-        invalidateUICache([TAGS.sliders]);
+        invalidateUICache({
+          tags: [TAGS.sliders],
+        });
         hideForm();
         return;
       }

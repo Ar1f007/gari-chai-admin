@@ -41,7 +41,9 @@ const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
     if (res.status === "success") {
       invalidateAdminCache([item.sectionName]);
 
-      invalidateUICache([item.sectionName]);
+      invalidateUICache({
+        tags: [item.sectionName],
+      });
 
       toast.success("Deleted Successfully");
 

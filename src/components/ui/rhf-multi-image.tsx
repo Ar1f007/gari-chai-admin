@@ -1,7 +1,7 @@
 import { DropzoneOptions } from "react-dropzone";
 
 import { MultiFileDropzone, type FileState } from "./multi-file-dropzone";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useEdgeStore } from "@/lib/edgestore";
 import { Button } from "./button";
@@ -82,7 +82,10 @@ const RHFMultiImageFileDropzone = ({
         onFilesAdded={async (addedFiles) => {
           setFileStates([...fileStates, ...addedFiles]);
         }}
-        disabled={imgFiles.length >= MAX_ALLOWED_COLOR_IMAGE}
+        disabled={
+          imgFiles.length >=
+          (dropzoneOptions.maxFiles || MAX_ALLOWED_COLOR_IMAGE)
+        }
         onFileRemove={removeFileFromFormAndState}
         formImageLength={imgFiles.length}
         isEditing={isEditing}

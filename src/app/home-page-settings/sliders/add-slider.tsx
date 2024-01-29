@@ -66,7 +66,9 @@ const AddSlider = () => {
         hideForm();
 
         invalidateAdminCache([TAGS.sliders]);
-        invalidateUICache([TAGS.sliders]);
+        invalidateUICache({
+          tags: [TAGS.sliders],
+        });
 
         return;
       }

@@ -81,9 +81,9 @@ const EditNewCar = ({
         await invalidateAdminCache([data.sectionToAdd.value]);
         closeForm();
 
-        const uiRevalidated = await invalidateUICache([
-          data.sectionToAdd.value,
-        ]);
+        const uiRevalidated = await invalidateUICache({
+          tags: [data.sectionToAdd.value],
+        });
 
         if (!uiRevalidated) {
           toast.error(
