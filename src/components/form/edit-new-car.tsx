@@ -3,7 +3,13 @@
 import { useForm } from "react-hook-form";
 
 import { EditNewCarInputs, editNewCarSchema } from "@/schemas/edit-new-car";
-import { TCarSchema, brandSchema, invalidateUICache } from "@/services";
+import {
+  TCarSchema,
+  brandSchema,
+  invalidateAdminCache,
+  invalidateAdminPathCache,
+  invalidateUICache,
+} from "@/services";
 import { Form } from "../ui/form";
 import BasicInfo from "../car/basic-info";
 import { carBodyStylesSchema } from "@/schemas/car-body-style";
@@ -240,6 +246,10 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       if (res.status === "success") {
         toast.success("Updated Successfully");
+
+        invalidateAdminPathCache([
+          { path: `/cars/edit/${formData.slug}`, type: "page" },
+        ]);
 
         return;
       }
