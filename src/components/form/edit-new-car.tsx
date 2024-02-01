@@ -137,7 +137,7 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       if (!res) throw new Error();
 
-      deleteImgFromStore(prevUrl);
+      // deleteImgFromStore(prevUrl);
 
       return {
         originalUrl: res.url,
