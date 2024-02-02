@@ -250,7 +250,8 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
 
       if (res.status === "success") {
         toast.success("Updated Successfully");
-        invalidateUICache({
+
+        await invalidateUICache({
           paths: [{ path: `/(main)/cars`, type: "layout" }],
         });
 
