@@ -35,6 +35,8 @@ import { updateNewCar } from "@/services/cars/updateNewCar";
 import { vendorSchema } from "@/schemas/vendor";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import AdditionalImages from "../car/additional-images";
+import { useRouter } from "next/navigation";
+import { routes } from "@/utils/routes";
 
 const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
   const brandData = brandSchema.parse(data.brand.value);
@@ -103,6 +105,8 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
       posterImage: data.posterImage,
     },
   });
+
+  const router = useRouter();
 
   const { uploadImage } = useUploadImage();
   const { edgestore } = useEdgeStore();
@@ -254,6 +258,7 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
           { path: `/cars/edit/${formData.slug}`, type: "page" },
         ]);
 
+        router.push(routes.newCarRoutes.carList);
         return;
       }
 
