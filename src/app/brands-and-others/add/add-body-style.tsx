@@ -5,12 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { useUploadImage } from "@/hooks/useUploadImage";
-import {
-  TAGS,
-  TAddNewBrandPayload,
-  addBrandName,
-  invalidateAdminCache,
-} from "@/services";
+import { TAGS, invalidateAdminCache } from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import {
   Form,

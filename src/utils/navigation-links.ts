@@ -1,6 +1,7 @@
 import { NavLinkItem } from "@/types";
 import {
   CarIcon,
+  ConstructionIcon,
   DatabaseZapIcon,
   Dice1Icon,
   LayoutListIcon,
@@ -97,6 +98,17 @@ const cacheLinks: Route[] = [
   },
 ];
 
+const campaignLinks: Route[] = [
+  {
+    label: "Create Campaign",
+    href: routes.campaignRoutes.create,
+  },
+  {
+    label: "All Campaign",
+    href: routes.campaignRoutes.campaigns,
+  },
+];
+
 const adminLinks: Route[] = [
   {
     label: "Car",
@@ -116,6 +128,11 @@ const adminLinks: Route[] = [
     label: "Home Page Settings",
     href: homepageSettingLinks,
     icon: LayoutListIcon,
+  },
+  {
+    label: "Campaign",
+    icon: ConstructionIcon,
+    href: campaignLinks,
   },
   {
     label: "Cache Control",

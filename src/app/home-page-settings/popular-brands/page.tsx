@@ -1,3 +1,4 @@
+import AddPopularBrandsForm from "@/components/home-page-settings/add-popular-brands";
 import Brand from "@/components/home-page-settings/brand";
 import PageHeader from "@/components/layout/page-header.tsx";
 import { Alert, AlertTitle } from "@/components/ui/alert";
@@ -14,7 +15,9 @@ const PopularBrandsPage = async () => {
     <section>
       <PageHeader>Popular Brands</PageHeader>
 
-      <section className="p-[var(--paddingOffset)]">
+      <section className="p-[var(--paddingOffset)] space-y-5">
+        <AddPopularBrandsForm />
+
         {res.message && (
           <Alert className="max-w-md mx-auto">
             <AlertTitle className="flex gap-2 items-center">

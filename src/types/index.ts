@@ -36,3 +36,5 @@ export interface DataTableFilterableColumn<TData> {
 }
 
 export type Icon = LucideIcon;
+
+export type Todo = any;

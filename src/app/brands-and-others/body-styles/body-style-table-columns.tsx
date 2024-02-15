@@ -26,7 +26,7 @@ export const bodyStylesTableColumns: ColumnDef<TCarBodyStylesSchema>[] = [
             src={src}
             width={64}
             height={64}
-            className="w-auto h-auto object-contain -ml-4 rounded-md"
+            className="object-contain -ml-4 rounded-md"
           />
         </div>
       );

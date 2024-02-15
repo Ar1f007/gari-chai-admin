@@ -1,13 +1,5 @@
 import { apiFetch } from "@/lib/api-fetch";
-import {
-  ReqMethod,
-  TAGS,
-  TBrandSchema,
-  TCarSchema,
-  brandSchema,
-  carSchema,
-  endpoints,
-} from "..";
+import { ReqMethod, TAGS, brandSchema, carSchema, endpoints } from "..";
 import { z } from "zod";
 import { homeSettingSections } from "@/utils/constants";
 
@@ -58,6 +50,8 @@ export async function getSettingContentByPageSlug(slug: string) {
           data: parsedData.data,
         };
       } else {
+        console.log(parsedData.error.errors.map((e) => e));
+
         return {
           message: slug + " Settings data missing",
           data: null,

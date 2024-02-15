@@ -28,9 +28,15 @@ const brandRoutes = {
   bodyStyles: "/brands-and-others/body-styles",
 };
 
+const campaignRoutes = {
+  create: "/campaigns/create",
+  campaigns: "/campaigns",
+};
+
 export const routes = {
   homepageSettingRoutes,
   newCarRoutes,
   brandRoutes,
   vendorRoutes,
+  campaignRoutes,
 };
