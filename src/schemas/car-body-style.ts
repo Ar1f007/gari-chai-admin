@@ -3,7 +3,7 @@ import { imageSchema } from "./utils";
 
 export const createCarBodyStyleSchema = z.object({
   name: z.string().min(1, "Required"),
-  image: z.instanceof(File).optional(),
+  image: z.union([z.instanceof(File).optional(), z.string()]).optional(),
 });
 
 export type CarBodyStyleInputs = z.infer<typeof createCarBodyStyleSchema>;

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { TCarBodyStylesSchema } from "@/schemas/car-body-style";
 import { TAGS, invalidateAdminCache } from "@/services";
 import { deleteBodyStyles } from "@/services/body-styles/deleteBodyStyle";
+import EditBodyStyle from "../_edit/edit-body-style";
 
 export const BodyStyleActionBtn = ({
   item,
@@ -16,10 +17,13 @@ export const BodyStyleActionBtn = ({
   item: TCarBodyStylesSchema;
 }) => {
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
-  function closeAlertDialog() {
-    setIsOpen(false);
+  const [showDialog, setShowDialog] = useState<
+    "edit" | "confirm-delete" | null
+  >(null);
+
+  function closeDialog() {
+    setShowDialog(null);
   }
 
   async function handleDeleteBodyStyle(item: TCarBodyStylesSchema) {
@@ -29,7 +33,7 @@ export const BodyStyleActionBtn = ({
       const res = await deleteBodyStyles(item._id);
 
       if (res.status === "success") {
-        closeAlertDialog();
+        closeDialog();
 
         invalidateAdminCache([TAGS.carBodyList]);
 
@@ -51,7 +55,7 @@ export const BodyStyleActionBtn = ({
       <Button
         variant="outline"
         size="icon"
-        onClick={() => alert()}
+        onClick={() => setShowDialog("edit")}
       >
         <div className="sr-only">Click to Edit</div>
         <EditIcon />
@@ -59,15 +63,21 @@ export const BodyStyleActionBtn = ({
       <Button
         variant="outline"
         size="icon"
-        onClick={() => setIsOpen(true)}
+        onClick={() => setShowDialog("confirm-delete")}
       >
         <div className="sr-only">Click to Delete</div>
         <Trash2Icon className="text-destructive" />
       </Button>
 
+      <EditBodyStyle
+        item={item}
+        isOpen={showDialog == "edit"}
+        closeDialog={closeDialog}
+      />
+
       <ConfirmDelete
-        isOpen={isOpen}
-        handleCancelBtnClick={closeAlertDialog}
+        isOpen={showDialog == "confirm-delete"}
+        handleCancelBtnClick={closeDialog}
         onConfirm={() => handleDeleteBodyStyle(item)}
         loading={loading}
       />

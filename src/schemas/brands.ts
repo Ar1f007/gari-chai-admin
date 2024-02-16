@@ -6,9 +6,12 @@ export const createBrandSchema = z.object({
     .string()
     .min(1, "Brand name is required")
     .min(3, xCharacterLong("Brand name", 3)),
-  image: z.instanceof(File, {
-    message: "add a brand image",
-  }),
+  image: z.union([
+    z.instanceof(File, {
+      message: "add a brand image",
+    }),
+    z.string(),
+  ]),
 });
 
 export type BrandInputs = z.infer<typeof createBrandSchema>;

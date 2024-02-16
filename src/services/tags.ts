@@ -11,6 +11,20 @@ export const TAGS = {
   vendors: "vendors",
 };
 
+export const UI_TAGS = {
+  carBodyTypes: "car-body-types",
+  allAndPopularBrands: "all-and-popular-brands",
+  sliders: "sliders",
+
+  latestCars: "latest-cars",
+  popularCars: "popular-cars",
+  electricCars: "electric-cars",
+  services: "services",
+  mostSearchedCars: "most-searched-cars",
+  popularBrands: "popular-brands",
+  upcomingCars: "upcoming-cars",
+};
+
 export async function invalidateUICache({
   tags = [],
   paths = [],

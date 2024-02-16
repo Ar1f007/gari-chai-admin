@@ -8,23 +8,27 @@ import ConfirmDelete from "@/components/shared/delete-alert-dialog";
 import { Button } from "@/components/ui/button";
 import { TAGS, TBrandSchema, invalidateAdminCache } from "@/services";
 import { deleteBrand } from "@/services/brands/deleteBrand";
+import EditBrand from "../_edit/edit-brand";
 
 export const BrandActionBtns = ({ item }: { item: TBrandSchema }) => {
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
-  function closeAlertDialog() {
-    setIsOpen(false);
+  const [showDialog, setShowDialog] = useState<
+    "edit" | "confirm-delete" | null
+  >(null);
+
+  function closeDialog() {
+    setShowDialog(null);
   }
 
-  async function handleDeleteBodyStyle(item: TBrandSchema) {
+  async function handleDeleteBrand(item: TBrandSchema) {
     try {
       setLoading(true);
 
       const res = await deleteBrand(item._id);
 
       if (res.status === "success") {
-        closeAlertDialog();
+        closeDialog();
 
         invalidateAdminCache([TAGS.brands]);
 
@@ -46,7 +50,7 @@ export const BrandActionBtns = ({ item }: { item: TBrandSchema }) => {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => alert()}
+        onClick={() => setShowDialog("edit")}
       >
         <div className="sr-only">Click to Edit</div>
         <EditIcon />
@@ -54,16 +58,22 @@ export const BrandActionBtns = ({ item }: { item: TBrandSchema }) => {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => setIsOpen(true)}
+        onClick={() => setShowDialog("confirm-delete")}
       >
         <div className="sr-only">Click to Delete</div>
         <Trash2Icon className="text-destructive" />
       </Button>
 
+      <EditBrand
+        brand={item}
+        isOpen={showDialog == "edit"}
+        closeDialog={closeDialog}
+      />
+
       <ConfirmDelete
-        isOpen={isOpen}
-        handleCancelBtnClick={closeAlertDialog}
-        onConfirm={() => handleDeleteBodyStyle(item)}
+        isOpen={showDialog == "confirm-delete"}
+        handleCancelBtnClick={closeDialog}
+        onConfirm={() => handleDeleteBrand(item)}
         loading={loading}
       />
     </div>

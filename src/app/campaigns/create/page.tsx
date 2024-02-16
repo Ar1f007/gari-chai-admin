@@ -94,6 +94,9 @@ const CreateCampaign = () => {
               label="Title*"
               placeholder="Campaign title (max: 100 characters) *"
             />
+
+            <FindAndSelectCars />
+
             <FormField
               control={form.control}
               name="description"
@@ -114,6 +117,7 @@ const CreateCampaign = () => {
                 </FormItem>
               )}
             />
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <FormField
                 control={form.control}
@@ -227,6 +231,7 @@ const CreateCampaign = () => {
                 )}
               />
             </div>
+
             <div
               className={cn("grid grid-cols-2 gap-2 items-center", {
                 "items-center": !!form.formState.errors["price"],
@@ -251,8 +256,6 @@ const CreateCampaign = () => {
                 />
               </div>
             </div>
-
-            <FindAndSelectCars />
 
             <Button
               type="submit"

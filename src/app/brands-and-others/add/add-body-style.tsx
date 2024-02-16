@@ -56,7 +56,7 @@ export const AddBodyStyle = ({ onSuccess }: AddBrandProps) => {
     };
 
     if (data.image) {
-      const imgUrl = await uploadImage(data.image);
+      const imgUrl = await uploadImage(data.image as File);
 
       if (!imgUrl) {
         toast.error(

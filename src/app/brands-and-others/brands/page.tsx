@@ -5,9 +5,10 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 import { BrandDataTable } from "./data-table";
 import { brandTableColumns } from "./brand-table-columns";
+import { SearchParams } from "@/utils/constants";
 
 const BrandList = async () => {
-  const brands = await getBrands();
+  const brands = await getBrands(SearchParams.getAllBrands);
 
   return (
     <section>

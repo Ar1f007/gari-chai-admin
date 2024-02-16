@@ -25,7 +25,7 @@ export const brandTableColumns: ColumnDef<TBrandSchema>[] = [
           src={src}
           width={64}
           height={64}
-          className="w-auto h-auto object-contain -ml-4 max-h-16"
+          className="object-contain -ml-4 max-h-16"
         />
       );
     },

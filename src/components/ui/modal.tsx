@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { SettingsIcon, XIcon } from "lucide-react";
+import { EditIcon, PlusIcon, SettingsIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/ui/loading-button";
 
@@ -67,7 +67,17 @@ const Modal = (props: ModalProps) => {
     variant = "standard",
 
     title = "",
-    titleIcon = <SettingsIcon />,
+    titleIcon = props.mode ? (
+      props.mode == "create" ? (
+        <PlusIcon />
+      ) : props.mode == "update" ? (
+        <EditIcon />
+      ) : (
+        <SettingsIcon />
+      )
+    ) : (
+      <SettingsIcon />
+    ),
     showTitle = true,
     showTitleIcon = true,
 
@@ -194,6 +204,7 @@ const Modal = (props: ModalProps) => {
                 onClick={() => onSubmit?.()}
                 variant={footerFillButtons ? "default" : "outline"}
                 className={okButtonClasses}
+                type="submit"
               >
                 {okButtonText}
               </LoadingButton>

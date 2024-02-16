@@ -49,7 +49,7 @@ export const AddBrand = ({ onSuccess }: AddBrandProps) => {
   } = methods;
 
   async function onSubmit(data: BrandInputs) {
-    const imgUrls = await uploadImage(data.image);
+    const imgUrls = await uploadImage(data.image as File);
 
     if (!imgUrls) {
       toast.error(
