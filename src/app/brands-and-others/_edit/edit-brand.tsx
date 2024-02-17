@@ -94,6 +94,7 @@ const EditBrand = ({ brand, isOpen, closeDialog }: EditBrandProps) => {
     }
 
     if (res.status === "validationError") {
+      toast.error(res.message || "Invalid Input");
       mapValidationErrors(res.errors, form);
       return;
     }
@@ -110,7 +111,10 @@ const EditBrand = ({ brand, isOpen, closeDialog }: EditBrandProps) => {
       showFooter={false}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="bg-muted/80"
+        >
           <div className="p-4 space-y-6">
             <FormField
               control={form.control}

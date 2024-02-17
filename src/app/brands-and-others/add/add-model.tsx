@@ -56,7 +56,7 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
   async function onSubmit(data: CarModelInputs) {
     const payload: TAddNewBrandModelPayload = {
       ...data,
-      brandId: data.brandId.value,
+      brand: data.brand.value,
     };
 
     const res = await addBrandModel(payload);
@@ -89,14 +89,17 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 py-8 px-4 bg-muted rounded border"
         >
-          <SelectBrand name="brandId" />
+          <SelectBrand
+            name="brandId"
+            label="Pick Brand *"
+          />
 
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Model Name</FormLabel>
+                <FormLabel>Model Name *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="eg. Harrier"
@@ -143,7 +146,7 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
                         </Button>
                       </PopoverTrigger>
 
-                      <PopoverContent className="max-w-80">
+                      <PopoverContent className="max-w-80 bg-background p-5 rounded">
                         <p className="text-xs">
                           <span className="text-primary font-medium mr-2">
                             Upcoming:

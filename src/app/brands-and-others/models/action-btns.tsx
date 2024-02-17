@@ -9,13 +9,17 @@ import { Button } from "@/components/ui/button";
 import { TAGS, invalidateAdminCache } from "@/services";
 import { TCarModelSchema } from "@/schemas/car-model";
 import { deleteCarModel } from "@/services/models/deleteCarModel";
+import EditBrandModel from "../_edit/edit-brand-model";
 
 export const CarModelActionBtn = ({ item }: { item: TCarModelSchema }) => {
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
-  function closeAlertDialog() {
-    setIsOpen(false);
+  const [showDialog, setShowDialog] = useState<
+    "edit" | "confirm-delete" | null
+  >(null);
+
+  function closeDialog() {
+    setShowDialog(null);
   }
 
   async function handleDeleteCarModel(item: TCarModelSchema) {
@@ -25,7 +29,7 @@ export const CarModelActionBtn = ({ item }: { item: TCarModelSchema }) => {
       const res = await deleteCarModel(item._id);
 
       if (res.status === "success") {
-        closeAlertDialog();
+        closeDialog();
 
         invalidateAdminCache([TAGS.brandModelList]);
 
@@ -47,7 +51,7 @@ export const CarModelActionBtn = ({ item }: { item: TCarModelSchema }) => {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => alert()}
+        onClick={() => setShowDialog("edit")}
       >
         <div className="sr-only">Click to Edit</div>
         <EditIcon />
@@ -55,15 +59,21 @@ export const CarModelActionBtn = ({ item }: { item: TCarModelSchema }) => {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => setIsOpen(true)}
+        onClick={() => setShowDialog("confirm-delete")}
       >
         <div className="sr-only">Click to Delete</div>
         <Trash2Icon className="text-destructive" />
       </Button>
 
+      <EditBrandModel
+        item={item}
+        isOpen={showDialog == "edit"}
+        closeDialog={closeDialog}
+      />
+
       <ConfirmDelete
-        isOpen={isOpen}
-        handleCancelBtnClick={closeAlertDialog}
+        isOpen={showDialog == "confirm-delete"}
+        handleCancelBtnClick={closeDialog}
         onConfirm={() => handleDeleteCarModel(item)}
         loading={loading}
       />

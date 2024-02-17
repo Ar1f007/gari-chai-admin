@@ -22,8 +22,8 @@ export const endpoints = {
       getBrandModels: "/models",
     },
     models: {
+      base: "/models",
       getCarModels: "/models",
-      carModels: "/models",
     },
     cars: {
       base: "/cars",
