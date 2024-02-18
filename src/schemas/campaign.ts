@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { imageSchema } from "./utils";
+import { carSchema } from "@/services";
 
 export const createCampaign = z.object({
   title: z
@@ -57,4 +58,29 @@ export const createCampaign = z.object({
   ]),
 });
 
+export const carCampaignSchema = z.object({
+  _id: z.string(),
+
+  title: z.string(),
+
+  tagline: z.string().optional(),
+
+  description: z.string().optional(),
+
+  startDate: z.string(),
+
+  endDate: z.string(),
+
+  isActive: z.boolean(),
+
+  posterImage: imageSchema,
+
+  metaData: z.record(z.string().min(1), z.unknown()).optional().default({}),
+
+  newCars: z.array(carSchema),
+
+  usedCars: z.array(z.any()),
+});
+
 export type CreateCampaignForm = z.infer<typeof createCampaign>;
+export type TCarCampaign = z.infer<typeof carCampaignSchema>;

@@ -151,8 +151,6 @@ const CreateCampaign = () => {
     toast.error(res.message);
   }
 
-  console.log(form.formState.errors);
-
   return (
     <Fragment>
       <PageHeader>Create Campaign</PageHeader>
