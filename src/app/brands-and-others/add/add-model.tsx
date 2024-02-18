@@ -90,7 +90,7 @@ const AddModel = ({ onSuccess }: { onSuccess: () => void }) => {
           className="space-y-8 py-8 px-4 bg-muted rounded border"
         >
           <SelectBrand
-            name="brandId"
+            name="brand"
             label="Pick Brand *"
           />
 
