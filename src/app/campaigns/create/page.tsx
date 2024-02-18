@@ -31,9 +31,19 @@ import {
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2Icon } from "lucide-react";
+import { SingleImageDropzone } from "@/components/ui/single-image-dropzone";
+import { createNewCarCampaign } from "@/services/campaign/car-campaign";
+import { toast } from "sonner";
+import { invalidateAdminPathCache } from "@/services";
+import { routes } from "@/utils/routes";
+import { mapValidationErrors } from "@/utils/mapValidationError";
+import { useUploadImage } from "@/hooks/useUploadImage";
+import { TImageSchema } from "@/schemas/utils";
+import { useRouter } from "next/navigation";
 
 const CreateCampaign = () => {
   const form = useForm<CreateCampaignForm>({
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       title: "",
@@ -41,11 +51,15 @@ const CreateCampaign = () => {
       description: "",
       startDate: undefined,
       endDate: undefined,
-      status: true,
+      isActive: true,
     },
 
     resolver: zodResolver(createCampaign),
   });
+
+  const { uploadImage } = useUploadImage();
+
+  const router = useRouter();
 
   function getFormattedCampaignDate(date: Date | undefined) {
     if (!date) return;
@@ -75,9 +89,69 @@ const CreateCampaign = () => {
     form.setValue(fieldName, newDate.toDate());
   }
 
-  async function onSubmit(data: any) {
-    console.log(data);
+  async function uploadPosterImage(image: File): Promise<TImageSchema | null> {
+    try {
+      const res = await uploadImage(image);
+
+      if (!res) {
+        return null;
+      }
+
+      return {
+        thumbnailUrl: res.thumbnailUrl ?? res.url,
+        originalUrl: res.url,
+      };
+    } catch (error) {
+      return null;
+    }
   }
+
+  async function onSubmit(data: CreateCampaignForm) {
+    const posterImage = await uploadPosterImage(data.posterImage as File);
+
+    if (!posterImage) {
+      toast.error("Could not upload poster image");
+      return;
+    }
+
+    const payload = {
+      ...data,
+      posterImage,
+      cars: data.cars.map((car) => ({
+        carId: car.value,
+        type: car.type,
+        campaignPrice: car.price,
+      })),
+    };
+
+    const res = await createNewCarCampaign(payload);
+
+    if (!res) {
+      toast.error("Something went Wrong, Please try again!");
+      return;
+    }
+
+    if (res.status == "success") {
+      form.reset();
+
+      invalidateAdminPathCache([{ path: routes.campaignRoutes.campaigns }]);
+      toast.success("Campaign created successfully");
+
+      router.push(routes.campaignRoutes.campaigns);
+      return;
+    }
+
+    if (res.status == "validationError") {
+      mapValidationErrors(res.errors, form);
+
+      toast.error(res.message);
+      return;
+    }
+
+    toast.error(res.message);
+  }
+
+  console.log(form.formState.errors);
 
   return (
     <Fragment>
@@ -232,8 +306,29 @@ const CreateCampaign = () => {
               />
             </div>
 
+            <FormField
+              control={form.control}
+              name="posterImage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Upload a Poster Image</FormLabel>
+                  <FormControl>
+                    <SingleImageDropzone
+                      {...field}
+                      width={200}
+                      height={200}
+                      dropzoneOptions={{
+                        maxSize: 1024 * 300, // 300 kb
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <SwitchField<CreateCampaignForm>
-              name="status"
+              name="isActive"
               checkedText="Campaign is Active"
               unCheckedText="Campaign is Hidden"
             />

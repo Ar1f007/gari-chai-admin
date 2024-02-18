@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { imageSchema } from "./utils";
 
 export const createCampaign = z.object({
   title: z
@@ -30,19 +31,30 @@ export const createCampaign = z.object({
     })
   ),
 
-  status: z.boolean(),
+  isActive: z.boolean(),
 
-  cars: z.array(
-    z.object({
-      label: z.string(),
-      value: z.string(),
-      type: z.enum(["new", "used"]),
-      image: z.string(),
-      brand: z.string(),
-      model: z.string(),
-      price: z.number(),
-    })
-  ),
+  cars: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+        type: z.enum(["new", "used"]),
+        image: z.string(),
+        brand: z.string(),
+        model: z.string(),
+        price: z.number(),
+      })
+    )
+    .refine((val) => val.length > 0, {
+      message: "Please select cars for campaign",
+    }),
+
+  posterImage: z.union([
+    imageSchema,
+    z.instanceof(File, {
+      message: "add a campaign poster image",
+    }),
+  ]),
 });
 
 export type CreateCampaignForm = z.infer<typeof createCampaign>;

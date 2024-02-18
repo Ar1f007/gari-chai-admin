@@ -44,6 +44,10 @@ export const endpoints = {
       getBodyTypes: "/car-body-types",
       carBodyType: "/car-body-types",
     },
+
+    campaigns: {
+      cars: "/campaigns/cars",
+    },
   },
   admin: {},
   ui: {

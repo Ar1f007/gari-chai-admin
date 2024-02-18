@@ -5,12 +5,10 @@ import TextField from "@/components/form/text-field";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -137,9 +135,9 @@ const EditSlider = ({
                       <Image
                         src={slider.imgUrl}
                         alt="slider"
-                        width={600}
+                        width={200}
                         height={100}
-                        className="max-h-[150px] object-cover"
+                        className="w-auto max-h-[150px] object-cover"
                       />
 
                       <Button

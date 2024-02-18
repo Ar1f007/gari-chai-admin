@@ -45,3 +45,5 @@ export const selectOptionSchema = z.object(
   },
   { required_error: "required", invalid_type_error: "required" }
 );
+
+export type TImageSchema = z.infer<typeof imageSchema>;
