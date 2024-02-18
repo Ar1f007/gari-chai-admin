@@ -16,7 +16,6 @@ import { SelectOption } from "@/types/others";
 import {
   addPopularBrandsToHomePageSettings,
   invalidateAdminCache,
-  invalidateUICache,
   TBrandSchema,
 } from "@/services";
 import { useGetBrandsOptions } from "@/hooks/useGetBrandsOptions";

@@ -30,13 +30,19 @@ export const createCampaign = z.object({
     })
   ),
 
-  price: z.coerce
-    .number({
-      invalid_type_error: "required a number",
-    })
-    .min(1, "required"),
-
   status: z.boolean(),
+
+  cars: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+      type: z.enum(["new", "used"]),
+      image: z.string(),
+      brand: z.string(),
+      model: z.string(),
+      price: z.number(),
+    })
+  ),
 });
 
 export type CreateCampaignForm = z.infer<typeof createCampaign>;

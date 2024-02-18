@@ -1,18 +1,23 @@
 "use client";
 
+import { Fragment, FocusEvent } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import extDayjs from "@/lib/dayjs";
+import { cn } from "@/lib/utils";
+import { CreateCampaignForm, createCampaign } from "@/schemas/campaign";
+
 import FindAndSelectCars from "@/components/form/find-and-select-cars";
-import SelectField from "@/components/form/select-field";
 import SwitchField from "@/components/form/switch-field";
 import TextField from "@/components/form/text-field";
 import PageContainer from "@/components/layout/page-container";
 import PageHeader from "@/components/layout/page-header.tsx";
-import { AsyncReactSelect } from "@/components/ui/async-react-select";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,13 +30,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import extDayjs from "@/lib/dayjs";
-import { cn } from "@/lib/utils";
-import { CreateCampaignForm, createCampaign } from "@/schemas/campaign";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, Loader2Icon } from "lucide-react";
-import { FocusEvent, Fragment } from "react";
-import { useForm } from "react-hook-form";
+import { Loader2Icon } from "lucide-react";
 
 const CreateCampaign = () => {
   const form = useForm<CreateCampaignForm>({
@@ -43,7 +42,6 @@ const CreateCampaign = () => {
       startDate: undefined,
       endDate: undefined,
       status: true,
-      price: 0,
     },
 
     resolver: zodResolver(createCampaign),
@@ -77,7 +75,9 @@ const CreateCampaign = () => {
     form.setValue(fieldName, newDate.toDate());
   }
 
-  async function onSubmit() {}
+  async function onSubmit(data: any) {
+    console.log(data);
+  }
 
   return (
     <Fragment>
@@ -232,30 +232,11 @@ const CreateCampaign = () => {
               />
             </div>
 
-            <div
-              className={cn("grid grid-cols-2 gap-2 items-center", {
-                "items-center": !!form.formState.errors["price"],
-              })}
-            >
-              <TextField<CreateCampaignForm>
-                name="price"
-                label="Campaign Special Price *"
-                type="number"
-                min={0}
-              />
-
-              <div
-                className={cn("mt-7", {
-                  "mt-0": !!form.formState.errors["price"],
-                })}
-              >
-                <SwitchField<CreateCampaignForm>
-                  name="status"
-                  checkedText="Currently active"
-                  unCheckedText="Marked as hidden"
-                />
-              </div>
-            </div>
+            <SwitchField<CreateCampaignForm>
+              name="status"
+              checkedText="Campaign is Active"
+              unCheckedText="Campaign is Hidden"
+            />
 
             <Button
               type="submit"
