@@ -16,7 +16,10 @@ const AllCampaigns = async () => {
       <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
         {res.data.map((campaign) => (
           <li key={campaign._id}>
-            <Campaign key={campaign._id} />
+            <Campaign
+              key={campaign._id}
+              campaign={campaign}
+            />
           </li>
         ))}
       </ul>

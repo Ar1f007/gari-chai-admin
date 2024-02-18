@@ -80,6 +80,10 @@ export const carCampaignSchema = z.object({
   newCars: z.array(carSchema),
 
   usedCars: z.array(z.any()),
+
+  sort: z.number().optional(),
+
+  link: z.string().optional(),
 });
 
 export type CreateCampaignForm = z.infer<typeof createCampaign>;
