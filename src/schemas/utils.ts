@@ -58,7 +58,8 @@ export const minMaxPriceSchema = z
         return false;
       }
 
-      // allowing the same value because sometime user do not want to give two different price and that time the price can be both same
+      // allowing the same value because sometime user do not want to give
+      // two different price and that time the price can be both same
       if (val.min == val.max) {
         return true;
       }
