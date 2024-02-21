@@ -142,6 +142,8 @@ export const createNewCarSchema = z.object({
       },
     ]),
 
+  totalRatings: z.number().optional(),
+
   metaData: z.record(z.string().min(1), z.any()).optional().default({}),
 });
 

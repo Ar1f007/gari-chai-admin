@@ -142,6 +142,7 @@ const CreateCampaign = () => {
     }
 
     if (res.status == "validationError") {
+      console.log(res.errors);
       mapValidationErrors(res.errors, form);
 
       toast.error(res.message);

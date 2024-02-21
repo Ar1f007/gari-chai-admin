@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { imageSchema } from "./utils";
+import { imageSchema, minMaxPriceSchema } from "./utils";
 import { carSchema } from "@/services";
 
 export const createCampaign = z.object({
@@ -43,10 +43,10 @@ export const createCampaign = z.object({
         image: z.string(),
         brand: z.string(),
         model: z.string(),
-        price: z.number(),
+        price: minMaxPriceSchema,
       })
     )
-    .refine((val) => val.length > 0, {
+    .refine((val) => !!val.length, {
       message: "Please select cars for campaign",
     }),
 
@@ -77,13 +77,27 @@ export const carCampaignSchema = z.object({
 
   metaData: z.record(z.string().min(1), z.unknown()).optional().default({}),
 
-  newCars: z.array(carSchema),
+  newCars: z.array(
+    z.object({
+      car: carSchema,
+      campaignPrice: minMaxPriceSchema,
+    })
+  ),
 
-  usedCars: z.array(z.any()),
+  usedCars: z.array(
+    // z.object({
+    //   car: any,
+    //   campaignPrice: minMaxPriceSchema,
+    // })
+    z.any()
+  ),
 
   sort: z.number().optional(),
 
   link: z.string().optional(),
+
+  // TODO: FIX IT
+  createdBy: z.any().optional(),
 });
 
 export type CreateCampaignForm = z.infer<typeof createCampaign>;

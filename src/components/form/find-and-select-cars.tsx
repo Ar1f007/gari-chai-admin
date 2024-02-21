@@ -18,6 +18,7 @@ import Modal from "../ui/modal";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
+import { TMinMaxPriceSchema } from "@/schemas/utils";
 
 type Car = {
   label: string;
@@ -26,7 +27,7 @@ type Car = {
   image: string;
   brand: string;
   model: string;
-  price: number;
+  price: TMinMaxPriceSchema;
 };
 
 const FindAndSelectCars = () => {
@@ -34,7 +35,10 @@ const FindAndSelectCars = () => {
 
   const [selectedCars, setSelectedCars] = useState<Car[]>([]);
   const [showPriceInput, setShowPriceInput] = useState(false);
-  const [selectedCarPrice, setSelectedCarPrice] = useState("0");
+  const [selectedCarPrice, setSelectedCarPrice] = useState<TMinMaxPriceSchema>({
+    min: 0,
+    max: 0,
+  });
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
 
   useEffect(() => {
@@ -55,7 +59,10 @@ const FindAndSelectCars = () => {
       image: car.posterImage.thumbnailUrl,
       brand: car.brand.label,
       model: car.brandModel.label,
-      price: 0,
+      price: {
+        min: 0,
+        max: 0,
+      },
     }));
 
     return data ? data : [];
@@ -101,7 +108,7 @@ const FindAndSelectCars = () => {
 
   function hideAndResetPriceInputPrompt() {
     setShowPriceInput(false);
-    setSelectedCarPrice("0");
+    setSelectedCarPrice({ min: 0, max: 0 });
     setSelectedCar(null);
   }
 
@@ -109,12 +116,18 @@ const FindAndSelectCars = () => {
     if (selectedCar) {
       const carWithPrice = {
         ...selectedCar,
-        price: parseInt(selectedCarPrice),
+        price: selectedCarPrice,
       };
+
       setSelectedCars([...selectedCars, carWithPrice]);
+
       hideAndResetPriceInputPrompt();
+
+      form.clearErrors("cars");
     }
   };
+
+  console.log(form.formState.errors);
 
   return (
     <Fragment>
@@ -179,14 +192,39 @@ const FindAndSelectCars = () => {
         title="Add Price For The Selected Car"
         mode="info"
       >
-        <div className="p-5 space-y-6 bg-muted">
-          <Label>Special Price</Label>
-          <Input
-            min={0}
-            type="number"
-            value={selectedCarPrice}
-            onChange={(e) => setSelectedCarPrice(e.target.value)}
-          />
+        <div className="p-5 space-y-3 bg-muted">
+          <Label>Campaign Special Price</Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            <div className="space-y-2">
+              <Label>Minimum Price</Label>
+              <Input
+                min={0}
+                type="number"
+                value={selectedCarPrice.min}
+                onChange={(e) =>
+                  setSelectedCarPrice((prev) => ({
+                    ...prev,
+                    min: +e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Maximum Price </Label>
+              <Input
+                min={0}
+                type="number"
+                value={selectedCarPrice.max}
+                onChange={(e) =>
+                  setSelectedCarPrice((prev) => ({
+                    ...prev,
+                    max: +e.target.value,
+                  }))
+                }
+              />
+            </div>
+          </div>
 
           <p className="text-muted-foreground text-sm">
             <span className="text-primary font-semibold">Note:</span> You can
