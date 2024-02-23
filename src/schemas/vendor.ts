@@ -9,6 +9,8 @@ export const vendorSchema = z.object({
   email: z.string().optional(),
   address: z.string().optional(),
   image: imageSchema.optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export type TVendorSchema = z.infer<typeof vendorSchema>;

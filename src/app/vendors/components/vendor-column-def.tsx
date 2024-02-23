@@ -2,6 +2,7 @@ import * as React from "react";
 import { TVendorSchema } from "@/schemas/vendor";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
+import { VendorActionBtns } from "./vendor-action-btns";
 
 export function fetchVendorTableColumns(
   isPending: boolean,
@@ -60,6 +61,15 @@ export function fetchVendorTableColumns(
         />
       ),
       cell: ({ row }) => <span>{row.getValue("address") || "N/A"}</span>,
+    },
+    {
+      id: "actions",
+      header: () => <div className="xl:pl-2">Actions</div>,
+      cell({ row }) {
+        const vendor = row.original;
+
+        return <VendorActionBtns vendor={vendor} />;
+      },
     },
   ];
 }

@@ -127,8 +127,6 @@ const FindAndSelectCars = () => {
     }
   };
 
-  console.log(form.formState.errors);
-
   return (
     <Fragment>
       <FormField
@@ -226,11 +224,11 @@ const FindAndSelectCars = () => {
             </div>
           </div>
 
-          <p className="text-muted-foreground text-sm">
+          {/* <p className="text-muted-foreground text-sm">
             <span className="text-primary font-semibold">Note:</span> You can
             give &quot;0&quot; (zero) as input if you don&apos;t want to add
             special price for this car.
-          </p>
+          </p> */}
           <div className="flex w-full gap-2">
             <Button
               className="w-full"

@@ -1,7 +1,6 @@
 import { TCarCampaign } from "@/schemas/campaign";
 import { PLACEHOLDER_IMAGE } from "@/utils/constants";
 import Image from "next/image";
-import { Badge } from "../ui/badge";
 import extDayjs from "@/lib/dayjs";
 
 const Campaign = ({ campaign }: { campaign: TCarCampaign }) => {

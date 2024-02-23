@@ -1,3 +1,8 @@
+import { z } from "zod";
+import { SVGProps } from "react";
+import { LucideIcon } from "lucide-react";
+import { homeSettingSections } from "@/utils/constants";
+
 export type TApiData<T> = {
   data: T;
   status: "success";
@@ -20,11 +25,6 @@ export type TApiValidationError = {
 };
 
 export type TApiError = TApiErrorData | TApiValidationError;
-
-import { SVGProps } from "react";
-import { LucideIcon } from "lucide-react";
-import { z } from "zod";
-import { homeSettingSections } from "@/utils/constants";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;

@@ -1,8 +1,9 @@
-import { AddVendorSchema } from "@/schemas/add-vendor";
+import { AddVendorSchema, addVendorSchema } from "@/schemas/add-vendor";
 import { ReqMethod, endpoints } from "..";
 import { apiFetch } from "@/lib/api-fetch";
 import { z } from "zod";
-import { vendorSchema } from "@/schemas/vendor";
+import { TVendorSchema, vendorSchema } from "@/schemas/vendor";
+import { TApiError } from "@/types/others";
 
 async function add(payload: AddVendorSchema) {
   const url = endpoints.api.vendors.base;
@@ -57,7 +58,41 @@ async function getVendors() {
   }
 }
 
+async function deleteVendor(id: string) {
+  const url = endpoints.api.vendors.base;
+
+  return apiFetch(url, {
+    method: ReqMethod.DELETE,
+    body: {
+      id,
+    },
+  });
+}
+
+async function updateVendorInfo(payload: Partial<TVendorSchema>) {
+  try {
+    const url = endpoints.api.vendors.base + "/" + payload._id;
+
+    const res = await apiFetch<TVendorSchema>(url, {
+      method: ReqMethod.PATCH,
+      body: payload,
+    });
+
+    return res;
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : JSON.stringify(error);
+
+    return {
+      status: "error",
+      message:
+        process.env.NODE_ENV == "development" ? msg : "Something Went Wrong",
+    } as TApiError;
+  }
+}
+
 export const vendorService = {
   add,
   getVendors,
+  deleteVendor,
+  updateVendorInfo,
 };
