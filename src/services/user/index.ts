@@ -4,6 +4,10 @@ import {
   userBasicInfoAPIResponseSchema,
 } from "@/schemas/user";
 import { ReqMethod, endpoints } from "..";
+import {
+  LoginWithEmailSchema,
+  LoginWithPhoneSchema,
+} from "@/components/protected-route";
 
 export async function getUser() {
   const abortController = new AbortController();
@@ -14,8 +18,6 @@ export async function getUser() {
       cache: "no-store",
       signal: abortController.signal,
     });
-
-    console.log(res);
 
     if (res.status === "success") {
       const parsedData = userBasicInfoAPIResponseSchema.safeParse(res.data);
@@ -29,4 +31,19 @@ export async function getUser() {
   } catch (error) {
     return null;
   }
+}
+
+export type AuthenticationMethods = "email" | "phone";
+
+type LoginUserParams = {
+  loginMethod: AuthenticationMethods;
+  payload: LoginWithEmailSchema | LoginWithPhoneSchema;
+};
+export async function login(params: LoginUserParams) {
+  const url = endpoints.api.auth.login + "/" + params.loginMethod;
+
+  return apiFetch<TAuthBasicUserInfo>(url, {
+    method: ReqMethod.POST,
+    body: params.payload,
+  });
 }

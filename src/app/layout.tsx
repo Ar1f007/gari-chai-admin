@@ -8,6 +8,7 @@ import { EdgeStoreProvider } from "@/lib/edgestore";
 import TopHeader from "@/components/layout/top-header";
 
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/components/protected-route";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,17 +35,19 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main className="flex max-h-screen overflow-hidden">
-              <Sidebar />
+            <AuthProvider>
+              <main className="flex max-h-screen overflow-hidden">
+                <Sidebar />
 
-              <section className="flex-1 overflow-y-auto pl-[var(--sidebarWidthCollapsed)] md:pl-0">
-                <section className="min-h-screen flex flex-col">
-                  <TopHeader />
-                  <main>{children}</main>
-                  <Copyright />
+                <section className="flex-1 overflow-y-auto pl-[var(--sidebarWidthCollapsed)] md:pl-0">
+                  <section className="min-h-screen flex flex-col">
+                    <TopHeader />
+                    <main>{children}</main>
+                    <Copyright />
+                  </section>
                 </section>
-              </section>
-            </main>
+              </main>
+            </AuthProvider>
 
             <Toaster richColors />
           </ThemeProvider>
