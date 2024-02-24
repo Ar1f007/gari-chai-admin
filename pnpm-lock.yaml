@@ -104,6 +104,9 @@ dependencies:
   jsvectormap:
     specifier: ^1.5.3
     version: 1.5.3
+  libphonenumber-js:
+    specifier: ^1.10.57
+    version: 1.10.57
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -4811,6 +4814,10 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+    dev: false
+
+  /libphonenumber-js@1.10.57:
+    resolution: {integrity: sha512-OjsEd9y4LgcX+Ig09SbxWqcGESxliDDFNVepFhB9KEsQZTrnk3UdEU+cO0sW1APvLprHstQpS23OQpZ3bwxy6Q==}
     dev: false
 
   /lilconfig@2.1.0:

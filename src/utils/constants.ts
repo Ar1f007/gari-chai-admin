@@ -24,6 +24,7 @@ export const SearchParams = {
   getAllBrands: "get=all",
 };
 
+export const AUTH_TOKEN_NAME = "X_GARI_CHAI_TOKEN";
 // Home settings
 
 export const HOME_SETTINGS_OPTIONS = {

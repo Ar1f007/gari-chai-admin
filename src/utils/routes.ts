@@ -33,10 +33,16 @@ const campaignRoutes = {
   campaigns: "/campaigns",
 };
 
+const authRoutes = {
+  login: "/login",
+  profile: "/profile",
+};
+
 export const routes = {
   homepageSettingRoutes,
   newCarRoutes,
   brandRoutes,
   vendorRoutes,
   campaignRoutes,
+  authRoutes,
 };

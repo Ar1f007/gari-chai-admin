@@ -48,6 +48,11 @@ export const endpoints = {
     campaigns: {
       cars: "/campaigns/cars",
     },
+
+    auth: {
+      profile: "/users/profile",
+      login: "/users/login",
+    },
   },
   admin: {},
   ui: {
