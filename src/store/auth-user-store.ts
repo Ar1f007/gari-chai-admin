@@ -4,7 +4,7 @@ import { proxy } from "valtio";
 
 import { devtools } from "valtio/utils";
 
-type TUserStore = {
+export type TUserStore = {
   user: TAuthBasicUserInfo | null;
   status: "pending" | "loggedOut" | "loggedIn";
 };

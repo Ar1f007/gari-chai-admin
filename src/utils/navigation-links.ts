@@ -6,6 +6,7 @@ import {
   Dice1Icon,
   LayoutListIcon,
   LucideIcon,
+  UserIcon,
 } from "lucide-react";
 import { routes } from "./routes";
 
@@ -15,6 +16,9 @@ export type Route = {
   icon?: LucideIcon;
 };
 
+// SEPARATED LINKS SECTION
+// THESE SEPARATED LINKS ARE LATER COMBINED INTO ONE SECTION
+
 const carLinks: Route[] = [
   {
     label: "Add",
@@ -23,6 +27,17 @@ const carLinks: Route[] = [
   {
     label: "Cars",
     href: routes.newCarRoutes.carList,
+  },
+];
+
+const usedCarLinks: Route[] = [
+  {
+    label: "Add",
+    href: routes.usedCarRoutes.addCar,
+  },
+  {
+    label: "Cars",
+    href: routes.usedCarRoutes.carList,
   },
 ];
 
@@ -109,6 +124,8 @@ const campaignLinks: Route[] = [
   },
 ];
 
+// ============================================
+
 const adminLinks: Route[] = [
   {
     label: "Car",
@@ -141,6 +158,35 @@ const adminLinks: Route[] = [
   },
 ];
 
+const superAdminLinks: Route[] = [
+  ...adminLinks,
+  {
+    label: "Users",
+    href: [
+      {
+        href: "/users",
+        label: "Users",
+      },
+      {
+        href: "/users/admin",
+        label: "Admins",
+      },
+    ],
+    icon: UserIcon,
+  },
+];
+
+const userLinks: Route[] = [
+  {
+    label: "Car",
+    href: usedCarLinks,
+    icon: CarIcon,
+  },
+];
+
+// THIS IS THE PART WHICH ACTUALLY GETS USED
 export const navigationLinks = {
   adminLinks,
+  userLinks,
+  superAdminLinks,
 };

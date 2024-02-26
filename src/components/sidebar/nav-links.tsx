@@ -1,14 +1,17 @@
 import React from "react";
-import { Route } from "@/utils/navigation-links";
 import { NavLinkItem } from "@/types";
 import NavLinkGroup from "@/components/sidebar/nav-link-group";
 import NavLink from "@/components/sidebar/nav-link";
+import { userStore } from "@/store";
+import { getNavigationLinks } from "@/lib/utils";
 
-type NavLinksProps = {
-  links: Route[];
-};
+// type NavLinksProps = {
+//   links: Route[];
+// };
 
-const NavLinks = ({ links }: NavLinksProps) => {
+const NavLinks = () => {
+  const links = getNavigationLinks(userStore.user);
+
   function renderGroupMenu(item: NavLinkItem) {
     if (item.href.length === 0) return null;
 

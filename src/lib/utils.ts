@@ -3,6 +3,9 @@ import { type ClassValue, clsx } from "clsx";
 import dayjs from "./dayjs";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { TAuthBasicUserInfo } from "@/schemas/user";
+import { navigationLinks } from "@/utils/navigation-links";
+import { TUserStore } from "@/store";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -54,4 +57,28 @@ export function formatFileSize(bytes?: number) {
 
 export function formatDate(date: string, format = "MMM D, YYYY") {
   return dayjs(date).format(format);
+}
+
+export function getNavigationLinks(user: TUserStore["user"]) {
+  console.log("called");
+
+  if (!user) {
+    return [];
+  }
+
+  const roles = user.role;
+
+  if (roles.includes("super-admin")) {
+    return navigationLinks.superAdminLinks;
+  }
+
+  if (roles.includes("admin")) {
+    return navigationLinks.adminLinks;
+  }
+
+  if (user.role.includes("user")) {
+    return navigationLinks.userLinks;
+  }
+
+  return [];
 }

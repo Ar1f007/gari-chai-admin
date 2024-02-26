@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ExternalLinkIcon, MenuIcon, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navigationLinks } from "@/utils/navigation-links";
 import NavLinks from "@/components/sidebar/nav-links";
 import QuickActions from "@/components/sidebar/quick-actions";
 import { themeConfig } from "@/configs/theme-config";
+import Link from "next/link";
+import { endpoints } from "@/services";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(themeConfig.expandSidebarByDefault);
@@ -54,17 +56,28 @@ const Sidebar = () => {
         </div>
 
         {/*  LINKS  */}
-        <NavLinks links={navigationLinks.adminLinks} />
+        <NavLinks />
 
         {/* FOOTER */}
         <div className="flex justify-center">
-          <Button
+          {/* <Button
             variant="secondary"
             className="text-primary"
+            onClick={() =>}
+          >
+           
+          </Button> */}
+          <Link
+            href={endpoints.ui.baseUrl}
+            className={buttonVariants({
+              variant: "secondary",
+              className: "!text-primary",
+            })}
+            target="_blank"
           >
             <ExternalLinkIcon />
-            <span className="ml-2 text-lg">Visit</span>
-          </Button>
+            <span className="ml-2 text-lg">Visit UI</span>
+          </Link>
         </div>
       </div>
     </aside>
