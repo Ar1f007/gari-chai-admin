@@ -1,5 +1,12 @@
 "use client";
 
+import { Loader2Icon } from "lucide-react";
+import { ReactNode, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useSnapshot } from "valtio";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import {
   LoginSchema,
   LoginWithEmailSchema,
@@ -10,8 +17,6 @@ import {
   loginWithPhoneSchema,
 } from "@/schemas/user";
 import { getUser, login } from "@/services/user";
-import { Loader2Icon } from "lucide-react";
-import { ReactNode, useEffect } from "react";
 
 import {
   Card,
@@ -22,14 +27,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { Form } from "./ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
+
 import { TApiData, TApiError } from "@/types/others";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import TextField from "./form/text-field";
 import { userActions, userStore } from "@/store";
-import { useSnapshot } from "valtio";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const userSnap = useSnapshot(userStore);
@@ -52,21 +54,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) {
     if (res.status === "success") {
       userActions.setUser(res.data);
-
-      return;
-    }
-
-    if (res.status === "validationError") {
+    } else if (res.status === "validationError") {
       mapValidationErrors(res.errors, form);
-      return;
+    } else {
+      toast.error(res.message || "Something went wrong");
     }
-
-    // status is either error or fail, so display the message
-    toast.error(res.message || "Something went wrong");
-    return;
   }
 
-  function validateUsername(username: string): "email" | "phone" | null {
+  function validateUsernameType(username: string): "email" | "phone" | null {
     const parsedEmail = loginWithEmailSchema.shape.email.safeParse(username);
     const parsedPhone = loginWithPhoneSchema.shape.phone.safeParse(username);
 
@@ -81,9 +76,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return null;
   }
 
-  async function onSubmit(data: z.infer<typeof loginSchema>) {
+  async function onSubmit(data: LoginSchema & { usernameVerify?: string }) {
+    // if usernameVerify field is present
+    // means some bot has probably filled out the data
+    // so we return from here
+    if (data?.usernameVerify) return;
+
     try {
-      const method = validateUsername(data.username);
+      const method = validateUsernameType(data.username);
 
       if (!method) {
         form.setError("username", { message: "Invalid email or phone number" });
@@ -123,45 +123,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return children;
   }
 
-  if (userSnap.status === "loggedOut") {
-    return (
-      <div className="min-h-screen bg-card flex py-10 lg:py-0 lg:justify-center items-center px-2">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col space-y-5 w-full max-w-lg"
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle>Login</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="space-y-1">
-                  <TextField name="username" />
-                </div>
-                <div className="space-y-1">
-                  <TextField
-                    name="password"
-                    type="password"
-                  />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  size="lg"
-                  type="submit"
-                  disabled={form.formState.isSubmitting}
-                  className="text-lg"
-                >
-                  {form.formState.isSubmitting ? "Login..." : "Login"}
-                </Button>
-              </CardFooter>
-            </Card>
-          </form>
-        </Form>
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <div className="min-h-screen bg-card flex py-10 lg:py-0 lg:justify-center items-center px-2">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-5 w-full max-w-lg"
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Login</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <TextField
+                name="usernameVerify"
+                className="hidden"
+                label=""
+                autoComplete="off"
+              />
+              <div className="space-y-1">
+                <TextField
+                  name="username"
+                  autoComplete="username"
+                  label="Email / Phone"
+                />
+              </div>
+              <div className="space-y-1">
+                <TextField
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button
+                size="lg"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="text-lg"
+              >
+                {form.formState.isSubmitting ? "Login..." : "Login"}
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+    </div>
+  );
 };

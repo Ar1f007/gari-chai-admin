@@ -8,7 +8,7 @@ import { EdgeStoreProvider } from "@/lib/edgestore";
 import TopHeader from "@/components/layout/top-header";
 
 import { Toaster } from "sonner";
-import { AuthProvider } from "@/components/protected-route";
+import { AuthProvider } from "@/components/auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 

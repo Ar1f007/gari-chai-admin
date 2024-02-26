@@ -30,6 +30,8 @@ export async function getUser() {
     return null;
   } catch (error) {
     return null;
+  } finally {
+    abortController.abort();
   }
 }
 
