@@ -1,12 +1,32 @@
+"use client";
+
 import { LogOutIcon, RefreshCcwIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { logout } from "@/services/user";
+import { userActions } from "@/store";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const QuickActions = () => {
+  const router = useRouter();
+
   function handleRefresh() {
     window.location.reload();
   }
 
-  async function handleLogout() {}
+  async function handleLogout() {
+    try {
+      const res = await logout();
+
+      if (res.status === "success") {
+        userActions.setUser(null);
+        router.replace("/");
+        return;
+      }
+    } catch (e) {
+      toast.error("Something went wrong, please try again");
+    }
+  }
 
   return (
     <div className="flex flex-col items-center space-y-3">

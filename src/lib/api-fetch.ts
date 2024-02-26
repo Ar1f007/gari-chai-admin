@@ -23,16 +23,22 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     headers: {
       Accept: "application/json",
       "Content-type": isFormData ? "multipart/form-data" : "application/json",
+
       ...headers,
     },
+
     body: isFormData ? constructFormData(body) : JSON.stringify(body),
+    credentials: "include",
     ...rest,
   };
+
+  const controller = new AbortController();
+  const signal = controller.signal;
 
   try {
     const url = baseApiUrl + endpoint;
 
-    const res = await fetch(url, fetchOptions);
+    const res = await fetch(url, { ...fetchOptions, signal });
 
     if (res.status === 429) {
       throw Error(res.statusText);
@@ -43,6 +49,8 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     return jsonRes;
   } catch (e: any) {
     throw e;
+  } finally {
+    controller.abort();
   }
 }
 

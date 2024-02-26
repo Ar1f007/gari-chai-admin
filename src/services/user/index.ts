@@ -1,13 +1,13 @@
 import { apiFetch } from "@/lib/api-fetch";
 import {
+  LoginWithEmailSchema,
+  LoginWithPhoneSchema,
   TAuthBasicUserInfo,
   userBasicInfoAPIResponseSchema,
 } from "@/schemas/user";
 import { ReqMethod, endpoints } from "..";
-import {
-  LoginWithEmailSchema,
-  LoginWithPhoneSchema,
-} from "@/components/protected-route";
+
+import { AUTH_TOKEN_NAME } from "@/utils/constants";
 
 export async function getUser() {
   const abortController = new AbortController();
@@ -45,5 +45,12 @@ export async function login(params: LoginUserParams) {
   return apiFetch<TAuthBasicUserInfo>(url, {
     method: ReqMethod.POST,
     body: params.payload,
+  });
+}
+
+export async function logout() {
+  return apiFetch(endpoints.api.auth.logout, {
+    method: ReqMethod.POST,
+    body: { cookieName: AUTH_TOKEN_NAME },
   });
 }

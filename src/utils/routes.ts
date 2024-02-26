@@ -36,6 +36,7 @@ const campaignRoutes = {
 const authRoutes = {
   login: "/login",
   profile: "/profile",
+  logout: "/logout",
 };
 
 export const routes = {

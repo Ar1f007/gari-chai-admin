@@ -1,9 +1,17 @@
 "use client";
 
-import { TAuthBasicUserInfo, phoneNumberSchema } from "@/schemas/user";
+import {
+  LoginSchema,
+  LoginWithEmailSchema,
+  LoginWithPhoneSchema,
+  TAuthBasicUserInfo,
+  loginSchema,
+  loginWithEmailSchema,
+  loginWithPhoneSchema,
+} from "@/schemas/user";
 import { getUser, login } from "@/services/user";
 import { Loader2Icon } from "lucide-react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 import {
   Card,
@@ -20,34 +28,11 @@ import { toast } from "sonner";
 import { TApiData, TApiError } from "@/types/others";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import TextField from "./form/text-field";
-
-let authenticated = true;
-
-export const loginWithEmailSchema = z.object({
-  email: z.string().min(1, "Email is required").email(),
-  password: z.string().min(1, "Password is required"),
-});
-
-export const loginWithPhoneSchema = z.object({
-  phone: phoneNumberSchema,
-  password: z.string().min(1, "Password is required"),
-});
-
-export const loginSchema = z.object({
-  username: z.string().min(1, "Please enter your email or phone number"),
-  password: z.string().min(1, "Password is required"),
-});
-
-type LoginSchema = z.infer<typeof loginSchema>;
-
-export type LoginWithEmailSchema = z.infer<typeof loginWithEmailSchema>;
-export type LoginWithPhoneSchema = z.infer<typeof loginWithPhoneSchema>;
+import { userActions, userStore } from "@/store";
+import { useSnapshot } from "valtio";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<TAuthBasicUserInfo | null>(null);
-
-  const [showLogin, setShowLogin] = useState(false);
+  const userSnap = useSnapshot(userStore);
 
   const form = useForm<LoginSchema>({
     defaultValues: {
@@ -57,29 +42,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   async function fetchUser() {
-    try {
-      const user = await getUser();
+    const user = await getUser();
 
-      if (user) {
-        setUser(user);
-      } else {
-        setShowLogin(true);
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
+    userActions.setUser(user);
   }
 
   async function handleLoginResponse(
     res: TApiError | TApiData<TAuthBasicUserInfo>
   ) {
     if (res.status === "success") {
-      // userActions.setUser(res.data);
-
-      // router.replace(redirectPath());
-      setUser(res.data);
-      setShowLogin(false);
+      userActions.setUser(res.data);
 
       return;
     }
@@ -136,7 +108,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchUser();
   }, []);
 
-  if (showLogin) {
+  if (userSnap.status == "pending") {
+    return (
+      <div className="min-h-screen bg-card flex justify-center items-center">
+        <Loader2Icon
+          size={40}
+          className="animate-spin"
+        />
+      </div>
+    );
+  }
+
+  if (userSnap.status == "loggedIn") {
+    return children;
+  }
+
+  if (userSnap.status === "loggedOut") {
     return (
       <div className="min-h-screen bg-card flex py-10 lg:py-0 lg:justify-center items-center px-2">
         <Form {...form}>
@@ -176,56 +163,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-card flex justify-center items-center">
-        <Loader2Icon
-          size={40}
-          className="animate-spin"
-        />
-      </div>
-    );
-  }
-
-  if (user) {
-    return children;
-  }
-
-  return (
-    <div className="min-h-screen bg-card flex py-10 lg:py-0 lg:justify-center items-center px-2">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col space-y-5 w-full max-w-lg"
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <TextField name="username" />
-              </div>
-              <div className="space-y-1">
-                <TextField
-                  name="password"
-                  type="password"
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                size="lg"
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="text-lg"
-              >
-                {form.formState.isSubmitting ? "Login..." : "Login"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
-    </div>
-  );
+  return null;
 };

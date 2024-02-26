@@ -89,3 +89,27 @@ export const userProfileFormSchema = z.object({
 });
 
 export type TUserProfileSchema = z.infer<typeof userProfileFormSchema>;
+
+// ======================================================
+// AUTH
+// ======================================================
+
+export const loginWithEmailSchema = z.object({
+  email: z.string().min(1, "Email is required").email(),
+  password: z.string().min(1, "Password is required"),
+});
+
+export const loginWithPhoneSchema = z.object({
+  phone: phoneNumberSchema,
+  password: z.string().min(1, "Password is required"),
+});
+
+export const loginSchema = z.object({
+  username: z.string().min(1, "Please enter your email or phone number"),
+  password: z.string().min(1, "Password is required"),
+});
+
+export type LoginSchema = z.infer<typeof loginSchema>;
+
+export type LoginWithEmailSchema = z.infer<typeof loginWithEmailSchema>;
+export type LoginWithPhoneSchema = z.infer<typeof loginWithPhoneSchema>;

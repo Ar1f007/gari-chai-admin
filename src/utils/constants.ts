@@ -11,6 +11,8 @@ export const API_BASE_URL =
     ? "http://localhost:8000"
     : "https://gari-chai.onrender.com";
 
+export const IS_CLIENT = typeof window !== "undefined";
+
 export const API_V1_URL = API_BASE_URL + "/api/v1";
 
 export const UI_BASE_URL =

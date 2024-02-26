@@ -52,6 +52,7 @@ export const endpoints = {
     auth: {
       profile: "/users/profile",
       login: "/users/login",
+      logout: "/users/logout",
     },
   },
   admin: {},
