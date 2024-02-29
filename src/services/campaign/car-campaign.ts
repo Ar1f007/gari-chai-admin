@@ -1,9 +1,11 @@
+import { z } from "zod";
+
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, endpoints } from "..";
 import { TCarCampaign, carCampaignSchema } from "@/schemas/campaign";
-import { z } from "zod";
+import { Todo } from "@/types";
 
-export async function createNewCarCampaign(payload: any) {
+export async function createCarCampaign(payload: Todo) {
   try {
     const res = await apiFetch(endpoints.api.campaigns.cars, {
       method: ReqMethod.POST,
@@ -47,5 +49,19 @@ export async function getAllCarCampaigns() {
       data: null,
       message: "Something went wrong",
     };
+  }
+}
+
+export async function updateCarCampaign(payload: Todo) {
+  try {
+    const url = endpoints.api.campaigns.cars + "/" + payload.id;
+    const res = await apiFetch(url, {
+      method: ReqMethod.PATCH,
+      body: payload,
+    });
+
+    return res;
+  } catch (e) {
+    return null;
   }
 }

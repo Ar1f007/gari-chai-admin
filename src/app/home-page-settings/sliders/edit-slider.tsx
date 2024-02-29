@@ -43,8 +43,6 @@ const EditSlider = ({
   const [openImgForm, setOpenImgForm] = useState(false);
   const { uploadImage } = useUploadImage();
 
-  console.log(slider);
-
   const form = useForm({
     defaultValues: {
       title: slider.title,

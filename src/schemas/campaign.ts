@@ -51,7 +51,7 @@ export const createCampaign = z.object({
     }),
 
   posterImage: z.union([
-    imageSchema,
+    z.string(),
     z.instanceof(File, {
       message: "add a campaign poster image",
     }),

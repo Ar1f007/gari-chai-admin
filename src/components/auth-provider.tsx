@@ -163,7 +163,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 disabled={form.formState.isSubmitting}
                 className="text-lg"
               >
-                {form.formState.isSubmitting ? "Login..." : "Login"}
+                {form.formState.isSubmitting && (
+                  <Loader2Icon className="mr-2 animate-spin" />
+                )}{" "}
+                Login
               </Button>
             </CardFooter>
           </Card>

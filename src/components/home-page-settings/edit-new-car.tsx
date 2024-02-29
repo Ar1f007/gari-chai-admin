@@ -61,7 +61,6 @@ const EditNewCar = ({
   const selectedTags = form.watch("tag");
 
   async function updateSetting(data: EditHomePageCarInputs) {
-    console.log(data.sort);
     try {
       const res = await updateHomeSettingItem({
         contentId: data.selectedCar.value._id,

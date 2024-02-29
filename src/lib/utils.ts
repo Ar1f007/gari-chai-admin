@@ -60,8 +60,6 @@ export function formatDate(date: string, format = "MMM D, YYYY") {
 }
 
 export function getNavigationLinks(user: TUserStore["user"]) {
-  console.log("called");
-
   if (!user) {
     return [];
   }

@@ -50,8 +50,6 @@ export async function getSettingContentByPageSlug(slug: string) {
           data: parsedData.data,
         };
       } else {
-        console.log(parsedData.error.errors.map((e) => e));
-
         return {
           message: slug + " Settings data missing",
           data: null,

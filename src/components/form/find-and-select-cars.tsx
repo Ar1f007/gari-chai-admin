@@ -33,7 +33,9 @@ type Car = {
 const FindAndSelectCars = () => {
   const form = useFormContext();
 
-  const [selectedCars, setSelectedCars] = useState<Car[]>([]);
+  const [selectedCars, setSelectedCars] = useState<Car[]>(
+    () => form.getValues("cars") || []
+  );
   const [showPriceInput, setShowPriceInput] = useState(false);
   const [selectedCarPrice, setSelectedCarPrice] = useState<TMinMaxPriceSchema>({
     min: 0,
@@ -43,7 +45,7 @@ const FindAndSelectCars = () => {
 
   useEffect(() => {
     form.setValue("cars", selectedCars);
-  }, [selectedCars, form]);
+  }, [selectedCars]);
 
   async function filterCars(input: string) {
     const params = new URLSearchParams();
@@ -138,9 +140,9 @@ const FindAndSelectCars = () => {
             <FormControl>
               <AsyncReactSelect
                 cacheOptions
+                defaultOptions
                 isMulti
                 isClearable
-                defaultOptions
                 loadOptions={loadOptions}
                 formatOptionLabel={(data) => (
                   <div className="flex justify-between flex-wrap gap-1">

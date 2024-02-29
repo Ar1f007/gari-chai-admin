@@ -1,20 +1,16 @@
 "use client";
 
-import { Fragment, FocusEvent } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useUploadImage } from "@/hooks/useUploadImage";
 import extDayjs from "@/lib/dayjs";
-import { cn } from "@/lib/utils";
+
 import { CreateCampaignForm, createCampaign } from "@/schemas/campaign";
 
-import FindAndSelectCars from "@/components/form/find-and-select-cars";
-import SwitchField from "@/components/form/switch-field";
-import TextField from "@/components/form/text-field";
-import PageContainer from "@/components/layout/page-container";
-import PageHeader from "@/components/layout/page-header.tsx";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { TImageSchema } from "@/schemas/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect, useRouter } from "next/navigation";
+import { FocusEvent, Fragment, useEffect } from "react";
+import { useForm } from "react-hook-form";
+
 import {
   Form,
   FormControl,
@@ -24,34 +20,75 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { SingleImageDropzone } from "@/components/ui/single-image-dropzone";
+import { Button } from "@/components/ui/button";
+import { Loader2Icon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import PageHeader from "@/components/layout/page-header.tsx";
+import PageContainer from "@/components/layout/page-container";
+import TextField from "@/components/form/text-field";
+import FindAndSelectCars from "@/components/form/find-and-select-cars";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
-import { Loader2Icon } from "lucide-react";
-import { SingleImageDropzone } from "@/components/ui/single-image-dropzone";
-import { createCarCampaign } from "@/services/campaign/car-campaign";
+import { Calendar } from "@/components/ui/calendar";
+import SwitchField from "@/components/form/switch-field";
+import { useSnapshot } from "valtio";
+import { settingsStore } from "@/store/settings";
+import { routes } from "@/utils/routes";
 import { toast } from "sonner";
 import { invalidateAdminPathCache } from "@/services";
-import { routes } from "@/utils/routes";
 import { mapValidationErrors } from "@/utils/mapValidationError";
-import { useUploadImage } from "@/hooks/useUploadImage";
-import { TImageSchema } from "@/schemas/utils";
-import { useRouter } from "next/navigation";
+import { updateCarCampaign } from "@/services/campaign/car-campaign";
 
-const CreateCampaign = () => {
+const CampaignEditPage = () => {
+  if (!settingsStore.selectedCampaign) {
+    redirect(routes.campaignRoutes.campaigns);
+  }
+
+  const campaign = settingsStore.selectedCampaign;
+
+  const newCars = campaign.newCars.map(({ car, campaignPrice }) => ({
+    label: car.name,
+    value: car._id,
+    type: car.carType,
+    image: car.posterImage.originalUrl,
+    brand: car.brand.label,
+    model: car.brandModel.label,
+    price: {
+      min: campaignPrice.min,
+      max: campaignPrice.max,
+    },
+  }));
+
+  const usedCars = campaign.usedCars.map(({ car, campaignPrice }) => ({
+    label: car.name,
+    value: car._id,
+    type: car.carType,
+    image: car.posterImage.originalUrl,
+    brand: car.brand.label,
+    model: car.brandModel.label,
+    price: {
+      min: campaignPrice.min,
+      max: campaignPrice.max,
+    },
+  }));
+
   const form = useForm<CreateCampaignForm>({
     mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
-      title: "",
-      tagline: "",
-      description: "",
-      startDate: undefined,
-      endDate: undefined,
-      isActive: true,
+      title: campaign.title || "",
+      tagline: campaign.tagline || "",
+      description: campaign.description || "",
+      startDate: new Date(campaign.startDate) || undefined,
+      endDate: new Date(campaign.endDate) || undefined,
+      isActive: campaign.isActive,
+      cars: [...newCars, ...usedCars],
+      posterImage: campaign.posterImage.thumbnailUrl,
     },
 
     resolver: zodResolver(createCampaign),
@@ -107,24 +144,31 @@ const CreateCampaign = () => {
   }
 
   async function onSubmit(data: CreateCampaignForm) {
-    const posterImage = await uploadPosterImage(data.posterImage as File);
+    const payload: any = {};
 
-    if (!posterImage) {
-      toast.error("Could not upload poster image");
-      return;
+    if (data.posterImage instanceof File) {
+      const posterImage = await uploadPosterImage(data.posterImage as File);
+
+      if (!posterImage) {
+        toast.error("Could not upload poster image, try again");
+        return;
+      }
+
+      payload.posterImage = posterImage;
+    } else {
+      payload.posterImage = campaign.posterImage;
     }
 
-    const payload = {
+    const res = await updateCarCampaign({
       ...data,
-      posterImage,
+      ...payload,
+      id: campaign._id,
       cars: data.cars.map((car) => ({
         carId: car.value,
         type: car.type,
         campaignPrice: car.price,
       })),
-    };
-
-    const res = await createCarCampaign(payload);
+    });
 
     if (!res) {
       toast.error("Something went Wrong, Please try again!");
@@ -153,7 +197,7 @@ const CreateCampaign = () => {
 
   return (
     <Fragment>
-      <PageHeader>Create Campaign</PageHeader>
+      <PageHeader>Edit Campaign</PageHeader>
 
       <PageContainer>
         <Form {...form}>
@@ -347,4 +391,4 @@ const CreateCampaign = () => {
     </Fragment>
   );
 };
-export default CreateCampaign;
+export default CampaignEditPage;

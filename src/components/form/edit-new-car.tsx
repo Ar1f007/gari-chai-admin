@@ -270,7 +270,6 @@ const EditNewCarForm = ({ data }: { data: TCarSchema }) => {
       }
 
       toast.error(res.message);
-      // console.log
     } catch (error) {}
   }
 

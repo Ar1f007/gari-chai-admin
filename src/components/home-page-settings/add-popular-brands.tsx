@@ -95,8 +95,6 @@ const AddPopularBrandsForm = () => {
     }
   }, [brands]);
 
-  console.log(formattedBrandList);
-
   return (
     <div className="space-y-5">
       <Button onClick={() => setShowForm(true)}>Add Popular Brands</Button>
