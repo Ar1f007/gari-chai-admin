@@ -34,7 +34,11 @@ import { Loader2Icon } from "lucide-react";
 import { SingleImageDropzone } from "@/components/ui/single-image-dropzone";
 import { createCarCampaign } from "@/services/campaign/car-campaign";
 import { toast } from "sonner";
-import { invalidateAdminPathCache } from "@/services";
+import {
+  TAGS,
+  invalidateAdminCache,
+  invalidateAdminPathCache,
+} from "@/services";
 import { routes } from "@/utils/routes";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import { useUploadImage } from "@/hooks/useUploadImage";
@@ -134,7 +138,7 @@ const CreateCampaign = () => {
     if (res.status == "success") {
       form.reset();
 
-      invalidateAdminPathCache([{ path: routes.campaignRoutes.campaigns }]);
+      invalidateAdminCache([TAGS.carCampaigns]);
       toast.success("Campaign created successfully");
 
       router.push(routes.campaignRoutes.campaigns);
