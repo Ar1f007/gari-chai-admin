@@ -22,8 +22,6 @@ export async function getCarReviews(queryParams?: string) {
       },
     });
 
-    console.log(res);
-
     if (res.status === "success") {
       const parsedData = z.array(carReviewSchema).safeParse(res.data.results);
 
@@ -36,7 +34,6 @@ export async function getCarReviews(queryParams?: string) {
           message: null,
         };
       } else {
-        console.log(parsedData.error.errors);
         return {
           data: null,
           message: "Invalid Input",

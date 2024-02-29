@@ -16,7 +16,6 @@ const CarsReviews = async ({
   const params = objectToQueryString(searchParams);
 
   const res = await getCarReviews(params);
-  console.log(res);
   return (
     <>
       <PageHeader>Car Reviews</PageHeader>

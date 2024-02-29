@@ -10,9 +10,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
+  useEffect(() => {}, [error]);
 
   return (
     <div className="min-h-[80vh] flex flex-col gap-5 justify-center items-center">
