@@ -2,6 +2,7 @@ import { UI_BASE_URL } from "@/utils/constants";
 import { ReqMethod, endpoints } from ".";
 
 export const TAGS = {
+  all: "all",
   brands: "brands",
   cars: "cars",
   allHomeSettings: "home-settings",
@@ -9,6 +10,7 @@ export const TAGS = {
   brandModelList: "brand-model-list",
   sliders: "sliders",
   vendors: "vendors",
+  carCampaigns: "car-campaign",
 };
 
 export const UI_TAGS = {

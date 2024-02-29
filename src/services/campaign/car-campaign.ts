@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { apiFetch } from "@/lib/api-fetch";
-import { ReqMethod, endpoints } from "..";
+import { ReqMethod, TAGS, endpoints } from "..";
 import { TCarCampaign, carCampaignSchema } from "@/schemas/campaign";
 import { Todo } from "@/types";
 
@@ -22,6 +22,9 @@ export async function getAllCarCampaigns() {
   try {
     const res = await apiFetch<TCarCampaign[]>(endpoints.api.campaigns.cars, {
       method: ReqMethod.GET,
+      next: {
+        tags: [TAGS.carCampaigns, TAGS.all],
+      },
     });
 
     if (res.status == "success") {
@@ -58,6 +61,20 @@ export async function updateCarCampaign(payload: Todo) {
     const res = await apiFetch(url, {
       method: ReqMethod.PATCH,
       body: payload,
+    });
+
+    return res;
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function deleteCarCampaign(payload: Todo) {
+  try {
+    const url = endpoints.api.campaigns.cars + "/" + payload.id;
+
+    const res = await apiFetch(url, {
+      method: ReqMethod.DELETE,
     });
 
     return res;

@@ -36,11 +36,10 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import SwitchField from "@/components/form/switch-field";
-import { useSnapshot } from "valtio";
 import { settingsStore } from "@/store/settings";
 import { routes } from "@/utils/routes";
 import { toast } from "sonner";
-import { invalidateAdminPathCache } from "@/services";
+import { TAGS, invalidateAdminCache } from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import { updateCarCampaign } from "@/services/campaign/car-campaign";
 
@@ -178,7 +177,8 @@ const CampaignEditPage = () => {
     if (res.status == "success") {
       form.reset();
 
-      invalidateAdminPathCache([{ path: routes.campaignRoutes.campaigns }]);
+      invalidateAdminCache([TAGS.carCampaigns]);
+
       toast.success("Campaign created successfully");
 
       router.push(routes.campaignRoutes.campaigns);

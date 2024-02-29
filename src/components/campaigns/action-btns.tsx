@@ -8,6 +8,9 @@ import ConfirmDelete from "../shared/delete-alert-dialog";
 import { useRouter } from "next/navigation";
 import { settingsActions } from "@/store/settings";
 import { routes } from "@/utils/routes";
+import { deleteCarCampaign } from "@/services/campaign/car-campaign";
+import { toast } from "sonner";
+import { TAGS, invalidateAdminCache } from "@/services";
 
 const ActionBtn = ({ campaign }: { campaign: TCarCampaign }) => {
   const router = useRouter();
@@ -22,7 +25,22 @@ const ActionBtn = ({ campaign }: { campaign: TCarCampaign }) => {
     setShowDialog(null);
   }
 
-  async function handleDeleteCampaign(campaign: TCarCampaign) {}
+  async function handleDeleteCampaign(campaign: TCarCampaign) {
+    const res = await deleteCarCampaign({ id: campaign._id });
+
+    if (!res) {
+      toast.error("Something went wrong, please try again");
+      return;
+    }
+
+    if (res.status == "success") {
+      invalidateAdminCache([TAGS.carCampaigns]);
+      toast.success("Deleted Successfully");
+      return;
+    }
+
+    toast.error(res.message || "Something went wrong");
+  }
 
   function handleOnEditClick(campaign: TCarCampaign) {
     settingsActions.setCampaign(campaign);
