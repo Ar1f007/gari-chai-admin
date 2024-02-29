@@ -6,6 +6,7 @@ import {
   Dice1Icon,
   LayoutListIcon,
   LucideIcon,
+  MessageSquare,
   UserIcon,
 } from "lucide-react";
 import { routes } from "./routes";
@@ -124,6 +125,13 @@ const campaignLinks: Route[] = [
   },
 ];
 
+const reviewLinks: Route[] = [
+  {
+    label: "Car Reviews",
+    href: routes.reviewRoutes.cars,
+  },
+];
+
 // ============================================
 
 const adminLinks: Route[] = [
@@ -155,6 +163,11 @@ const adminLinks: Route[] = [
     label: "Cache Control",
     icon: DatabaseZapIcon,
     href: cacheLinks,
+  },
+  {
+    label: "Reviews",
+    icon: MessageSquare,
+    href: reviewLinks,
   },
 ];
 

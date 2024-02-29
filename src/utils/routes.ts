@@ -38,6 +38,10 @@ const campaignRoutes = {
   campaigns: "/campaigns",
 };
 
+const reviewRoutes = {
+  cars: "/reviews/cars",
+};
+
 const authRoutes = {
   login: "/login",
   profile: "/profile",
@@ -52,4 +56,5 @@ export const routes = {
   campaignRoutes,
   authRoutes,
   usedCarRoutes,
+  reviewRoutes,
 };

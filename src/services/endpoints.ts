@@ -54,6 +54,10 @@ export const endpoints = {
       login: "/users/login",
       logout: "/users/logout",
     },
+
+    reviews: {
+      carReviews: "/reviews/cars",
+    },
   },
   admin: {},
   ui: {
