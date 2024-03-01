@@ -10,6 +10,7 @@ type GetCarsReviewsData = {
 };
 
 export async function getCarReviews(queryParams?: string) {
+  console.log(queryParams);
   try {
     const baseUrl = endpoints.api.reviews.carReviews;
 

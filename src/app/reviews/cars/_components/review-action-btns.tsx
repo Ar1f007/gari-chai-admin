@@ -102,7 +102,7 @@ export const ReviewActionBtns = ({
         variant="default"
         size="sm"
         onClick={() => updateReview({ ...review, status: "approved" })}
-        disabled={isPending}
+        disabled={isPending || review.status == "approved"}
       >
         Approve
       </Button>
@@ -110,7 +110,7 @@ export const ReviewActionBtns = ({
         variant="destructive"
         size="sm"
         onClick={() => setShowModal("discard")}
-        disabled={isPending}
+        disabled={isPending || review.status == "discard"}
       >
         Discard
       </Button>

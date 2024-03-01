@@ -2,7 +2,10 @@
 
 import * as React from "react";
 import { TVendorSchema } from "@/schemas/vendor";
-import { fetchReviewTableColumns } from "./reviews-column-def";
+import {
+  fetchReviewTableColumns,
+  filterableColumns,
+} from "./reviews-column-def";
 
 import {
   ColumnDef,
@@ -31,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { SelectPageSize } from "@/components/shared/select-page-size";
 import { TCarsReview } from "@/schemas/reviews";
 import { DataTable } from "@/components/shared/data-table/data-table";
+import { useDataTable } from "@/hooks/use-data-table";
 
 type CarReviewsTableShellProps = {
   data: TCarsReview[];
@@ -53,35 +57,23 @@ const ReviewDataTableShell = ({
     []
   );
 
-  const table = useReactTable({
-    data,
+  const { dataTable } = useDataTable({
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-
-    state: {
-      sorting,
-      columnFilters,
-    },
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
-    },
+    data,
+    pageCount,
+    filterableColumns,
+    //searchableColumns,
+    //initialColumnVisibility,
   });
 
   return (
     <DataTable
-      dataTable={table}
+      dataTable={dataTable}
       columns={columns}
       // Render notion like filters
       advancedFilter={false}
       // Render dynamic faceted filters
-      filterableColumns={[]}
+      filterableColumns={filterableColumns}
       // Render dynamic searchable filters
       searchableColumns={[]}
       // Render floating action controls at the bottom of the table on Row selection

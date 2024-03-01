@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 import { ReviewActionBtns } from "./review-action-btns";
 import { TCarsReview } from "@/schemas/reviews";
+import { DataTableFilterableColumn } from "@/types";
 
 export function fetchReviewTableColumns(
   isPending: boolean,
@@ -11,12 +12,7 @@ export function fetchReviewTableColumns(
   return [
     {
       accessorKey: "reviewType",
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="Type"
-        />
-      ),
+      header: "Type",
       cell: (info) => (
         <span className="capitalize">
           {(info.getValue() as string) || "N/A"}{" "}
@@ -25,24 +21,15 @@ export function fetchReviewTableColumns(
     },
     {
       accessorKey: "title",
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="Title"
-        />
-      ),
+      header: "Title",
       cell: (info) => (
         <span className="capitalize">{info.getValue() as string}</span>
       ),
     },
     {
+      id: "status",
       accessorKey: "status",
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="Current Status"
-        />
-      ),
+      header: "Current Status",
       cell: (info) => (
         <span className="capitalize">
           {(info.getValue() as string) || "N/A"}
@@ -62,3 +49,18 @@ export function fetchReviewTableColumns(
     },
   ];
 }
+
+export const filterableColumns: DataTableFilterableColumn<TCarsReview>[] = [
+  {
+    id: "status",
+    title: "Filter By Status",
+    options: [
+      { label: "Pending", value: "pending" },
+      { label: "Approved", value: "approved" },
+      { label: "Discarded", value: "discard" },
+    ].map((status) => ({
+      label: status.label,
+      value: status.value,
+    })),
+  },
+];
