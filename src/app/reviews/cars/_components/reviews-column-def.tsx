@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 import { ReviewActionBtns } from "./review-action-btns";
 import { TCarsReview } from "@/schemas/reviews";
-import { DataTableRowActions } from "@/app/cars/_components/data-table-row-actions";
 
 export function fetchReviewTableColumns(
   isPending: boolean,
@@ -18,7 +17,11 @@ export function fetchReviewTableColumns(
           title="Type"
         />
       ),
-      cell: (info) => info.getValue() || "N/A",
+      cell: (info) => (
+        <span className="capitalize">
+          {(info.getValue() as string) || "N/A"}{" "}
+        </span>
+      ),
     },
     {
       accessorKey: "title",
@@ -28,12 +31,34 @@ export function fetchReviewTableColumns(
           title="Title"
         />
       ),
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span className="capitalize">{info.getValue() as string}</span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Current Status"
+        />
+      ),
+      cell: (info) => (
+        <span className="capitalize">
+          {(info.getValue() as string) || "N/A"}
+        </span>
+      ),
     },
     {
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => <ReviewActionBtns review={row.original} />,
+      cell: ({ row }) => (
+        <ReviewActionBtns
+          review={row.original}
+          isPending={isPending}
+          startTransition={startTransition}
+        />
+      ),
     },
   ];
 }

@@ -1,7 +1,6 @@
-import { apiFetch } from "@/lib/api-fetch";
-import { ReqMethod, endpoints } from "..";
-import { Todo } from "@/types";
 import { z } from "zod";
+import { apiFetch } from "@/lib/api-fetch";
+import { ReqMethod, TAGS, endpoints } from "..";
 import { TCarsReview, carReviewSchema } from "@/schemas/reviews";
 import { TPagination } from "@/types/others";
 
@@ -17,9 +16,7 @@ export async function getCarReviews(queryParams?: string) {
     const url = queryParams?.length ? `${baseUrl}?${queryParams}` : baseUrl;
     const res = await apiFetch<GetCarsReviewsData>(url, {
       method: ReqMethod.GET,
-      next: {
-        revalidate: 0,
-      },
+      cache: "no-store",
     });
 
     if (res.status === "success") {
@@ -34,6 +31,7 @@ export async function getCarReviews(queryParams?: string) {
           message: null,
         };
       } else {
+        console.log(parsedData.error.errors);
         return {
           data: null,
           message: "Invalid Input",
@@ -51,4 +49,12 @@ export async function getCarReviews(queryParams?: string) {
       message: "Something went wrong, please try again later.",
     };
   }
+}
+
+export async function updateCarReview(payload: TCarsReview) {
+  const url = endpoints.api.reviews.updateReviews + "/" + payload._id;
+  return apiFetch<TCarsReview>(url, {
+    method: ReqMethod.PATCH,
+    body: payload,
+  });
 }

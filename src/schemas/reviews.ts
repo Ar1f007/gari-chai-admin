@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { userBasicInfoAPIResponseSchema } from "./user";
 
 // this is the shape of review getting from api
-const carReviewBody = z.object({
+export const carReviewSchema = z.object({
   _id: z.string(),
   title: z.string(),
   review: z.string(),
@@ -13,10 +12,14 @@ const carReviewBody = z.object({
   helpfulCount: z.number().optional(),
   unhelpfulCount: z.number().optional(),
   tags: z.array(z.string()).optional(),
+  status: z.enum(["pending", "approved", "discard"]),
+  reviewType: z.string(),
+  discardReason: z.string(),
+
+  metaData: z.record(z.string().min(1), z.unknown()).optional().default({}),
+
   createdAt: z.string(),
   updatedAt: z.string(),
 });
-
-export const carReviewSchema = carReviewBody;
 
 export type TCarsReview = z.infer<typeof carReviewSchema>;

@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import PageHeader from "@/components/layout/page-header.tsx";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { objectToQueryString } from "@/lib/utils";
-import { getCarReviews } from "@/services/cars/get-car-reviews";
+import { getCarReviews } from "@/services/reviews/car-reviews";
 import { SearchParams } from "@/types";
 import ReviewDataTableShell from "./_components/review-data-table-shell";
 

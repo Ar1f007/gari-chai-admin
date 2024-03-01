@@ -57,6 +57,7 @@ export const endpoints = {
 
     reviews: {
       carReviews: "/reviews/cars",
+      updateReviews: "/reviews/update",
     },
   },
   admin: {},
