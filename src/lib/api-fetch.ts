@@ -23,7 +23,6 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     headers: {
       Accept: "application/json",
       "Content-type": isFormData ? "multipart/form-data" : "application/json",
-
       ...headers,
     },
 

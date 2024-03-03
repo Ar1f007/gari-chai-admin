@@ -5,9 +5,11 @@ import {
   TAuthBasicUserInfo,
   userBasicInfoAPIResponseSchema,
 } from "@/schemas/user";
-import { ReqMethod, endpoints } from "..";
+import { ReqMethod, endpoints, getCookie } from "..";
 
 import { AUTH_TOKEN_NAME } from "@/utils/constants";
+import { z } from "zod";
+import { TPagination } from "@/types/others";
 
 export async function getUser() {
   const abortController = new AbortController();
@@ -55,4 +57,53 @@ export async function logout() {
     method: ReqMethod.POST,
     body: { cookieName: AUTH_TOKEN_NAME },
   });
+}
+
+type GetUsersResponseData = {
+  results: TAuthBasicUserInfo[];
+  pagination: TPagination;
+};
+
+export async function getUsers(queryParams?: string) {
+  try {
+    const baseUrl = endpoints.api.auth.users;
+    const url = queryParams?.length ? `${baseUrl}?${queryParams}` : baseUrl;
+
+    const res = await apiFetch<GetUsersResponseData>(url, {
+      method: ReqMethod.GET,
+      cache: "no-store",
+      headers: { Cookie: await getCookie() },
+    });
+
+    if (res.status === "success") {
+      const parsedData = z
+        .array(userBasicInfoAPIResponseSchema)
+        .safeParse(res.data.results);
+
+      if (parsedData.success) {
+        return {
+          data: {
+            cars: parsedData.data,
+            pagination: res.data.pagination,
+          },
+          message: null,
+        };
+      } else {
+        return {
+          data: null,
+          message: "Invalid Input",
+        };
+      }
+    }
+
+    return {
+      data: null,
+      message: res.message || "Something went wrong, please try again later.",
+    };
+  } catch (e) {
+    return {
+      data: null,
+      message: "Something went wrong, please try again later.",
+    };
+  }
 }

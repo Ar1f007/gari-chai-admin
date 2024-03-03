@@ -53,6 +53,7 @@ export const endpoints = {
       profile: "/users/profile",
       login: "/users/login",
       logout: "/users/logout",
+      users: "/users",
     },
 
     reviews: {

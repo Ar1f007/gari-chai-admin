@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
-import { ReqMethod, TAGS, endpoints } from "..";
+import { ReqMethod, TAGS, endpoints, getCookie } from "..";
 import { TCarsReview, carReviewSchema } from "@/schemas/reviews";
 import { TPagination } from "@/types/others";
 
@@ -10,7 +10,6 @@ type GetCarsReviewsData = {
 };
 
 export async function getCarReviews(queryParams?: string) {
-  console.log(queryParams);
   try {
     const baseUrl = endpoints.api.reviews.carReviews;
 
@@ -18,6 +17,7 @@ export async function getCarReviews(queryParams?: string) {
     const res = await apiFetch<GetCarsReviewsData>(url, {
       method: ReqMethod.GET,
       cache: "no-store",
+      headers: { Cookie: await getCookie() },
     });
 
     if (res.status === "success") {
@@ -32,7 +32,6 @@ export async function getCarReviews(queryParams?: string) {
           message: null,
         };
       } else {
-        console.log(parsedData.error.errors);
         return {
           data: null,
           message: "Invalid Input",

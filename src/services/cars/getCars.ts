@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/api-fetch";
-import { ReqMethod, brandSchema, endpoints } from "..";
+import { ReqMethod, brandSchema, endpoints, getCookie } from "..";
 import {
   fuelTypeSchema,
   imageSchema,
@@ -150,12 +150,8 @@ export async function getCars(queryParams?: string) {
 
     const res = await apiFetch<GetCarsResponseData>(url, {
       method: ReqMethod.GET,
-      // next: {
-      //   tags: [TAGS.cars],
-      // },
-      next: {
-        revalidate: 0,
-      },
+      cache: "no-store",
+      // headers: { Cookie: await getCookie() },
     });
 
     if (res.status === "success") {

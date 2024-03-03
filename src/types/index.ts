@@ -38,3 +38,18 @@ export interface DataTableFilterableColumn<TData> {
 export type Icon = LucideIcon;
 
 export type Todo = any;
+
+export type QueryParams = {
+  car: string;
+  budget: string;
+  bodyType: string;
+  brand: string;
+  model: string;
+  city: string;
+  query: string;
+  page: string;
+  limit: string;
+  scope: "new-car" | "used-car" | "global";
+  launchedAt: "past" | "future";
+  launchedDate: string;
+};
