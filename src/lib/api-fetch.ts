@@ -1,5 +1,8 @@
 import { TApiData, TApiError } from "@/types/others";
 import { API_V1_URL } from "@/utils/constants";
+import { routes } from "@/utils/routes";
+import { catchError } from "./catch-error";
+import { redirect } from "next/navigation";
 
 type FetchExtendedOptions = {
   isFormData?: boolean;
@@ -41,6 +44,19 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
 
     if (res.status === 429) {
       throw Error(res.statusText);
+    }
+
+    if (res.status === 401 || res.status === 403) {
+      if (typeof window !== "undefined") {
+        window.location.href = routes.authRoutes.login;
+      } else {
+        const payload: TApiError = {
+          status: "unauthorized",
+          message: res.statusText,
+        };
+
+        return payload;
+      }
     }
 
     const jsonRes: TApiData<Data> | ErrData = await res.json();

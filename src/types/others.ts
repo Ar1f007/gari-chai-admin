@@ -24,7 +24,15 @@ export type TApiValidationError = {
   errors: FieldError[];
 };
 
-export type TApiError = TApiErrorData | TApiValidationError;
+export type TApiUnauthorizedError = {
+  status: "unauthorized";
+  message: string;
+};
+
+export type TApiError =
+  | TApiErrorData
+  | TApiValidationError
+  | TApiUnauthorizedError;
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
