@@ -47,16 +47,15 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     }
 
     if (res.status === 401 || res.status === 403) {
-      if (typeof window !== "undefined") {
-        window.location.href = routes.authRoutes.login;
-      } else {
-        const payload: TApiError = {
-          status: "unauthorized",
-          message: res.statusText,
-        };
-
-        return payload;
-      }
+      // if (typeof window !== "undefined") {
+      //   window.location.href = routes.authRoutes.login;
+      // } else {
+      //   const payload: TApiError = {
+      //     status: "unauthorized",
+      //     message: res.statusText,
+      //   };
+      //   return payload;
+      // }
     }
 
     const jsonRes: TApiData<Data> | ErrData = await res.json();
