@@ -1,6 +1,7 @@
 import { NavLinkItem } from "@/types";
 import {
   CarIcon,
+  CogIcon,
   ConstructionIcon,
   DatabaseZapIcon,
   Dice1Icon,
@@ -39,6 +40,17 @@ const usedCarLinks: Route[] = [
   {
     label: "Cars",
     href: routes.usedCarRoutes.carList,
+  },
+];
+
+const partsLinks: Route[] = [
+  {
+    label: "Add",
+    href: routes.partsRoutes.addParts,
+  },
+  {
+    label: "Car Parts",
+    href: routes.partsRoutes.partsList,
   },
 ];
 
@@ -139,6 +151,11 @@ const adminLinks: Route[] = [
     label: "Car",
     href: carLinks,
     icon: CarIcon,
+  },
+  {
+    label: "Car Parts",
+    href: partsLinks,
+    icon: CogIcon,
   },
   {
     label: "Brands & Others",

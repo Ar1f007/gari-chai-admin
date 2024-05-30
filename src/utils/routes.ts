@@ -21,6 +21,11 @@ const usedCarRoutes = {
   carList: "/used-cars",
 };
 
+const partsRoutes = {
+  addParts: "/parts/add",
+  partsList: "/parts",
+};
+
 const vendorRoutes = {
   addVendor: "/vendors/add",
   vendorList: "/vendors",
@@ -57,4 +62,5 @@ export const routes = {
   authRoutes,
   usedCarRoutes,
   reviewRoutes,
+  partsRoutes,
 };
