@@ -13,12 +13,24 @@ import {
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
+import { RichTextEditor } from "../form/rich-text-editor";
+import { AddPartSchema, addPartSchema } from "@/schemas/parts";
+import { Button } from "../ui/button";
+import { Loader2Icon } from "lucide-react";
+import { isEmptyContent } from "@/lib/utils";
+import UploadThumbnail from "../car/upload-thumbnail";
+import AdditionalImages from "../car/additional-images";
+import RHFMultiImageFileDropzone from "../ui/rhf-multi-image";
 
 export const AddPart = () => {
-  const methods = useForm({
+  const methods = useForm<AddPartSchema>({
     mode: "onTouched",
     criteriaMode: "all",
-    // resolver: zodResolver(),
+    resolver: zodResolver(addPartSchema),
+    defaultValues: {
+      imageUrls: [],
+      status: true,
+    },
   });
 
   const {
@@ -26,7 +38,10 @@ export const AddPart = () => {
     formState: { isSubmitting },
   } = methods;
 
-  async function onSubmit(data: unknown) {}
+  async function onSubmit(data: AddPartSchema) {
+    const isEmptyDescription = isEmptyContent(data.description!);
+    console.log(isEmptyDescription);
+  }
 
   return (
     <Form {...methods}>
@@ -160,15 +175,28 @@ export const AddPart = () => {
         <FormField
           control={methods.control}
           name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>a</FormControl>
-
-              <FormMessage />
-            </FormItem>
+          render={() => (
+            <RichTextEditor
+              control={methods.control}
+              name="description"
+            />
           )}
         />
+
+        <UploadThumbnail />
+
+        <AdditionalImages />
+
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isSubmitting}
+        >
+          {isSubmitting && (
+            <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+          )}
+          Add
+        </Button>
       </form>
     </Form>
   );

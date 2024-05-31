@@ -1,0 +1,15 @@
+.dark .ql-picker-label {
+  color: #fff;
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: #fff;
+}
+
+.dark .ql-snow .ql-fill {
+  fill: #fff;
+}
+
+.ql-editor {
+  min-height: 100px;
+}

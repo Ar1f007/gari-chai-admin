@@ -53,7 +53,7 @@ const UploadThumbnail = ({ value }: ThumbnailProps) => {
             alt="preview"
             width={200}
             height={200}
-            className="rounded-md"
+            className="rounded-md object-cover max-h-[200px] overflow-hidden"
           />
         </div>
       )}

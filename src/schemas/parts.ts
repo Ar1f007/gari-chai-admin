@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const addPart = z.object({
+export const addPartSchema = z.object({
   name: z.string().min(1, "Name is required"),
   price: z.string().min(1, "Price is required"),
   stock: z
@@ -13,3 +13,5 @@ const addPart = z.object({
   posterImage: z.instanceof(File, { message: "Image is required" }),
   imageUrls: z.array(z.string()).optional(),
 });
+
+export type AddPartSchema = z.infer<typeof addPartSchema>;
