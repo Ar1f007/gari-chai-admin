@@ -20,7 +20,8 @@ import { Loader2Icon } from "lucide-react";
 import { isEmptyContent } from "@/lib/utils";
 import UploadThumbnail from "../car/upload-thumbnail";
 import AdditionalImages from "../car/additional-images";
-import RHFMultiImageFileDropzone from "../ui/rhf-multi-image";
+import { toast } from "sonner";
+import { useUploadImage } from "@/hooks/useUploadImage";
 
 export const AddPart = () => {
   const methods = useForm<AddPartSchema>({
@@ -38,9 +39,26 @@ export const AddPart = () => {
     formState: { isSubmitting },
   } = methods;
 
+  const { uploadImage } = useUploadImage();
+
   async function onSubmit(data: AddPartSchema) {
-    const isEmptyDescription = isEmptyContent(data.description!);
-    console.log(isEmptyDescription);
+    const imgUrls = await uploadImage(data.posterImage as File);
+
+    if (!imgUrls) {
+      toast.error(
+        "Something went wrong while uploading image please try again"
+      );
+      return;
+    }
+
+    const payload = {
+      ...data,
+      posterImage: {
+        originalUrl: imgUrls.url,
+        thumbnailUrl: imgUrls.thumbnailUrl ?? imgUrls.url,
+      },
+      description: isEmptyContent(data.description!) ? null : data.description,
+    };
   }
 
   return (

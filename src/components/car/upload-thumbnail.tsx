@@ -14,10 +14,11 @@ import { imageSchema } from "@/schemas/utils";
 import { useState } from "react";
 
 type ThumbnailProps = {
+  name?: string;
   value?: z.infer<typeof imageSchema>;
 };
 
-const UploadThumbnail = ({ value }: ThumbnailProps) => {
+const UploadThumbnail = ({ name = "posterImage", value }: ThumbnailProps) => {
   const [imgSrc, setImgSrc] = useState<string | undefined>(value?.originalUrl);
 
   const form = useFormContext();
@@ -26,7 +27,7 @@ const UploadThumbnail = ({ value }: ThumbnailProps) => {
     <div className="flex flex-col md:flex-row gap-5 items-center">
       <FormField
         control={form.control}
-        name="posterImage"
+        name={name}
         render={({ field }) => (
           <FormItem>
             <FormLabel>Upload a Thumbnail</FormLabel>

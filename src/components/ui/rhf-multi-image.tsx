@@ -148,7 +148,7 @@ const RHFMultiImageFileDropzone = ({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={val.url.thumbnailUrl || val.url.originalUrl}
+                src={val.url.originalUrl ?? val.url.thumbnailUrl}
                 alt="preview"
                 width={100}
                 height={100}
