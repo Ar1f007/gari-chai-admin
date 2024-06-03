@@ -46,11 +46,11 @@ const usedCarLinks: Route[] = [
 const partsLinks: Route[] = [
   {
     label: "Add",
-    href: routes.partsRoutes.addParts,
+    href: routes.partsRoutes.addCarParts,
   },
   {
     label: "Car Parts",
-    href: routes.partsRoutes.partsList,
+    href: routes.partsRoutes.carPartsList,
   },
 ];
 

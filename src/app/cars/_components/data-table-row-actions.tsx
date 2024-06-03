@@ -118,7 +118,12 @@ export function DataTableRowActions<TData>({
               View details
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleEdit}
+            className="cursor-pointer"
+          >
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
 
           <DropdownMenuSub>

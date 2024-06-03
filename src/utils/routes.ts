@@ -22,8 +22,8 @@ const usedCarRoutes = {
 };
 
 const partsRoutes = {
-  addParts: "/parts/add",
-  partsList: "/parts",
+  addCarParts: "/parts/cars/add",
+  carPartsList: "/parts/cars",
 };
 
 const vendorRoutes = {
