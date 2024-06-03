@@ -5,7 +5,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useTransition } from "react";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTable } from "@/components/shared/data-table/data-table";
-import { fetchCarPartsTableColumnDefs } from "./car-parts-table-col-def";
+import {
+  fetchCarPartsTableColumnDefs,
+  searchableColumns,
+} from "./car-parts-table-col-def";
 
 type CarPartsTableShellProps = {
   data: TCarPartSchema[];
@@ -29,7 +32,7 @@ export const CarPartsTableShell = ({
     data,
     pageCount,
     // filterableColumns,
-    // searchableColumns,
+    searchableColumns,
     // initialColumnVisibility,
   });
 
@@ -42,7 +45,7 @@ export const CarPartsTableShell = ({
       // Render dynamic faceted filters
       // filterableColumns={filterableColumns}
       // Render dynamic searchable filters
-      // searchableColumns={searchableColumns}
+      searchableColumns={searchableColumns}
       // Render floating action controls at the bottom of the table on Row selection
       // floatingBarContent={CarsTableFloatingBarContent(dataTable)}
       // Delete selected rows
