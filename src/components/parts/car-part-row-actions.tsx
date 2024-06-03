@@ -1,6 +1,6 @@
 import { TCarPartSchema } from "@/schemas/parts";
 import { Row } from "@tanstack/react-table";
-import { Fragment, TransitionStartFunction } from "react";
+import { Fragment, TransitionStartFunction, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,17 @@ import {
 import { Button } from "../ui/button";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
-import { endpoints } from "@/services";
+import {
+  TAGS,
+  UI_TAGS,
+  endpoints,
+  invalidateAdminCache,
+  invalidateUICache,
+} from "@/services";
+import ConfirmDelete from "../shared/delete-alert-dialog";
+import { deleteCarPart } from "@/services/cars/car-parts";
+import { toast } from "sonner";
+import { catchError } from "@/lib/catch-error";
 
 type CarPartRowActionsProps = {
   row: Row<TCarPartSchema>;
@@ -25,6 +35,8 @@ export const CarPartRowActions = ({
 }: CarPartRowActionsProps) => {
   const carPart = row.original;
 
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   function handleViewDetails() {
     const pathname = endpoints.ui.baseUrl + "/parts/cars/" + carPart.slug;
 
@@ -34,6 +46,37 @@ export const CarPartRowActions = ({
   function handleEdit() {
     const pathname = "/parts/edit/" + carPart.slug;
     return pathname;
+  }
+
+  function toggleConfirmDialog() {
+    setShowConfirmDialog((prev) => !prev);
+  }
+
+  async function handleDelete() {
+    try {
+      row.toggleSelected(false);
+
+      const res = await deleteCarPart({
+        doc: carPart,
+      });
+
+      if (res.status === "success") {
+        invalidateAdminCache([TAGS.allHomeSettings]);
+
+        invalidateUICache({
+          tags: [UI_TAGS.carParts],
+        });
+
+        toggleConfirmDialog();
+        toast.success("Car Part deleted successfully");
+
+        return;
+      }
+
+      throw new Error(res.message);
+    } catch (err) {
+      catchError(err);
+    }
   }
 
   return (
@@ -56,7 +99,10 @@ export const CarPartRowActions = ({
           align="end"
           className="w-[160px]"
         >
-          <DropdownMenuItem onClick={handleViewDetails}>
+          <DropdownMenuItem
+            onClick={handleViewDetails}
+            disabled={isPending}
+          >
             <Link
               href={handleViewDetails()}
               target="_blank"
@@ -65,12 +111,32 @@ export const CarPartRowActions = ({
               View details
             </Link>
           </DropdownMenuItem>
-
-          <DropdownMenuItem className="cursor-pointer w-full block">
+          <DropdownMenuItem
+            className="cursor-pointer w-full block"
+            disabled={isPending}
+          >
             <Link href={handleEdit()}>Edit</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer w-full block"
+            onClick={toggleConfirmDialog}
+            disabled={isPending}
+          >
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {showConfirmDialog && (
+        <ConfirmDelete
+          isOpen={showConfirmDialog}
+          onConfirm={() => startTransition(() => handleDelete())}
+          loading={isPending}
+          textWhileLoading="Deleting..."
+          handleCancelBtnClick={toggleConfirmDialog}
+          confirmBtnContent="Yes, Delete"
+        />
+      )}
     </Fragment>
   );
 };

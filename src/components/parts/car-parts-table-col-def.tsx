@@ -1,11 +1,15 @@
 import { TCarPartSchema } from "@/schemas/parts";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Table } from "@tanstack/react-table";
 import React from "react";
 import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "../shared/data-table/data-table-column-header";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DataTableSearchableColumn } from "@/types";
 import { CarPartRowActions } from "./car-part-row-actions";
+import { TAGS, invalidateAdminCache } from "@/services";
+import { toast } from "sonner";
+import { catchError } from "@/lib/catch-error";
+import { deleteCarPart } from "@/services/cars/car-parts";
 
 export function fetchCarPartsTableColumnDefs(
   isPending: boolean,
@@ -131,6 +135,53 @@ export function fetchCarPartsTableColumnDefs(
       ),
     },
   ];
+}
+
+export async function deleteSelectedRows(
+  table: Table<TCarPartSchema>,
+  event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) {
+  event?.preventDefault();
+  const selectedRows = table.getFilteredSelectedRowModel().rows as {
+    original: TCarPartSchema;
+  }[];
+
+  try {
+    const data = await Promise.all(
+      selectedRows.map(
+        async (row) =>
+          await deleteCarPart({
+            doc: row.original,
+          })
+      )
+    );
+
+    const atLeastOneCarGotDeleted = data.some(
+      (car) => car.status === "success"
+    );
+
+    if (atLeastOneCarGotDeleted) {
+      invalidateAdminCache([TAGS.carParts, TAGS.allHomeSettings]);
+    }
+
+    data.map((res) => {
+      if (res.status !== "success") {
+        toast.error(res.message);
+      }
+    });
+
+    const couldNotDeleteAllSelectedRows = data.some(
+      (res) => res.status !== "success"
+    );
+
+    if (couldNotDeleteAllSelectedRows) {
+      return;
+    }
+
+    toast.success("Car Part deleted successfully");
+  } catch (err: unknown) {
+    catchError(err);
+  }
 }
 
 export const searchableColumns: DataTableSearchableColumn<TCarPartSchema>[] = [

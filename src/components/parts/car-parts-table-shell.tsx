@@ -6,6 +6,7 @@ import { useMemo, useTransition } from "react";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTable } from "@/components/shared/data-table/data-table";
 import {
+  deleteSelectedRows,
   fetchCarPartsTableColumnDefs,
   searchableColumns,
 } from "./car-parts-table-col-def";
@@ -49,7 +50,7 @@ export const CarPartsTableShell = ({
       // Render floating action controls at the bottom of the table on Row selection
       // floatingBarContent={CarsTableFloatingBarContent(dataTable)}
       // Delete selected rows
-      deleteRowsAction={(event) => {}}
+      deleteRowsAction={(event) => deleteSelectedRows(dataTable, event)}
     />
   );
 };

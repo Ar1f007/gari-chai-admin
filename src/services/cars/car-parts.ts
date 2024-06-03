@@ -23,7 +23,7 @@ export async function getCarParts(queryParams?: string) {
 
     const url = queryParams?.length ? `${baseUrl}?${queryParams}` : baseUrl;
 
-    const res = await apiFetch<any>(url, {
+    const res = await apiFetch<GetCarsPartsResponseData>(url, {
       method: ReqMethod.GET,
       cache: "no-store",
     });
@@ -58,4 +58,12 @@ export async function getCarParts(queryParams?: string) {
       message: "Something went wrong, please try again later.",
     };
   }
+}
+
+export async function deleteCarPart({ doc }: { doc: TCarPartSchema }) {
+  const endpoint = endpoints.api.cars.parts + "/" + doc._id;
+
+  return await apiFetch(endpoint, {
+    method: ReqMethod.DELETE,
+  });
 }

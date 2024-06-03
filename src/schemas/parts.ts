@@ -30,6 +30,7 @@ export const addPartSchema = z.object({
 });
 
 export const carPartSchema = z.object({
+  _id: z.string(),
   name: z.string(),
   slug: z.string(),
   price: z.number(),
