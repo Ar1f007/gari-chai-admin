@@ -13,6 +13,7 @@ export async function addCarBodyType(payload: AddCarBodyTypeParams) {
     const res = await apiFetch(endpoints.api.cars.createCarBodyType, {
       method: ReqMethod.POST,
       body: payload,
+      includeCredentials: false,
     });
 
     invalidateAdminCache([TAGS.carBodyList]);

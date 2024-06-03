@@ -15,7 +15,7 @@ const CarParts = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   return (
     <>
-      <PageHeader>Car Parts</PageHeader>
+      <PageHeader>Car Parts!</PageHeader>
 
       <PageContainer>
         <Suspense>

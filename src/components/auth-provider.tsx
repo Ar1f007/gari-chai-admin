@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   async function fetchUser() {
     const user = await getUser();
-
     userActions.setUser(user);
   }
 

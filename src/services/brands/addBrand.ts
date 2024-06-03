@@ -14,6 +14,7 @@ export async function addBrandName(payload: TAddNewBrandPayload) {
     const res = await apiFetch<TBrand>(endpoints.api.brand.createBrand, {
       method: ReqMethod.POST,
       body: payload,
+      includeCredentials: false,
     });
 
     return res;

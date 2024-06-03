@@ -10,6 +10,7 @@ export async function createCarCampaign(payload: Todo) {
     const res = await apiFetch(endpoints.api.campaigns.cars, {
       method: ReqMethod.POST,
       body: payload,
+      includeCredentials: false,
     });
 
     return res;

@@ -10,6 +10,7 @@ async function add(payload: AddVendorSchema) {
   return apiFetch(url, {
     method: ReqMethod.POST,
     body: payload,
+    includeCredentials: false,
   });
 }
 

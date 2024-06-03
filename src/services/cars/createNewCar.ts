@@ -14,6 +14,7 @@ export async function createNewCar(payload: TCreateNewCarParams) {
     const res = await apiFetch(endpoints.api.cars.createNewCar, {
       method: ReqMethod.POST,
       body: payload,
+      includeCredentials: false,
     });
 
     return res;

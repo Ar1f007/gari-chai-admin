@@ -13,6 +13,7 @@ export async function addBrandModel(payload: TAddNewBrandModelPayload) {
     const res = await apiFetch<TBrandModel>(endpoints.api.brand.createModel, {
       method: ReqMethod.POST,
       body: payload,
+      includeCredentials: false,
     });
 
     return res;

@@ -10,6 +10,7 @@ export async function createCarPart(payload: Todo) {
   return apiFetch(endpoints.api.cars.parts, {
     method: ReqMethod.POST,
     body: payload,
+    includeCredentials: false,
   });
 }
 
@@ -40,7 +41,6 @@ export async function getCarParts(queryParams?: string) {
           message: null,
         };
       } else {
-        console.log("parsed", parsedData.error);
         return {
           data: null,
           message: "Invalid Input",

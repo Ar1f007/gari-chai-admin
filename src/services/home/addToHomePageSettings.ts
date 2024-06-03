@@ -14,6 +14,7 @@ export async function addToHomePageSettings(payload: TAddToHomeSettings) {
     const res = await apiFetch(endpoints.api.homeSettings.add, {
       method: ReqMethod.POST,
       body: payload,
+      includeCredentials: false,
     });
 
     return res;

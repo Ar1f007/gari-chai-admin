@@ -17,7 +17,6 @@ export async function getCarReviews(queryParams?: string) {
     const res = await apiFetch<GetCarsReviewsData>(url, {
       method: ReqMethod.GET,
       cache: "no-store",
-      headers: { Cookie: await getCookie() },
     });
 
     if (res.status === "success") {

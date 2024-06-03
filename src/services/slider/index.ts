@@ -34,6 +34,7 @@ export const sliderService = {
     return apiFetch(url, {
       method: ReqMethod.POST,
       body: input,
+      includeCredentials: false,
     });
   },
 

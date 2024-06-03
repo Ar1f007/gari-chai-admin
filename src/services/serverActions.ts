@@ -15,6 +15,6 @@ export async function invalidateAdminPathCache(
   }
 }
 
-export async function getCookie() {
-  return cookies().toString();
+export async function getCookie(token: string) {
+  return cookies().get(token)?.value;
 }

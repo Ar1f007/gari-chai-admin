@@ -1,10 +1,12 @@
+import { getCookie } from "@/services";
 import { TApiData, TApiError } from "@/types/others";
-import { API_V1_URL } from "@/utils/constants";
+import { API_V1_URL, AUTH_TOKEN_NAME } from "@/utils/constants";
 
 type FetchExtendedOptions = {
   isFormData?: boolean;
   body?: any;
   baseApiUrl?: string;
+  includeCredentials?: boolean;
 } & Omit<RequestInit, "body">;
 
 export async function apiFetch<Data = unknown, ErrData = TApiError>(
@@ -14,20 +16,26 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
   const {
     isFormData = false,
     baseApiUrl = API_V1_URL,
+    includeCredentials = true,
     body,
     headers,
     ...rest
   } = options;
 
   const fetchOptions: FetchExtendedOptions = {
+    credentials: "include",
+
     headers: {
       Accept: "application/json",
       "Content-type": isFormData ? "multipart/form-data" : "application/json",
+      authorization: includeCredentials
+        ? `Bearer ${await getCookie(AUTH_TOKEN_NAME)}`
+        : "",
       ...headers,
     },
 
     body: isFormData ? constructFormData(body) : JSON.stringify(body),
-    credentials: "include",
+
     ...rest,
   };
 

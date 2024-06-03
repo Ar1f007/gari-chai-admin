@@ -72,7 +72,6 @@ export async function getUsers(queryParams?: string) {
     const res = await apiFetch<GetUsersResponseData>(url, {
       method: ReqMethod.GET,
       cache: "no-store",
-      headers: { Cookie: await getCookie() },
     });
 
     if (res.status === "success") {
