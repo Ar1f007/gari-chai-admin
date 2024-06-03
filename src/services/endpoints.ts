@@ -3,7 +3,9 @@ import { API_BASE_URL, API_V1_URL, UI_BASE_URL } from "@/utils/constants";
 export const endpoints = {
   api: {
     baseUrl: API_BASE_URL,
+
     v1URL: API_V1_URL,
+
     homeSettings: {
       baseUrl: "/home-settings",
       add: "/home-settings",
@@ -13,6 +15,7 @@ export const endpoints = {
 
       sliderBaseUrl: "/sliders",
     },
+
     brand: {
       base: "/brands",
       createBrand: "/brands",
@@ -21,15 +24,18 @@ export const endpoints = {
       createModel: "/models",
       getBrandModels: "/models",
     },
+
     models: {
       base: "/models",
       getCarModels: "/models",
     },
+
     cars: {
       base: "/cars",
       createNewCar: "/cars",
       getCars: "/cars",
       createCarBodyType: "/car-body-types",
+      parts: "/car-parts",
     },
 
     usedCars: {
@@ -61,10 +67,14 @@ export const endpoints = {
       updateReviews: "/reviews/update",
     },
   },
+
   admin: {},
+
   ui: {
     baseUrl: UI_BASE_URL,
+
     baseApiUrl: UI_BASE_URL + "/api",
+
     revalidate: "/revalidate",
   },
 };

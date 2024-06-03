@@ -22,6 +22,15 @@ import UploadThumbnail from "../car/upload-thumbnail";
 import AdditionalImages from "../car/additional-images";
 import { toast } from "sonner";
 import { useUploadImage } from "@/hooks/useUploadImage";
+import { catchError } from "@/lib/catch-error";
+import { createCarPart } from "@/services/cars/car-parts";
+import {
+  TAGS,
+  UI_TAGS,
+  invalidateAdminCache,
+  invalidateUICache,
+} from "@/services";
+import { mapValidationErrors } from "@/utils/mapValidationError";
 
 export const AddPart = () => {
   const methods = useForm<AddPartSchema>({
@@ -29,8 +38,14 @@ export const AddPart = () => {
     criteriaMode: "all",
     resolver: zodResolver(addPartSchema),
     defaultValues: {
+      name: "",
+      description: "",
+      manufacturer: "",
+      warranty: "",
       imageUrls: [],
       status: true,
+      price: 0,
+      stock: 0,
     },
   });
 
@@ -42,23 +57,55 @@ export const AddPart = () => {
   const { uploadImage } = useUploadImage();
 
   async function onSubmit(data: AddPartSchema) {
-    const imgUrls = await uploadImage(data.posterImage as File);
+    try {
+      const imgUrls = await uploadImage(data.posterImage as File);
 
-    if (!imgUrls) {
-      toast.error(
-        "Something went wrong while uploading image please try again"
-      );
-      return;
+      if (!imgUrls) {
+        toast.error(
+          "Something went wrong while uploading image please try again"
+        );
+        return;
+      }
+
+      const payload = {
+        ...data,
+        posterImage: {
+          originalUrl: imgUrls.url,
+          thumbnailUrl: imgUrls.thumbnailUrl ?? imgUrls.url,
+        },
+        description: isEmptyContent(data.description!)
+          ? null
+          : data.description,
+      };
+
+      const res = await createCarPart(payload);
+
+      switch (res.status) {
+        case "success":
+          toast.success("Added successfully");
+          reset();
+          invalidateAdminCache([TAGS.carParts]);
+          invalidateUICache({
+            tags: [UI_TAGS.carParts],
+          });
+          return;
+
+        case "validationError":
+          toast.error(res.message ?? "Invalid inputs");
+          mapValidationErrors(res.errors, methods);
+          return;
+
+        case "error":
+        case "fail":
+          toast.error(res.message);
+          return;
+
+        default:
+          toast.error("Something went wrong");
+      }
+    } catch (error) {
+      catchError(error);
     }
-
-    const payload = {
-      ...data,
-      posterImage: {
-        originalUrl: imgUrls.url,
-        thumbnailUrl: imgUrls.thumbnailUrl ?? imgUrls.url,
-      },
-      description: isEmptyContent(data.description!) ? null : data.description,
-    };
   }
 
   return (
@@ -70,6 +117,7 @@ export const AddPart = () => {
         <FormField
           control={methods.control}
           name="name"
+          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>Parts Name *</FormLabel>

@@ -11,6 +11,7 @@ export const TAGS = {
   sliders: "sliders",
   vendors: "vendors",
   carCampaigns: "car-campaign",
+  carParts: "car-parts",
 };
 
 export const UI_TAGS = {
@@ -25,6 +26,7 @@ export const UI_TAGS = {
   mostSearchedCars: "most-searched-cars",
   popularBrands: "popular-brands",
   upcomingCars: "upcoming-cars",
+  carParts: "car-parts",
 };
 
 export async function invalidateUICache({
