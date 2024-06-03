@@ -1,8 +1,5 @@
 import { TApiData, TApiError } from "@/types/others";
 import { API_V1_URL } from "@/utils/constants";
-import { routes } from "@/utils/routes";
-import { catchError } from "./catch-error";
-import { redirect } from "next/navigation";
 
 type FetchExtendedOptions = {
   isFormData?: boolean;
@@ -34,13 +31,10 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     ...rest,
   };
 
-  const controller = new AbortController();
-  const signal = controller.signal;
-
   try {
     const url = baseApiUrl + endpoint;
 
-    const res = await fetch(url, { ...fetchOptions, signal });
+    const res = await fetch(url, { ...fetchOptions });
 
     if (res.status === 429) {
       throw Error(res.statusText);
@@ -63,8 +57,6 @@ export async function apiFetch<Data = unknown, ErrData = TApiError>(
     return jsonRes;
   } catch (e: any) {
     throw e;
-  } finally {
-    controller.abort();
   }
 }
 

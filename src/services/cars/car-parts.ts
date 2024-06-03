@@ -25,7 +25,7 @@ export async function getCarParts(queryParams?: string) {
 
     const res = await apiFetch<GetCarsPartsResponseData>(url, {
       method: ReqMethod.GET,
-      cache: "no-store",
+      cache: "no-cache",
     });
 
     if (res.status === "success") {
@@ -56,6 +56,41 @@ export async function getCarParts(queryParams?: string) {
     return {
       data: null,
       message: "Something went wrong, please try again later.",
+    };
+  }
+}
+
+export async function getCarPart(slug: string) {
+  try {
+    const res = await apiFetch(endpoints.api.cars.parts + "/" + slug, {
+      method: ReqMethod.GET,
+      cache: "no-store",
+    });
+
+    if (res.status === "success") {
+      const parsedData = carPartSchema.safeParse(res.data);
+
+      if (parsedData.success) {
+        return {
+          data: parsedData.data,
+          message: null,
+        };
+      } else {
+        return {
+          data: null,
+          message: "Parsing Failed",
+        };
+      }
+    }
+
+    return {
+      data: null,
+      message: res.message || "Something went wrong",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      message: "Something went wrong",
     };
   }
 }

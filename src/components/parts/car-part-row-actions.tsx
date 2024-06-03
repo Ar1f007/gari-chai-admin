@@ -44,7 +44,7 @@ export const CarPartRowActions = ({
   }
 
   function handleEdit() {
-    const pathname = "/parts/edit/" + carPart.slug;
+    const pathname = "/parts/cars/edit/" + carPart.slug;
     return pathname;
   }
 
@@ -115,7 +115,12 @@ export const CarPartRowActions = ({
             className="cursor-pointer w-full block"
             disabled={isPending}
           >
-            <Link href={handleEdit()}>Edit</Link>
+            <Link
+              href={handleEdit()}
+              className="w-full block"
+            >
+              Edit
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer w-full block"

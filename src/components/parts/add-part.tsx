@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { RichTextEditor } from "../form/rich-text-editor";
-import { AddPartSchema, addPartSchema } from "@/schemas/parts";
+import { AddPartSchema, TCarPartSchema, addPartSchema } from "@/schemas/parts";
 import { Button } from "../ui/button";
 import { Loader2Icon } from "lucide-react";
 import { isEmptyContent } from "@/lib/utils";
@@ -31,8 +31,14 @@ import {
   invalidateUICache,
 } from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
+import { useEffect } from "react";
 
-export const AddPart = () => {
+type AddEditPartProps = {
+  isEditing?: boolean;
+  data?: TCarPartSchema;
+};
+
+export const AddPart = ({ isEditing = false, data }: AddEditPartProps) => {
   const methods = useForm<AddPartSchema>({
     mode: "onTouched",
     criteriaMode: "all",
@@ -107,6 +113,21 @@ export const AddPart = () => {
       catchError(error);
     }
   }
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        name: data.name,
+        description: data.description ? data.description : undefined,
+        price: data.price,
+        stock: data.stock,
+        status: data.status,
+        warranty: data.warranty,
+        manufacturer: data.manufacturer,
+        imageUrls: data.imageUrls,
+      });
+    }
+  }, [data, reset]);
 
   return (
     <Form {...methods}>
@@ -249,7 +270,7 @@ export const AddPart = () => {
           )}
         />
 
-        <UploadThumbnail />
+        <UploadThumbnail value={data?.posterImage} />
 
         <AdditionalImages />
 
