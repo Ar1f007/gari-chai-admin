@@ -23,7 +23,7 @@ import AdditionalImages from "../car/additional-images";
 import { toast } from "sonner";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { catchError } from "@/lib/catch-error";
-import { createCarPart } from "@/services/cars/car-parts";
+import { createCarPart, updateCarPart } from "@/services/cars/car-parts";
 import {
   TAGS,
   UI_TAGS,
@@ -32,6 +32,8 @@ import {
 } from "@/services";
 import { mapValidationErrors } from "@/utils/mapValidationError";
 import { useEffect } from "react";
+import { imageSchema } from "@/schemas/utils";
+import { z } from "zod";
 
 type AddEditPartProps = {
   isEditing?: boolean;
@@ -62,33 +64,49 @@ export const AddPart = ({ isEditing = false, data }: AddEditPartProps) => {
 
   const { uploadImage } = useUploadImage();
 
-  async function onSubmit(data: AddPartSchema) {
-    try {
-      const imgUrls = await uploadImage(data.posterImage as File);
+  async function handlePosterImageUpload(
+    image: File | z.infer<typeof imageSchema>
+  ) {
+    if (image instanceof File) {
+      const imgUrls = await uploadImage(image as File);
 
       if (!imgUrls) {
-        toast.error(
-          "Something went wrong while uploading image please try again"
+        throw new Error(
+          "Something went wrong while uploading thumbnail image. Please try again."
         );
-        return;
       }
 
+      return {
+        originalUrl: imgUrls.url,
+        thumbnailUrl: imgUrls.thumbnailUrl ?? imgUrls.url,
+      };
+    } else {
+      return image;
+    }
+  }
+
+  async function onSubmit(values: AddPartSchema) {
+    try {
+      const posterImage = await handlePosterImageUpload(values.posterImage);
+
       const payload = {
-        ...data,
-        posterImage: {
-          originalUrl: imgUrls.url,
-          thumbnailUrl: imgUrls.thumbnailUrl ?? imgUrls.url,
-        },
-        description: isEmptyContent(data.description!)
+        ...values,
+        posterImage,
+        description: isEmptyContent(values.description!)
           ? null
-          : data.description,
+          : values.description,
       };
 
-      const res = await createCarPart(payload);
+      const res = data
+        ? await updateCarPart({
+            _id: data._id,
+            ...payload,
+          })
+        : await createCarPart(payload);
 
       switch (res.status) {
         case "success":
-          toast.success("Added successfully");
+          toast.success(`${isEditing ? "Updated" : "Added"} successfully`);
           reset();
           invalidateAdminCache([TAGS.carParts]);
           invalidateUICache({
@@ -125,6 +143,8 @@ export const AddPart = ({ isEditing = false, data }: AddEditPartProps) => {
         warranty: data.warranty,
         manufacturer: data.manufacturer,
         imageUrls: data.imageUrls,
+        posterImage: data.posterImage,
+        metaData: data.metaData,
       });
     }
   }, [data, reset]);
@@ -272,7 +292,7 @@ export const AddPart = ({ isEditing = false, data }: AddEditPartProps) => {
 
         <UploadThumbnail value={data?.posterImage} />
 
-        <AdditionalImages />
+        <AdditionalImages isEditing={isEditing} />
 
         <Button
           type="submit"
@@ -282,7 +302,7 @@ export const AddPart = ({ isEditing = false, data }: AddEditPartProps) => {
           {isSubmitting && (
             <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
           )}
-          Add
+          {isEditing ? "Update" : "Add"}
         </Button>
       </form>
     </Form>

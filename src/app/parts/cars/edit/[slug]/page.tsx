@@ -33,7 +33,12 @@ const CarPartEditPage = async ({ params }: EditCarPartProps) => {
       );
     }
 
-    return <AddPart data={carPart.data} />;
+    return (
+      <AddPart
+        isEditing
+        data={carPart.data}
+      />
+    );
   }
 
   return (

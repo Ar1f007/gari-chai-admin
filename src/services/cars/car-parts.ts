@@ -14,6 +14,14 @@ export async function createCarPart(payload: Todo) {
   });
 }
 
+export async function updateCarPart(payload: Todo) {
+  console.log(payload);
+  return apiFetch(endpoints.api.cars.parts, {
+    method: ReqMethod.PATCH,
+    body: payload,
+  });
+}
+
 type GetCarsPartsResponseData = {
   results: TCarPartSchema[];
   pagination: TPagination;

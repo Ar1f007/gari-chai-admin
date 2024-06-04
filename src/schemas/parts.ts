@@ -3,19 +3,16 @@ import { imageSchema } from "./utils";
 
 export const addPartSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  price: z
-    .string()
-    .min(1, "Price is required")
-    .transform((v) => +v),
-  stock: z
-    .string()
-    .min(1, "Please specify how many you have available in stock")
-    .transform((v) => +v),
+  price: z.coerce.number().transform((v) => +v),
+  stock: z.coerce.number().transform((v) => +v),
   status: z.boolean().default(true),
   warranty: z.string().optional(),
   manufacturer: z.string().optional(),
   description: z.string().optional(),
-  posterImage: z.instanceof(File, { message: "Image is required" }),
+  posterImage: z.union([
+    z.instanceof(File, { message: "Image is required" }),
+    imageSchema,
+  ]),
   imageUrls: z
     .array(
       z.object({
@@ -53,6 +50,7 @@ export const carPartSchema = z.object({
   description: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
+  metaData: z.record(z.string().min(1), z.any()).optional().default({}),
 });
 
 export type AddPartSchema = z.infer<typeof addPartSchema>;
