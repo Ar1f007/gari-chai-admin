@@ -57,7 +57,7 @@ export const useGetBrandsOptions = ({
           setBrands(brands.data);
         }
       } catch (e) {
-        toast.error((e as any).message) ?? "Could not get brands list";
+        toast.error((e as any)?.message) ?? "Could not get brands list";
       } finally {
         setIsLoading(false);
       }

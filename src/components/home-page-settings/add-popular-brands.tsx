@@ -22,9 +22,9 @@ import { useGetBrandsOptions } from "@/hooks/useGetBrandsOptions";
 import { toast } from "sonner";
 import { getFormattedBrandOptions } from "@/utils";
 import Image from "next/image";
-import { LoadingBtn } from "../ui/loading-btn";
 import SelectField from "../form/select-field";
 import { Todo } from "@/types";
+import LoadingButton from "../ui/loading-button";
 
 const AddPopularBrandsForm = () => {
   const [showForm, setShowForm] = useState(false);
@@ -97,7 +97,12 @@ const AddPopularBrandsForm = () => {
 
   return (
     <div className="space-y-5">
-      <Button onClick={() => setShowForm(true)}>Add Popular Brands</Button>
+      <Button
+        onClick={() => setShowForm(true)}
+        size="lg"
+      >
+        Add Popular Brands
+      </Button>
       <Dialog
         open={showForm}
         // onOpenChange={() => setShowForm(false)}
@@ -136,13 +141,14 @@ const AddPopularBrandsForm = () => {
                 />
 
                 <div className="flex gap-2">
-                  <LoadingBtn
+                  <LoadingButton
                     type="submit"
                     className="w-full"
                     disabled={form.formState.isSubmitting}
                     isLoading={form.formState.isSubmitting}
-                    btnText="Add"
-                  />
+                  >
+                    Add
+                  </LoadingButton>
                   <Button
                     variant="destructive"
                     type="button"

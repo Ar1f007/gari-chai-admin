@@ -139,8 +139,8 @@ const FindAndSelectCars = () => {
             <FormLabel>Select Cars for the campaign</FormLabel>
             <FormControl>
               <AsyncReactSelect
-                cacheOptions
-                defaultOptions
+                // cacheOptions
+                // defaultOptions
                 isMulti
                 isClearable
                 loadOptions={loadOptions}

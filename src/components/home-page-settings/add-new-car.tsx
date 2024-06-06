@@ -150,7 +150,12 @@ const AddNewCar = () => {
 
   return (
     <Fragment>
-      <Button onClick={() => setShowForm(true)}>Add New Car</Button>
+      <Button
+        onClick={() => setShowForm(true)}
+        size="lg"
+      >
+        Add New Car
+      </Button>
 
       <Dialog
         open={showForm}

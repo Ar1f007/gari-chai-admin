@@ -9,6 +9,7 @@ const homepageSettingRoutes = {
   mostSearchedCars:
     "/home-page-settings/" + HOME_SETTINGS_OPTIONS.mostSearchedCars,
   popularBrands: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.popularBrands,
+  carParts: "/home-page-settings/" + HOME_SETTINGS_OPTIONS.carParts,
 };
 
 const newCarRoutes = {

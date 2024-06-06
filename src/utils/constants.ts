@@ -37,6 +37,7 @@ export const HOME_SETTINGS_OPTIONS = {
   services: "services",
   mostSearchedCars: "most-searched-cars",
   popularBrands: "popular-brands",
+  carParts: "car-parts",
 };
 
 export const homeSettingSections = z.enum([
@@ -47,6 +48,7 @@ export const homeSettingSections = z.enum([
   HOME_SETTINGS_OPTIONS.services,
   HOME_SETTINGS_OPTIONS.mostSearchedCars,
   HOME_SETTINGS_OPTIONS.popularBrands,
+  HOME_SETTINGS_OPTIONS.carParts,
 ]);
 
 export const carCategoryOptions = [

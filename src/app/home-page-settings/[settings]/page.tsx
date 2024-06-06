@@ -26,8 +26,8 @@ const HomeSettingsSectionPage = async (props: Props) => {
 
         {res.message && (
           <Alert className="max-w-md mx-auto">
-            <AlertTitle className="flex gap-2 items-center">
-              <InfoIcon />
+            <AlertTitle className="flex gap-2">
+              <InfoIcon className="shrink-0" />
               {res.message}
             </AlertTitle>
           </Alert>

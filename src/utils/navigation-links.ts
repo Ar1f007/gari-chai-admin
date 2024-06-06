@@ -113,6 +113,10 @@ const homepageSettingLinks: Route[] = [
     label: "Popular brands",
     href: routes.homepageSettingRoutes.popularBrands,
   },
+  {
+    label: "Car Parts",
+    href: routes.homepageSettingRoutes.carParts,
+  },
 ];
 
 const cacheLinks: Route[] = [
