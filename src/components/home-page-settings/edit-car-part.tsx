@@ -36,8 +36,6 @@ const EditCarPart = ({
   item: THomeSettingApiSchema;
   onSuccess: () => void;
 }) => {
-  console.log("....................", item);
-
   const pageSlug = item.sectionName;
 
   const form = useForm({
