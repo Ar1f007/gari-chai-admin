@@ -10,7 +10,7 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "../ui/button";
-import { ChevronDownCircleIcon } from "lucide-react";
+import { MoreVerticalIcon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -18,9 +18,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditNewCar from "./edit-new-car";
+import EditCarPart from "./edit-car-part";
 
-const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
+const CarPartDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
   const [showEditForm, setShowEditForm] = useState(false);
 
   function hideEditForm() {
@@ -55,8 +55,7 @@ const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
 
   return (
     <>
-      <div className="w-full space-y-2 p-4">
-        <h3 className="text-center font-medium">{item.content.name}</h3>
+      <div className="w-full space-y-2">
         <div className="flex items-center justify-between flex-wrap">
           <p className="w-fit [word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] px-[12px] py-0 text-[13px] font-normal leading-loose text-white bg-success">
             Sort: {item.sort}
@@ -68,21 +67,29 @@ const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
                 size="icon"
                 variant="ghost"
               >
-                <ChevronDownCircleIcon />
+                <MoreVerticalIcon />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setShowEditForm(true)}>
-                Edit
+                Update Sort
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <Button
+          className="w-full outline outline-1 outline-success"
+          variant="ghost"
+          size="sm"
+        >
+          {item.content.name}
+        </Button>
       </div>
 
       {showEditForm && (
-        <EditNewCar
+        <EditCarPart
           item={item}
           onSuccess={hideEditForm}
         />
@@ -90,4 +97,4 @@ const CarDropdownBtn = ({ item }: { item: THomeSettingApiSchema }) => {
     </>
   );
 };
-export default CarDropdownBtn;
+export default CarPartDropdownBtn;

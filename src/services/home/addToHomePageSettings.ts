@@ -1,10 +1,11 @@
 import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TBrandSchema, TCarSchema, endpoints } from "..";
+import { TCarPartSchema } from "@/schemas/parts";
 
 export type TAddToHomeSettings = {
   contentId: string;
   sectionName: string;
-  content: TCarSchema | TBrandSchema;
+  content: TCarSchema | TBrandSchema | TCarPartSchema;
   tags: Array<string>;
   sort: number;
 };
@@ -34,6 +35,19 @@ export async function addPopularBrandsToHomePageSettings(
 
     return res;
   } catch (e) {
+    return null;
+  }
+}
+
+export async function addCarPartsToHomeSettings(payload: TAddToHomeSettings[]) {
+  try {
+    const res = await apiFetch(endpoints.api.homeSettings.carParts, {
+      method: ReqMethod.POST,
+      body: payload,
+    });
+
+    return res;
+  } catch (error) {
     return null;
   }
 }

@@ -4,6 +4,7 @@ import { getSettingContentByPageSlug } from "@/services";
 import { HOME_SETTINGS_OPTIONS } from "@/utils/constants";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
+import CarPart from "@/components/home-page-settings/car-part";
 
 const CarPartsHomePageSettings = async () => {
   const res = await getSettingContentByPageSlug(HOME_SETTINGS_OPTIONS.carParts);
@@ -31,12 +32,12 @@ const CarPartsHomePageSettings = async () => {
             </h3>
           ) : (
             <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 xl:grid-cols-5 2xl:gap-7.5 cursor-pointer">
-              {/* {res.data.map((brand) => (
-                <Brand
-                  key={brand._id}
-                  item={brand}
+              {res.data.map((carPart) => (
+                <CarPart
+                  key={carPart._id}
+                  item={carPart}
                 />
-              ))} */}
+              ))}
             </section>
           ))}
       </section>

@@ -55,3 +55,22 @@ export const carPartSchema = z.object({
 
 export type AddPartSchema = z.infer<typeof addPartSchema>;
 export type TCarPartSchema = z.infer<typeof carPartSchema>;
+
+/**
+ * Schema and type that is used to edit car part on home settings page
+ */
+
+export const carPartHomeSettingEdit = z.object({
+  carPart: z.object(
+    {
+      value: carPartSchema,
+      label: z.string(),
+    },
+    {
+      required_error: "required",
+    }
+  ),
+  sort: z.coerce.number(),
+});
+
+export type TCarPartHomeSettingEdit = z.infer<typeof carPartHomeSettingEdit>;

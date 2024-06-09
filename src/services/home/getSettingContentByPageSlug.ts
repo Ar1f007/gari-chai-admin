@@ -2,11 +2,12 @@ import { apiFetch } from "@/lib/api-fetch";
 import { ReqMethod, TAGS, brandSchema, carSchema, endpoints } from "..";
 import { z } from "zod";
 import { homeSettingSections } from "@/utils/constants";
+import { carPartSchema } from "@/schemas/parts";
 
 export const homeSettingApiSchemaSingleInstance = z.object({
   _id: z.string(),
   sectionName: homeSettingSections,
-  content: carSchema.or(brandSchema),
+  content: carSchema.or(brandSchema).or(carPartSchema),
   tags: z.array(z.string()),
   sort: z.number(),
   contentId: z.string(),

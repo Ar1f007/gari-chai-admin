@@ -1,4 +1,4 @@
-import { UI_BASE_URL } from "@/utils/constants";
+import { HOME_SETTINGS_OPTIONS, UI_BASE_URL } from "@/utils/constants";
 import { ReqMethod, endpoints } from ".";
 
 export const TAGS = {
@@ -11,7 +11,7 @@ export const TAGS = {
   sliders: "sliders",
   vendors: "vendors",
   carCampaigns: "car-campaign",
-  carParts: "car-parts",
+  carParts: HOME_SETTINGS_OPTIONS.carParts,
 };
 
 export const UI_TAGS = {
@@ -26,7 +26,7 @@ export const UI_TAGS = {
   mostSearchedCars: "most-searched-cars",
   popularBrands: "popular-brands",
   upcomingCars: "upcoming-cars",
-  carParts: "car-parts",
+  carParts: HOME_SETTINGS_OPTIONS.carParts,
 };
 
 export async function invalidateUICache({

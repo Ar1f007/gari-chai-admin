@@ -14,6 +14,8 @@ export const endpoints = {
       getPopularBrands: "/home-settings/popular-brands",
 
       sliderBaseUrl: "/sliders",
+
+      carParts: "/home-settings/car-parts",
     },
 
     brand: {
