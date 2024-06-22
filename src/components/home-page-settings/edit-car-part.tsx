@@ -70,7 +70,7 @@ const EditCarPart = ({
           tags: [pageSlug],
         });
 
-        if (!revalidated) {
+        if (!revalidated.success) {
           toast.error(
             `Could not update the UI of main website for the tag: ${pageSlug}`
           );

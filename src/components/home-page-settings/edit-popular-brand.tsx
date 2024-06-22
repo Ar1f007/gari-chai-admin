@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogTitle,
-  DialogClose,
   DialogDescription,
   DialogHeader,
   DialogContent,
@@ -65,11 +64,12 @@ const EditPopularBrand = ({
         toast.success("Updated Successfully");
 
         invalidateAdminCache([pageSlug]);
-        const revalidated = invalidateUICache({
+
+        const revalidated = await invalidateUICache({
           tags: [pageSlug],
         });
 
-        if (!revalidated) {
+        if (!revalidated.success) {
           toast.error(
             `Could not update the UI of main website for the tag: ${pageSlug}`
           );

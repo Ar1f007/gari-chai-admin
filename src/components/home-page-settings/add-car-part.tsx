@@ -58,8 +58,6 @@ const AddCarPartForm = () => {
         price: part.price,
       }));
 
-      console.log(data);
-
       return data;
     } catch (error) {
       toast.error("Something went wrong");
@@ -140,14 +138,19 @@ const AddCarPartForm = () => {
       }
 
       if (res.status === "success") {
-        closeForm();
+        await invalidateAdminCache([TAGS.carParts]);
 
-        invalidateAdminCache([TAGS.carParts]);
-
-        invalidateUICache({
+        const revalidated = await invalidateUICache({
           tags: [UI_TAGS.carParts],
         });
 
+        if (!revalidated.success) {
+          toast.error(
+            `Could not update the UI of main website: ${UI_TAGS.carParts}`
+          );
+        }
+
+        closeForm();
         return;
       }
 

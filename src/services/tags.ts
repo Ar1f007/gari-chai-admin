@@ -59,9 +59,11 @@ export async function invalidateUICache({
     });
 
     const jsonRes = await res.json();
-
     return jsonRes;
   } catch (error) {
-    return undefined;
+    return {
+      success: false,
+      message: "Failed to update",
+    };
   }
 }

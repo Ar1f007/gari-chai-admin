@@ -16,6 +16,7 @@ import { SelectOption } from "@/types/others";
 import {
   addPopularBrandsToHomePageSettings,
   invalidateAdminCache,
+  invalidateUICache,
   TBrandSchema,
 } from "@/services";
 import { useGetBrandsOptions } from "@/hooks/useGetBrandsOptions";
@@ -46,17 +47,20 @@ const AddPopularBrandsForm = () => {
 
   async function handleOnSuccessAction(sectionToAdd: string) {
     let isEditing = false;
+
     toast.success(isEditing ? "Updated Successfully" : "Added successfully");
 
     await invalidateAdminCache([sectionToAdd]);
 
-    closeForm();
+    const revalidated = await invalidateUICache({
+      tags: [sectionToAdd],
+    });
 
-    const revalidated = false;
-
-    if (!revalidated) {
+    if (!revalidated.success) {
       toast.error(`Could not update the UI of main website: ${sectionToAdd}`);
     }
+
+    closeForm();
   }
 
   async function onSubmit(data: TPopularBrandFormPayload) {

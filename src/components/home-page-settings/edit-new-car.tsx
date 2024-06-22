@@ -84,7 +84,7 @@ const EditNewCar = ({
           tags: [data.sectionToAdd.value],
         });
 
-        if (!uiRevalidated) {
+        if (!uiRevalidated.success) {
           toast.error(
             `Could not update the UI of main website for the tag: ${sectionToAdd.value}`
           );

@@ -14,7 +14,6 @@ export const useGetCarParts = () => {
   const fetchCarParts = useCallback(
     async (params: URLSearchParams | string = "") => {
       try {
-        console.log(".........", params.toString());
         setIsLoading(true);
 
         const data = await getCarParts(params.toString());
