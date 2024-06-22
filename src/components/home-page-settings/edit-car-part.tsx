@@ -66,7 +66,7 @@ const EditCarPart = ({
         toast.success("Updated Successfully");
 
         invalidateAdminCache([pageSlug]);
-        const revalidated = invalidateUICache({
+        const revalidated = await invalidateUICache({
           tags: [pageSlug],
         });
 
