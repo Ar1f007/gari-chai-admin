@@ -179,7 +179,7 @@ const CampaignEditPage = () => {
 
       invalidateAdminCache([TAGS.carCampaigns]);
 
-      toast.success("Campaign created successfully");
+      toast.success("Campaign updated successfully");
 
       router.push(routes.campaignRoutes.campaigns);
       return;
@@ -383,7 +383,7 @@ const CampaignEditPage = () => {
               {form.formState.isSubmitting && (
                 <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Create Campaign
+              Update Campaign
             </Button>
           </form>
         </Form>
