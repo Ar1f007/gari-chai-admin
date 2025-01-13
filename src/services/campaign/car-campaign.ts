@@ -22,7 +22,11 @@ export async function createCarCampaign(payload: Todo) {
 export async function getAllCarCampaigns() {
   try {
 
-    const endpoint = endpoints.api.campaigns.cars + "?includeAll=true";
+    const params = new URLSearchParams();
+    params.append("includeAll", "true");
+
+    const endpoint = endpoints.api.campaigns.cars + "?" + params.toString();
+
     const res = await apiFetch<TCarCampaign[]>(endpoint, {
       method: ReqMethod.GET,
       next: {
