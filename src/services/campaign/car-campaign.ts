@@ -21,7 +21,9 @@ export async function createCarCampaign(payload: Todo) {
 
 export async function getAllCarCampaigns() {
   try {
-    const res = await apiFetch<TCarCampaign[]>(endpoints.api.campaigns.cars, {
+
+    const endpoint = endpoints.api.campaigns.cars + "?includeAll=true";
+    const res = await apiFetch<TCarCampaign[]>(endpoint, {
       method: ReqMethod.GET,
       next: {
         tags: [TAGS.carCampaigns, TAGS.all],
