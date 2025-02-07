@@ -9,7 +9,8 @@ export const PLACEHOLDER_IMAGE = "/images/placeholder.webp";
 export const API_BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8000"
-    : "https://gari-chai.onrender.com";
+    // : "https://gari-chai.onrender.com";
+    : "https://vague-dorian-arif-org-ab397e67.koyeb.app";
 
 export const IS_CLIENT = typeof window !== "undefined";
 
